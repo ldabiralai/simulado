@@ -16,6 +16,15 @@ describe('Simulado', function() {
             done()
         });
     });
+    it('should not error if no options are provided', function(done) {
+        Simulado.mock({}, function() {
+            superagent.get('http://localhost:7000/').end(function(_, res) {
+                res.status.should.equal(200)
+                res.text.should.equal('Simulado running..')
+                done()
+            });
+        });
+    });
     it('should send back empty json response if no response or status is provided', function(done) {
         Simulado.mock({
             path: '/test'
