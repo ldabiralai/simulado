@@ -1,0 +1,19 @@
+{
+  "name": "simulado",
+  "version": "0.0.1",
+  "description": "A simple nodejs mockserver",
+  "main": "simulado.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5",
+    "superagent": "^1.2.0"
+  },
+  "dependencies": {
+    "express": "^4.12.4"
+  }
+}
