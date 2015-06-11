@@ -1,5 +1,6 @@
 var Simulado = require('../simulado.js');
 var chai = require('chai').should();
+var expect = require('chai').expect
 var superagent = require('superagent');
 
 describe('Simulado', function() {
@@ -10,12 +11,14 @@ describe('Simulado', function() {
             done()
         });
     });
+
     it('should respond with a 404 on any pages which are not specifically mocked', function(done) {
         superagent.get('http://localhost:7000/not-mocked').end(function(_, res) {
             res.status.should.equal(404)
             done()
         });
     });
+
     it('should not error if no options are provided', function(done) {
         Simulado.mock({}, function() {
             superagent.get('http://localhost:7000/').end(function(_, res) {
@@ -25,6 +28,7 @@ describe('Simulado', function() {
             });
         });
     });
+
     it('should send back empty json response if no response or status is provided', function(done) {
         Simulado.mock({
             path: '/test'
@@ -36,6 +40,7 @@ describe('Simulado', function() {
             });
         });
     });
+
     it('should respond with a status code with an empty json when only status is mocked', function(done) {
         Simulado.mock({
             path: '/test',
@@ -48,6 +53,7 @@ describe('Simulado', function() {
             });
         });
     });
+
     it('should respond with a fully mocked response (status & text)', function(done) {
         Simulado.mock({
             path: '/test',
@@ -60,5 +66,9 @@ describe('Simulado', function() {
                 done()
             });
         });
+    });
+
+    it('should not require a callback function', function() {
+      expect(Simulado.mock).to.not.throw(TypeError)
     });
 });
