@@ -1,6 +1,6 @@
 {
   "name": "simulado",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple nodejs mockserver",
   "main": "simulado.js",
   "scripts": {
@@ -18,6 +18,7 @@
     "superagent": "^1.2.0"
   },
   "dependencies": {
+    "cors": "^2.7.1",
     "express": "^4.12.4"
   }
 }
