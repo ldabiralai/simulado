@@ -1,4 +1,5 @@
 var app = require('express')();
+var cors = require('cors');
 var mocks = [];
 
 var Simulado = function() {
