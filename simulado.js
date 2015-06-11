@@ -2,6 +2,8 @@ var app = require('express')();
 var cors = require('cors');
 var mocks = [];
 
+app.use(cors());
+
 var Simulado = function() {
     app.get('/', function(_, res) {
         res.send("Simulado running.."); 
