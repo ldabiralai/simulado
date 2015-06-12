@@ -13,6 +13,8 @@ A simple mockserver for testing with nodejs
 
 ```Status``` defaults to ```200``` if no status is provided.
 
+```Headers``` defaults to ```{}``` if no headers is provided.
+
 ```Response``` will respond with ```{}``` if no response is provided, otherwise it will return what you give it.
 
 The ```callback``` will be called once Simulado has finished mocking the endpoint. You should probably put the rest of your step in a function here.
@@ -21,7 +23,7 @@ Simulado.mock({
   path: '/account/devices',
   status: 401,
   headers: {"Content-Type": 'application/json'},
-  response: {
+  response: 
     id: 123,
     type: "MOBILE",
     name: "My work phone"
