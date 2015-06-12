@@ -9,13 +9,15 @@ A simple mockserver for testing with nodejs
 ### require
     var Simulado = require('simulado');
 ### mock
-```Path``` is mandatory, without it Simulado will not mock anything.
+```path``` is mandatory, without it Simulado will not mock anything.
 
-```Status``` defaults to ```200``` if no status is provided.
+```status``` defaults to ```200``` if no status is provided.
 
-```Headers``` defaults to ```{}``` if no headers is provided.
+```headers``` defaults to ```{}``` if no headers is provided.
 
-```Response``` will respond with ```{}``` if no response is provided, otherwise it will return what you give it.
+```response``` will respond with ```{}``` if no response is provided, otherwise it will return what you give it.
+
+```method``` defaults to ```GET``` if no method is provided. Possible values are ```GET``` ```POST``` ```PUT``` ```DELETE``` 
 
 The ```callback``` will be called once Simulado has finished mocking the endpoint. You should probably put the rest of your step in a function here.
 ```javascript

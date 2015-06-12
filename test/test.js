@@ -41,7 +41,7 @@ describe('Simulado', function() {
         });
     });
 
-    it('should respons with pre-set header', function(done) {
+    it('should respond with pre-set header', function(done) {
         Simulado.mock({
             path: '/test',
             headers: {'our-header': 'a value'},
@@ -76,6 +76,42 @@ describe('Simulado', function() {
                 res.status.should.equal(401)
                 res.text.should.equal("401 Unauthorised")
                 done()
+            });
+        });
+    });
+
+    it('should respond to a http POST', function(done) {
+        Simulado.mock({
+            path: '/test',
+            method: 'POST'
+        }, function() {
+            superagent.post('http://localhost:7000/test').end(function(_, res) {
+                res.status.should.equal(200);
+                done();
+            });
+        });
+    });
+
+    it('should respond to a http PUT', function(done) {
+        Simulado.mock({
+            path: '/test',
+            method: 'PUT'
+        }, function() {
+            superagent.put('http://localhost:7000/test').end(function(_, res) {
+                res.status.should.equal(200);
+                done();
+            });
+        });
+    });
+
+    it('should respond to a http DELETE', function(done) {
+        Simulado.mock({
+            path: '/test',
+            method: 'DELETE'
+        }, function() {
+            superagent.del('http://localhost:7000/test').end(function(_, res) {
+                res.status.should.equal(200);
+                done();
             });
         });
     });
