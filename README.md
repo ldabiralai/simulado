@@ -20,6 +20,7 @@ The ```callback``` will be called once Simulado has finished mocking the endpoin
 Simulado.mock({
   path: '/account/devices',
   status: 401,
+  headers: {"Content-Type": 'application/json'},
   response: {
     id: 123,
     type: "MOBILE",
