@@ -6,7 +6,7 @@ app.use(cors());
 
 var Simulado = function() {
     app.get('/', function(_, res) {
-        res.send("Simulado running.."); 
+        res.send("Simulado running..");
     });
     app.all('*', function(req, res) {
         findMock(req, function(index) {
@@ -18,11 +18,12 @@ var Simulado = function() {
         });
     });
     app.listen(7000, function() {
-        
+
     });
 };
 
 Simulado.prototype.mock = function(opts, callback) {
+    opts = opts || {};
     var baseMock = {
         path: opts.path || '',
         status: opts.status || 200,
@@ -32,7 +33,10 @@ Simulado.prototype.mock = function(opts, callback) {
         if(index >= 0)
             mocks.splice(index, 1);
         mocks.push(baseMock);
-        callback();
+
+        if (typeof(callback) == "function") {
+          callback();
+        }
     });
 }
 
