@@ -1,8 +1,8 @@
 var app = require('express')();
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var responseStore = require('./responseStore');
-var requestStore = require('./requestStore');
+var responseStore = require('./lib/responseStore');
+var requestStore = require('./lib/requestStore');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -11,10 +11,15 @@ var Simulado = function() {
     app.get('/', function(_, res) {
         res.send("Simulado running..");
     });
+
+    app.get('/inspect', function(_, res) {
+      res.send(responseStore.getAll());
+    });
+
     app.all('*', function(req, res) {
         responseStore.find(req, function(mock) {
             if(mock) {
-                requestStore.add(req);                
+                requestStore.add(req);
                 for(var header in mock.headers) {
                     res.header(header, mock.headers[header]);
                 }
@@ -24,9 +29,8 @@ var Simulado = function() {
             }
         });
     });
-    app.listen(7000, function() {
 
-    });
+    app.listen(7000);
 };
 
 Simulado.prototype.mock = responseStore.add;
