@@ -1,6 +1,8 @@
 var app = require('express')();
 var cors = require('cors');
-var mocks = [];
+var mocks = {
+    'GET': {}
+};
 
 app.use(cors());
 
@@ -9,9 +11,9 @@ var Simulado = function() {
         res.send("Simulado running..");
     });
     app.all('*', function(req, res) {
-        findMock(req, function(index) {
-            if(index != null && index >= 0) {
-                res.status(mocks[index].status).send(mocks[index].response);
+        findMock(req, function(mock) {
+            if(mock) {
+                res.status(mock.status).send(mock.response);
             } else {
                 res.status(404).send({});
             }
@@ -26,27 +28,27 @@ Simulado.prototype.mock = function(opts, callback) {
     opts = opts || {};
     var baseMock = {
         path: opts.path || '',
+        method: opts.method || 'GET',
         status: opts.status || 200,
         response: opts.response || {}
     }
-    findMock(opts, function(index) {
-        if(index >= 0)
-            mocks.splice(index, 1);
-        mocks.push(baseMock);
 
-        if (typeof(callback) == "function") {
-          callback();
+    switch(baseMock.method) {
+        case 'GET': {
+            mocks['GET'][baseMock.path] = baseMock;
+            break;
         }
-    });
+    }
+
+    if (typeof(callback) == "function") {
+      callback();
+    }
 }
 
 function findMock(req, callback) {
-    var index = mocks.map(function(m) { return m.path }).indexOf(req.path);
-    if(index >= 0) {
-        callback(index)
-    } else {
-        callback(null)
-    }
+    console.log(req.method);
+    var mock = mocks[req.method][req.path];
+    callback(mock);
 }
 
 module.exports = new Simulado();
