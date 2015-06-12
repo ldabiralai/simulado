@@ -113,6 +113,25 @@ describe('Simulado', function() {
                 });
             });
         });
+
+        it('should respond with the correct response when there are two mocks set', function(done) {
+            Simulado.mock({
+                path: '/good'
+            }, function() {
+                Simulado.mock({
+                    path: '/bad',
+                    status: 400
+                }, function() {
+                    superagent.get('http://localhost:7000/good').end(function(_, res) {
+                        res.status.should.equal(200);
+                        superagent.get('http://localhost:7000/bad').end(function(_, res) {
+                            res.status.should.equal(400);
+                            done()
+                        });
+                    });
+                });
+            });
+        });
     });
 
     describe('non mocked paths', function() {
