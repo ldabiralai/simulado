@@ -3,12 +3,12 @@ A simple mockserver for testing with nodejs
 
 [![Build Status](https://travis-ci.org/ldabiralai/simulado.svg)](https://travis-ci.org/ldabiralai/simulado)
 
-## how to use
-### install
+## How to use
+### Install
     npm install simulado
-### require
+### Require
     var Simulado = require('simulado');
-### mock
+### Mock
 ```path``` is mandatory, without it Simulado will not mock anything.
 
 ```status``` defaults to ```200``` if no status is provided.
@@ -32,5 +32,16 @@ Simulado.mock({
   }
 }, callback)
 ```
-### use
+### Getting the last request
+You can retrive the request made to an endpoint with ```Simulado.lastRequest(httpMethod, path)```
+```javascript
+var lastRequestMade = Simulado.lastRequest('POST', '/postingPath')
+
+lastRequestMade.headers // => {"Content-Type": "application/json"}
+lastRequestMade.body // => {"name": "simulado"}
+
+// http://localhost:7000/postingPath?paramName=value
+lastRequestMade.params // => {"paramName": "value"}
+```
+### Use
 After mocking, you can call the endpoint whichever way you like. Simulado starts a server on ```localhost:7000``` the path you specify is relative to this.
