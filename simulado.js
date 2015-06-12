@@ -1,8 +1,8 @@
 var app = require('express')();
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var responseStore = require('./responseStore');
-var requestStore = require('./requestStore');
+var responseStore = require('./lib/responseStore');
+var requestStore = require('./lib/requestStore');
 
 app.use(cors());
 app.use(bodyParser.json());
