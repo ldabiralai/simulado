@@ -1,8 +1,6 @@
 var app = require('express')();
 var cors = require('cors');
-var mocks = {
-    'GET': {}
-};
+var responseStore = require('./responseStore');
 
 app.use(cors());
 
@@ -11,7 +9,7 @@ var Simulado = function() {
         res.send("Simulado running..");
     });
     app.all('*', function(req, res) {
-        findMock(req, function(mock) {
+        responseStore.find(req, function(mock) {
             if(mock) {
                 res.status(mock.status).send(mock.response);
             } else {
@@ -24,31 +22,6 @@ var Simulado = function() {
     });
 };
 
-Simulado.prototype.mock = function(opts, callback) {
-    opts = opts || {};
-    var baseMock = {
-        path: opts.path || '',
-        method: opts.method || 'GET',
-        status: opts.status || 200,
-        response: opts.response || {}
-    }
-
-    switch(baseMock.method) {
-        case 'GET': {
-            mocks['GET'][baseMock.path] = baseMock;
-            break;
-        }
-    }
-
-    if (typeof(callback) == "function") {
-      callback();
-    }
-}
-
-function findMock(req, callback) {
-    console.log(req.method);
-    var mock = mocks[req.method][req.path];
-    callback(mock);
-}
+Simulado.prototype.mock = responseStore.add;
 
 module.exports = new Simulado();
