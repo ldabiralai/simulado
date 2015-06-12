@@ -41,6 +41,18 @@ describe('Simulado', function() {
         });
     });
 
+    it('should respons with pre-set header', function(done) {
+        Simulado.mock({
+            path: '/test',
+            headers: {'our-header': 'a value'},
+        }, function() {
+            superagent.get('http://localhost:7000/test').end(function(_, res) {
+                res.headers['our-header'].should.equal('a value');
+                done()
+            });
+        });
+    });
+
     it('should respond with a status code with an empty json when only status is mocked', function(done) {
         Simulado.mock({
             path: '/test',

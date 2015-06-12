@@ -11,6 +11,9 @@ var Simulado = function() {
     app.all('*', function(req, res) {
         responseStore.find(req, function(mock) {
             if(mock) {
+                for(var header in mock.headers) {
+                    res.header(header, mock.headers[header]);
+                }
                 res.status(mock.status).send(mock.response);
             } else {
                 res.status(404).send({});
