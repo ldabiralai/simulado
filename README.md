@@ -13,7 +13,7 @@ A simple mockserver for testing with nodejs
 
 ```status``` defaults to ```200``` if no status is provided.
 
-```headers``` defaults to ```{}``` if no headers is provided.
+```headers``` defaults to ```{}``` if no headers are provided.
 
 ```response``` will respond with ```{}``` if no response is provided, otherwise it will return what you give it.
 
