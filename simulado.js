@@ -31,13 +31,16 @@ var Simulado = function() {
     });
 
     this.server = app.listen(7000)
+
+    this.mock = responseStore.add;
+
+    this.lastRequest = requestStore.find;
+
     this.reset = function() {
         responseStore.reset();
         requestStore.reset();
     }
-};
 
-Simulado.prototype.mock = responseStore.add;
-Simulado.prototype.lastRequest = requestStore.find;
+};
 
 module.exports = new Simulado();
