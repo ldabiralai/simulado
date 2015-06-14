@@ -49,4 +49,6 @@ After mocking, you can call the endpoint whichever way you like. Simulado starts
 To view all the mocked endpoints goto ```http://localhost:7000/inspect```
 ### Reset 
 To clear all mocked responses 
-```Simulado.reset()```
+```
+Simulado.reset()
+```
