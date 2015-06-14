@@ -30,7 +30,11 @@ var Simulado = function() {
         });
     });
 
-    app.listen(7000);
+    this.server = app.listen(7000)
+    this.reset = function() {
+        responseStore.reset();
+        requestStore.reset();
+    }
 };
 
 Simulado.prototype.mock = responseStore.add;
