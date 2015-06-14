@@ -13,7 +13,7 @@ A simple mockserver for testing with nodejs
 
 ```status``` defaults to ```200``` if no status is provided.
 
-```headers``` defaults to ```{}``` if no headers is provided.
+```headers``` defaults to ```{}``` if no headers are provided.
 
 ```response``` will respond with ```{}``` if no response is provided, otherwise it will return what you give it.
 
@@ -47,3 +47,8 @@ lastRequestMade.params // => {"paramName": "value"}
 After mocking, you can call the endpoint whichever way you like. Simulado starts a server on ```localhost:7000``` the path you specify is relative to this.
 ### Viewing mocked responses
 To view all the mocked endpoints goto ```http://localhost:7000/inspect```
+### Reset 
+To clear all mocked responses 
+```
+Simulado.reset()
+```
