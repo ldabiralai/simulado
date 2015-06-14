@@ -47,3 +47,6 @@ lastRequestMade.params // => {"paramName": "value"}
 After mocking, you can call the endpoint whichever way you like. Simulado starts a server on ```localhost:7000``` the path you specify is relative to this.
 ### Viewing mocked responses
 To view all the mocked endpoints goto ```http://localhost:7000/inspect```
+### Reset 
+To clear all mocked responses 
+```Simulado.reset()```
