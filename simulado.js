@@ -1,46 +1,38 @@
-var app = require('express')();
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var responseStore = require('./lib/responseStore');
-var requestStore = require('./lib/requestStore');
-
-app.use(cors());
-app.use(bodyParser.json());
+var superagent = require('superagent');
+var child_process = require('child_process');
 
 var Simulado = function() {
-    app.get('/', function(_, res) {
-        res.send("Simulado running..");
+
+    child_process.execFile('lsof', ['-t', '-i', 'tcp:7000'], function(err, out, code) {
+        if(out == '') {
+            require('child_process').fork('./bin/simulado');
+        }
     });
 
-    app.get('/inspect', function(_, res) {
-      res.send(responseStore.getAll());
-    });
+    this.url = "http://localhost:7000"
 
-    app.all('*', function(req, res) {
-        responseStore.find(req, function(mock) {
-            if(mock) {
-                requestStore.add(req);
-                for(var header in mock.headers) {
-                    res.header(header, mock.headers[header]);
-                }
-                res.status(mock.status).send(mock.response);
-            } else {
-                res.status(404).send({});
-            }
+    this.mock = function(opts, callback) {
+        superagent.post(this.url + '/mock')
+        .accept('json')
+        .type('json')
+        .send(opts)
+        .end(function() {
+            callback();
         });
-    });
+    };
 
-    this.server = app.listen(7000)
-
-    this.mock = responseStore.add;
-
-    this.lastRequest = requestStore.find;
+    this.lastRequest = function(httpMethod, path, callback) {
+        superagent.get(this.url + "/lastRequest")
+        .query({"httpMethod": httpMethod})
+        .query({"path": path})
+        .end(function(_, res) {
+            callback(res.body);
+        });
+    };
 
     this.reset = function() {
-        responseStore.reset();
-        requestStore.reset();
+        superagent.get(this.url + "/reset");
     }
-
 };
 
 module.exports = new Simulado();

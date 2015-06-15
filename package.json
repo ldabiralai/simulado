@@ -6,6 +6,9 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
   },
+  "bin": {
+    "simulado": "bin/simulado"
+  },
   "author": "",
   "license": "ISC",
   "repository": {
