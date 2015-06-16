@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+var Server = require('../lib/server');
+
+new Server().start(7001);
