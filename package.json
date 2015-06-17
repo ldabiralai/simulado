@@ -1,6 +1,6 @@
 {
   "name": "simulado",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A simple nodejs mockserver",
   "main": "simulado.js",
   "scripts": {
@@ -14,9 +14,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ldabiralai/simulado.git"
-  },
-  "bin": {
-    "simulado": "bin/simulado"
   },
   "devDependencies": {
     "chai": "^3.0.0",
