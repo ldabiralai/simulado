@@ -22,4 +22,4 @@ var Simulado = function() {
   return this;
 };
 
-module.exports = Simulado;
+module.exports = new Simulado();
