@@ -1,4 +1,4 @@
-var Simulado = require('../simulado.js');
+var Simulado = require('../simulado.js')();
 var chai = require('chai').should();
 var expect = require('chai').expect
 var superagent = require('superagent');
@@ -12,8 +12,10 @@ describe('Simulado requests', function() {
                 superagent.get('http://localhost:7000/myPath')
                 .set('my-header', 'my-value')
                 .end(function(_, res) {
-                    Simulado.lastRequest("GET", "/myPath").headers.should.include({'my-header':'my-value'});
-                    done()
+                    Simulado.lastRequest("GET", "/myPath", function(lastRequest) {
+                        lastRequest.headers.should.include({'my-header':'my-value'});
+                        done()
+                    });
                 });
             });
         });
@@ -24,8 +26,10 @@ describe('Simulado requests', function() {
             }, function(){
                 superagent.get('http://localhost:7000/myPath')
                 .end(function(_, res) {
-                    Simulado.lastRequest("GET", "/myPath").body.should.deep.equal({});
-                    done()
+                    Simulado.lastRequest("GET", "/myPath", function(lastRequest) {
+                        lastRequest.body.should.deep.equal({});
+                        done()
+                    });
                 });
             });
         });
@@ -37,8 +41,10 @@ describe('Simulado requests', function() {
                 superagent.get('http://localhost:7000/myPath')
                 .query({query:"a-query"})
                 .end(function(_, res) {
-                    Simulado.lastRequest("GET", "/myPath").params.should.deep.equal({query:"a-query"});
-                    done()
+                    Simulado.lastRequest("GET", "/myPath", function(lastRequest) {
+                        lastRequest.params.should.deep.equal({query:"a-query"});
+                        done();
+                    });
                 });
             });
         });
@@ -53,8 +59,10 @@ describe('Simulado requests', function() {
                 superagent.post('http://localhost:7000/myPath')
                 .set('my-header', 'my-value')
                 .end(function(_, res) {
-                    Simulado.lastRequest("POST", "/myPath").headers.should.include({'my-header':'my-value'});
-                    done()
+                    Simulado.lastRequest("POST", "/myPath", function(lastRequest) {
+                        lastRequest.headers.should.include({'my-header':'my-value'});
+                        done();
+                    });
                 });
             });
         });
@@ -69,8 +77,10 @@ describe('Simulado requests', function() {
                 .type('json')
                 .send({some: 'json'})
                 .end(function(_, res) {
-                    Simulado.lastRequest("POST", "/myPath").body.should.deep.equal({some: 'json'});
-                    done()
+                    Simulado.lastRequest("POST", "/myPath", function(lastRequest) {
+                        lastRequest.body.should.deep.equal({some: 'json'});
+                        done();
+                    });
                 });
             });
         });
@@ -83,8 +93,10 @@ describe('Simulado requests', function() {
                 superagent.post('http://localhost:7000/myPath')
                 .query({query:"a-query"})
                 .end(function(_, res) {
-                    Simulado.lastRequest("POST", "/myPath").params.should.deep.equal({query:"a-query"});
-                    done()
+                    Simulado.lastRequest("POST", "/myPath", function(lastRequest) {
+                        lastRequest.params.should.deep.equal({query:"a-query"});
+                        done();
+                    });
                 });
             });
         });
@@ -99,8 +111,10 @@ describe('Simulado requests', function() {
                 superagent.put('http://localhost:7000/myPath')
                 .set('my-header', 'my-value')
                 .end(function(_, res) {
-                    Simulado.lastRequest("PUT", "/myPath").headers.should.include({'my-header':'my-value'});
-                    done()
+                    Simulado.lastRequest("PUT", "/myPath", function(lastRequest) {
+                        lastRequest.headers.should.include({'my-header':'my-value'});
+                        done();
+                    });                    
                 });
             });
         });
@@ -115,8 +129,10 @@ describe('Simulado requests', function() {
                 .type('json')
                 .send({some: 'json'})
                 .end(function(_, res) {
-                    Simulado.lastRequest("PUT", "/myPath").body.should.deep.equal({some: 'json'});
-                    done()
+                    Simulado.lastRequest("PUT", "/myPath", function(lastRequest) {
+                        lastRequest.body.should.deep.equal({some: 'json'});
+                        done();
+                    });
                 });
             });
         });
@@ -129,8 +145,10 @@ describe('Simulado requests', function() {
                 superagent.put('http://localhost:7000/myPath')
                 .query({query:"a-query"})
                 .end(function(_, res) {
-                    Simulado.lastRequest("PUT", "/myPath").params.should.deep.equal({query:"a-query"});
-                    done()
+                    Simulado.lastRequest("PUT", "/myPath", function(lastRequest) {
+                        lastRequest.params.should.deep.equal({query:"a-query"});
+                        done()
+                    });
                 });
             });
         });
@@ -145,8 +163,10 @@ describe('Simulado requests', function() {
                 superagent.del('http://localhost:7000/myPath')
                 .set('my-header', 'my-value')
                 .end(function(_, res) {
-                    Simulado.lastRequest("DELETE", "/myPath").headers.should.include({'my-header':'my-value'});
-                    done()
+                    Simulado.lastRequest("DELETE", "/myPath", function(lastRequest) {
+                        lastRequest.headers.should.include({'my-header':'my-value'});
+                        done();
+                    });
                 });
             });
         });
@@ -161,8 +181,10 @@ describe('Simulado requests', function() {
                 .type('json')
                 .send({some: 'json'})
                 .end(function(_, res) {
-                    Simulado.lastRequest("DELETE", "/myPath").body.should.deep.equal({some: 'json'});
-                    done()
+                    Simulado.lastRequest("DELETE", "/myPath", function(lastRequest) {
+                        lastRequest.body.should.deep.equal({some: 'json'});
+                        done();
+                    });
                 });
             });
         });
@@ -175,8 +197,10 @@ describe('Simulado requests', function() {
                 superagent.del('http://localhost:7000/myPath')
                 .query({query:"a-query"})
                 .end(function(_, res) {
-                    Simulado.lastRequest("DELETE", "/myPath").params.should.deep.equal({query:"a-query"});
-                    done()
+                    Simulado.lastRequest("DELETE", "/myPath", function(lastRequest) {
+                        lastRequest.params.should.deep.equal({query:"a-query"});
+                        done();
+                    });
                 });
             });
         });

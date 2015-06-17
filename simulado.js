@@ -19,6 +19,7 @@ var Simulado = function() {
 
   new Server().start(7000);
 
+  return this;
 };
 
-module.exports = new Simulado();
+module.exports = Simulado;
