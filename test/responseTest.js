@@ -1,10 +1,20 @@
-var Simulado = require('../simulado.js')();
+var Simulado = require('../simulado.js');
 var chai = require('chai').should();
 var expect = require('chai').expect
 var superagent = require('superagent');
 
 
 describe('Simulado', function() {
+    describe('setup', function() {
+        it('should start up a webserver', function(done) {
+            superagent.get('http://localhost:7000/').end(function(_, res) {
+                res.status.should.equal(200)
+                res.text.should.equal("Simulado running..")
+                done()
+            });
+        });
+    });
+
     describe('responses', function() {
         it('should respond to a http GET', function(done) {
             Simulado.mock({
@@ -90,7 +100,7 @@ describe('Simulado', function() {
                 });
             });
         });
-        
+
         it('should respond with a fully mocked response (status & text)', function(done) {
             Simulado.mock({
                 path: '/test',

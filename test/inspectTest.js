@@ -1,4 +1,4 @@
-var Simulado = require('../simulado.js')();
+var Simulado = require('../simulado.js');
 var chai = require('chai').should();
 var expect = require('chai').expect
 var superagent = require('superagent');

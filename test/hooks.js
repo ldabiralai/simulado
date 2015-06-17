@@ -1,13 +1,6 @@
-var Simulado = require('../simulado')();
+var Simulado = require('../simulado.js');
 
-before(function(done) {
-    Simulado.assinate(done);
-});
-
-beforeEach(function(done) {
-    Simulado.start(done);
-});
-
-after(function(done) {
-    Simulado.assinate(done);
-});
+beforeEach(function(done){
+    Simulado.reset();
+    done();
+})
