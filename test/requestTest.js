@@ -17,7 +17,7 @@ describe('Simulado requests', function() {
                 });
             });
         });
- 
+
         it('should return an empty body of a request made to the mocked path', function(done) {
             Simulado.mock({
                 path:'/myPath'
@@ -29,7 +29,7 @@ describe('Simulado requests', function() {
                 });
             });
         });
- 
+
         it('should return params for a request made to the mocked path', function(done) {
             Simulado.mock({
                 path:'/myPath'
@@ -58,7 +58,7 @@ describe('Simulado requests', function() {
                 });
             });
         });
- 
+
         it('should return the body of a request made to the mocked path', function(done) {
             Simulado.mock({
                 path:'/myPath',
@@ -74,7 +74,7 @@ describe('Simulado requests', function() {
                 });
             });
         });
- 
+
         it('should return params for a request made to the mocked path', function(done) {
             Simulado.mock({
                 path:'/myPath',
@@ -89,7 +89,7 @@ describe('Simulado requests', function() {
             });
         });
     });
- 
+
     describe('http PUT requests', function() {
         it('should return headers for request made to the mocked path', function(done) {
             Simulado.mock({
@@ -104,7 +104,7 @@ describe('Simulado requests', function() {
                 });
             });
         });
- 
+
         it('should return the body of a request made to the mocked path', function(done) {
             Simulado.mock({
                 path:'/myPath',
@@ -120,7 +120,7 @@ describe('Simulado requests', function() {
                 });
             });
         });
- 
+
         it('should return params for a request made to the mocked path', function(done) {
             Simulado.mock({
                 path:'/myPath',
@@ -150,7 +150,7 @@ describe('Simulado requests', function() {
                 });
             });
         });
- 
+
         it('should return the body of a request made to the mocked path', function(done) {
             Simulado.mock({
                 path:'/myPath',
@@ -166,7 +166,7 @@ describe('Simulado requests', function() {
                 });
             });
         });
- 
+
         it('should return params for a request made to the mocked path', function(done) {
             Simulado.mock({
                 path:'/myPath',
@@ -181,5 +181,5 @@ describe('Simulado requests', function() {
             });
         });
     });
- 
+
 });

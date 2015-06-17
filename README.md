@@ -7,7 +7,10 @@ A simple mockserver for testing with nodejs
 ### Install
     npm install simulado
 ### Require
-    var Simulado = require('simulado');
+    var Simulado = require('simulado')();
+### Start
+You need to start simulado in your before hooks (as of 1.0.0), using:
+    Simulado.start([callback]); //optional callback
 ### Mock
 ```path``` is mandatory, without it Simulado will not mock anything.
 
@@ -30,12 +33,15 @@ Simulado.mock({
     type: "MOBILE",
     name: "My work phone"
   }
-}, callback)
+}, [callback])
 ```
 ### Getting the last request
-You can retrive the request made to an endpoint with ```Simulado.lastRequest(httpMethod, path)```
+You can retrieve the request made to an endpoint with ```Simulado.lastRequest(httpMethod, path, callback)```
 ```javascript
-var lastRequestMade = Simulado.lastRequest('POST', '/postingPath')
+var lastRequestMade;
+Simulado.lastRequest('POST', '/postingPath', function(lastReq) {
+    lastRequestMade = lastReq;
+});
 
 lastRequestMade.headers // => {"Content-Type": "application/json"}
 lastRequestMade.body // => {"name": "simulado"}
@@ -52,3 +58,6 @@ To clear all mocked responses
 ```
 Simulado.reset()
 ```
+### To stop the Simulado process
+To assinate Simulado, you can call:
+    Simulado.assinate([callback])

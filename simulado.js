@@ -23,6 +23,7 @@ var Simulado = function() {
     this.server.stop();
   }
 
+  return this;
 };
 
 module.exports = new Simulado();

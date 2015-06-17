@@ -100,7 +100,7 @@ describe('Simulado', function() {
                 });
             });
         });
-        
+
         it('should respond with a fully mocked response (status & text)', function(done) {
             Simulado.mock({
                 path: '/test',
