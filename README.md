@@ -7,10 +7,7 @@ A simple mockserver for testing with nodejs
 ### Install
     npm install simulado
 ### Require
-    var Simulado = require('simulado')();
-### Start
-You need to start simulado in your before hooks (as of 1.0.0), using:
-    Simulado.start([callback]); //optional callback
+    var Simulado = require('simulado');
 ### Mock
 ```path``` is mandatory, without it Simulado will not mock anything.
 
@@ -33,15 +30,12 @@ Simulado.mock({
     type: "MOBILE",
     name: "My work phone"
   }
-}, [callback])
+}, callback)
 ```
 ### Getting the last request
-You can retrieve the request made to an endpoint with ```Simulado.lastRequest(httpMethod, path, callback)```
+You can retrive the request made to an endpoint with ```Simulado.lastRequest(httpMethod, path)```
 ```javascript
-var lastRequestMade;
-Simulado.lastRequest('POST', '/postingPath', function(lastReq) {
-    lastRequestMade = lastReq;
-});
+var lastRequestMade = Simulado.lastRequest('POST', '/postingPath')
 
 lastRequestMade.headers // => {"Content-Type": "application/json"}
 lastRequestMade.body // => {"name": "simulado"}
@@ -51,13 +45,19 @@ lastRequestMade.params // => {"paramName": "value"}
 ```
 ### Use
 After mocking, you can call the endpoint whichever way you like. Simulado starts a server on ```localhost:7000``` the path you specify is relative to this.
-### Viewing mocked responses
-To view all the mocked endpoints goto ```http://localhost:7000/inspect```
+### Viewing mocked reponses
+To view the mocked reponses you will need to run `simulado` before running the tests. This will start a server up on port 7001 and will persist all the mocked endpoints that are used in the tests.
+```bash
+# If you have simulado installed gloabally run
+simulado
+# otherwise
+./node_modules/simulado/bin/simulado
+```
+To inspect all the mocked endpoints you can goto `http://localhost:7001/inspect`. You can use these enpoints while developing your app by making an API call the `http://localhost:7001/[path]`.
 ### Reset 
 To clear all mocked responses 
 ```
 Simulado.reset()
 ```
-### To stop the Simulado process
-To assinate Simulado, you can call:
-    Simulado.assinate([callback])
+### Stop
+To stop simulado call `Simulado.stop([callback])`.
