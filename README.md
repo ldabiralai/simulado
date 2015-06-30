@@ -1,7 +1,7 @@
 # Simulado
 A simple mockserver for testing with nodejs
 
-[![Build Status](https://travis-ci.org/bskyb/simulado.svg)](https://travis-ci.org/bskyb/simulado)
+[![Build Status](https://travis-ci.org/BSkyB/simulado.svg)](https://travis-ci.org/bskyb/simulado)
 
 ## How to use
 ### Install
