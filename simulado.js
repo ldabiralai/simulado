@@ -23,6 +23,11 @@ var Simulado = function() {
     this.server.stop();
   }
 
+  this.defaults = function(opts, callback){
+    responseStore.defaults(opts, callback);
+    sync.addDefaults(opts)
+  }
+
   return this;
 };
 
