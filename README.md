@@ -43,6 +43,17 @@ lastRequestMade.body // => {"name": "simulado"}
 // http://localhost:7000/postingPath?paramName=value
 lastRequestMade.params // => {"paramName": "value"}
 ```
+or you can make a request to ```http://localhost:7000/lastRequest``` with two headers (method and path), which will respond with the last request as JSON.
+Example (using superagent)
+```javascript
+superagent.get('http://localhost:7000/lastRequest')
+  .set('method', 'POST')
+  .set('path', '/postingPath')
+  .end(function(_, res) {
+    var lastRequestMade = res.body;
+    res.body.headers // => {"paramName": "value"}
+  });
+```
 ### Use
 After mocking, you can call the endpoint whichever way you like. Simulado starts a server on ```localhost:7000``` the path you specify is relative to this.
 ### Viewing mocked reponses
