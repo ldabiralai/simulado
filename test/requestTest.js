@@ -181,5 +181,4 @@ describe('Simulado requests', function() {
             });
         });
     });
-
 });
