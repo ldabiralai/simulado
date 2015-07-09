@@ -6,8 +6,8 @@ var sync = require("./lib/sync");
 var Simulado = function() {
 
   this.mock = function(opts, callback) {
-    responseStore.add(opts, callback);
     sync.addMock(opts)
+    responseStore.add(opts, callback);
   }
 
   this.lastRequest = requestStore.find;
