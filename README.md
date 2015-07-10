@@ -19,6 +19,8 @@ A simple mockserver for testing with nodejs
 
 ```method``` defaults to ```GET``` if no method is provided. Possible values are ```GET``` ```POST``` ```PUT``` ```DELETE```
 
+```timeout``` defaults to ```0``` so there will be no delay, accepts seconds. If it's specified, simulado will wait and then send a response.
+
 The ```callback``` will be called once Simulado has finished mocking the endpoint. You should probably put the rest of your step in a function here.
 ```javascript
 Simulado.mock({
