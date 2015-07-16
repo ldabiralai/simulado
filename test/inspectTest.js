@@ -30,7 +30,8 @@ describe('Simulado inspect', function() {
             headers: {},
             method: 'GET',
             status: 400,
-            response: {test: 'value'}
+            response: {test: 'value'},
+            timeout: 0
           });
           done()
         });
@@ -65,6 +66,7 @@ describe('Simulado inspect', function() {
             headers: {},
             method: 'POST',
             status: 400,
+            timeout: 0,
             response: {}
           });
           done()
@@ -100,6 +102,7 @@ describe('Simulado inspect', function() {
             headers: {},
             method: 'PUT',
             status: 400,
+            timeout: 0,
             response: {}
           });
           done()
@@ -135,6 +138,7 @@ describe('Simulado inspect', function() {
             headers: {},
             method: 'DELETE',
             status: 400,
+            timeout: 0,
             response: {}
           });
           done()

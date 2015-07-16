@@ -27,7 +27,8 @@ describe('Simulado sync', function() {
         headers: {"Content-Type": "application/json"},
         method: "POST",
         status: 999,
-        response: {"some": "json"}
+        response: {"some": "json"},
+        timeout: 0
       };
 
       Simulado.mock(mock, function(){
