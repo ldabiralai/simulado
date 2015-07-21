@@ -2,7 +2,7 @@ var Simulado = require('../simulado.js');
 var chai = require('chai').should();
 var expect = require('chai').expect
 var superagent = require('superagent');
-var SyncServer = require('../lib/server.js');
+var SyncServer = require('../server.js');
 
 describe('Simulado sync', function() {
   before(function(done) {

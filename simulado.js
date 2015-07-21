@@ -1,4 +1,4 @@
-var Server = require("./lib/server.js");
+var Server = require("./server.js");
 var responseStore = require('./lib/responseStore');
 var requestStore = require('./lib/requestStore');
 var sync = require("./lib/sync");
