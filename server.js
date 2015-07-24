@@ -26,6 +26,11 @@ var Server = function() {
     });
   });
 
+  app.delete('/clearLastRequests', function(request, res) {
+    requestStore.reset();
+    res.sendStatus(200);
+  })
+
   app.post('/syncDefaults', function(req, res) {
     responseStore.defaults(req.body, function() {
       res.sendStatus(200);

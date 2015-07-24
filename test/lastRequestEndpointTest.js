@@ -21,5 +21,23 @@ describe('Simulado requests', function() {
           });
       });
   });
+
+  it("should reset last requests", function(done) {
+    Simulado.mock({
+      path: "/pathToClear"
+    }, function() {
+      superagent.get('http://localhost:7000/pathToClear').end(function(_, res) {
+        superagent.del('http://localhost:7000/clearLastRequests').end(function(_, res) {
+          superagent.get('http://localhost:7000/lastRequest')
+          .set('method', 'GET')
+          .set('path', '/pathToClear')
+          .end(function(_, res) {
+            res.body.should.deep.equal({});
+            done()
+          });
+        });
+      });
+    });
+  });
 });
 
