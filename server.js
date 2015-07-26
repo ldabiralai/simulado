@@ -54,7 +54,9 @@ var Server = function() {
   });
 
   this.start = function(port) {
-    this.server = app.listen(port);
+    this.server = app.listen(port, function() {
+      console.log('Simulado is running at http://localhost:%s', port);
+    });
     return this;
   };
 
