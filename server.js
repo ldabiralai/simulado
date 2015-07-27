@@ -17,7 +17,12 @@ var Server = function() {
   });
 
   app.get('/lastRequest', function(request, res) {
-    res.send(requestStore.find(request.headers.method, request.headers.path));
+    var lastRequest = requestStore.find(request.headers.method, request.headers.path)
+    if (lastRequest !== undefined) {
+      res.send(lastRequest);
+    } else {
+      res.sendStatus(204);
+    }
   });
 
   app.post('/syncMock', function(req, res) {
