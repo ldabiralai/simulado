@@ -17,7 +17,12 @@ var Server = function() {
   });
 
   app.get('/lastRequest', function(request, res) {
-    res.send(requestStore.find(request.headers.method, request.headers.path));
+    var lastRequest = requestStore.find(request.headers.method, request.headers.path)
+    if (lastRequest !== undefined) {
+      res.send(lastRequest);
+    } else {
+      res.sendStatus(204);
+    }
   });
 
   app.post('/syncMock', function(req, res) {
@@ -54,7 +59,9 @@ var Server = function() {
   });
 
   this.start = function(port) {
-    this.server = app.listen(port);
+    this.server = app.listen(port, function() {
+      console.log('Simulado is running at http://localhost:%s', port);
+    });
     return this;
   };
 
