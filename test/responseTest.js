@@ -115,6 +115,18 @@ describe('Simulado', function() {
             });
         });
 
+        it('should mock a url with params', function(done) {
+            Simulado.mock({
+                path: '/test?param=blah',
+                status: 200
+            }, function() {
+                superagent.get('http://localhost:7000/test?param=blah').end(function(_, res) {
+                    res.status.should.equal(200)
+                    done()
+                });
+            });
+        });
+
         it('should respond with the correct response when there are two mocks set', function(done) {
             Simulado.mock({
                 path: '/good'
