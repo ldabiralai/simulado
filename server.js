@@ -25,6 +25,11 @@ var Server = function() {
     }
   });
 
+  app.get('/totalRequests', function(req, res) {
+    var total = requestStore.totalRequests(req.headers.method, req.headers.path)
+    res.send({ total: total });
+  });
+
   app.post('/syncMock', function(req, res) {
     responseStore.add(req.body, function() {
       res.sendStatus(200);
