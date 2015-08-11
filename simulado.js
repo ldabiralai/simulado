@@ -11,6 +11,7 @@ var Simulado = function() {
   }
 
   this.lastRequest = requestStore.find;
+  this.totalRequests = requestStore.totalRequests;
 
   this.reset = function() {
     responseStore.reset();
