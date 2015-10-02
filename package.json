@@ -17,7 +17,8 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "zombie": "^2.5.1"
   },
   "dependencies": {
     "async": "^1.2.1",

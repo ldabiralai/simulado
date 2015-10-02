@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var responseStore = require('./lib/responseStore');
@@ -7,9 +8,11 @@ var requestStore = require('./lib/requestStore');
 var Server = function() {
   app.use(cors());
   app.use(bodyParser.json());
+  app.use(express.static('public'));
+
 
   app.get('/', function(_, res) {
-      res.send("Simulado running..");
+      res.render("index.ejs", { responses: responseStore.getAll(), requests: requestStore.getAll() });
   });
 
   app.get('/inspect', function(_, res) {

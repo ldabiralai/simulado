@@ -1,0 +1,132 @@
+Simulado running..
+
+<% for (method in responses) { %>
+
+  <section>
+    <% for ( path in responses[method] ) { %>
+    
+     <span class="method <%= method %>"><%= method %></span>
+     <span class=path><%= path %></span>   
+     
+     <% var endpointID = "" + method + path.split('/')[1] %>
+     <button class="toggle-btn expand" onclick="return toggle(event);" data-id="<%= endpointID  %>"></button>
+    
+     <div id="<%= endpointID %>" class=collapsed>
+      
+       <div class=status>
+         Status: <%= JSON.stringify(responses[method][path]['status'])%>
+       </div>
+       
+       <div class=response-body>
+         Response body:
+         <pre><code><%= JSON.stringify(responses[method][path]['response'], undefined, 2)%></code></pre>
+       </div>
+     
+       <% if (requests[method] && requests[method][path] ) { %>
+         <div class=last-request>
+           Last request:
+           <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
+         </div>
+        <% } %> 
+      
+     </div>
+
+    <% } %>
+  </section>
+  
+<% } %>
+
+
+<link rel="stylesheet" href="/highlight.js/hybrid.min.css">
+<script src="/highlight.js/highlight.min.js"></script>
+<script type="text/javascript">
+  hljs.initHighlightingOnLoad();
+  
+  function toggle(e) {
+    var content = document.getElementById(e.target.dataset.id);
+    var currentState = content.className;
+    content.className =  currentState === 'collapsed' ? 'expanded' : 'collapsed'
+    e.target.className = e.target.className === 'toggle-btn collapse'  ? 'toggle-btn expand' : 'toggle-btn collapse'
+  }
+
+</script>
+
+
+
+<style>
+  body {
+    background-color: #1d1f21;
+    color: #FFDEAD;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 12px;
+  }
+  
+  section {
+    margin: 5px;
+  }
+
+  .method {
+    background-color: #FFDEAD;
+    color: #1d1f21;
+    font-size: 9px;
+    font-weight: bold;
+    line-height: 16px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    vertical-align: middle;
+  }
+  
+  .method.post {
+      background-color: #1CE1CE;
+  }  
+  
+  .method.put {
+      background-color: #BAD;
+  }
+  
+  .status {
+    margin: 5px 0;
+    font-size: 9px;
+  }
+  
+  .toggle-btn {
+    background-color: #1d1f21;
+    border: 2px solid #1d1f21; 
+    color: a55;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: 10px;
+    outline: none;
+  }
+  
+  .toggle-btn:hover {
+     border: 2px solid #a55; 
+  }
+  
+  .toggle-btn.expand::before {
+     content: 'Expand'
+  }
+  
+  .toggle-btn.collapse::before {
+     content: 'Collapse'
+  }
+  
+  .collapsed {
+    max-height: 0;
+    transition: all 0.15s;
+    opacity: 0;
+    margin-left: 10px;
+  }  
+  
+  .collapsed  * {
+    display: none;
+  }
+  
+  .expanded {
+    max-height: 500px;
+    opacity: 1;
+    transition: all 0.25s;
+    margin-left: 10px;
+  }
+
+</style>
