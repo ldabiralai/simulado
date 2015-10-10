@@ -7,7 +7,7 @@ Simulado running..
        <span class="method <%= method %>"><%= method %></span>
        <span class=path><%= path %></span>   
 
-       <% var endpointID = "" + method + path.split('/')[1] %>
+       <% var endpointID = "" + method + path.replace(/\//g, '') %>
        <button class="toggle-btn expand" onclick="return toggle(event);" data-id="<%= endpointID  %>"></button>
 
        <div id="<%= endpointID %>" class=collapsed>
