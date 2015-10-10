@@ -8,7 +8,10 @@ var requestStore = require('./lib/requestStore');
 var Server = function() {
   app.use(cors());
   app.use(bodyParser.json());
-  app.use(express.static('public'));
+  app.use(express.static(__dirname + '/public'));
+  app.set('views', __dirname + '/views');
+  app.engine('ejs', require('ejs').__express);
+  app.set('view engine','ejs');
 
 
   app.get('/', function(_, res) {

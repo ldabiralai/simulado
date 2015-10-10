@@ -2,37 +2,37 @@ Simulado running..
 
 <% for (method in responses) { %>
 
-  <section>
     <% for ( path in responses[method] ) { %>
-    
-     <span class="method <%= method %>"><%= method %></span>
-     <span class=path><%= path %></span>   
-     
-     <% var endpointID = "" + method + path.split('/')[1] %>
-     <button class="toggle-btn expand" onclick="return toggle(event);" data-id="<%= endpointID  %>"></button>
-    
-     <div id="<%= endpointID %>" class=collapsed>
-      
-       <div class=status>
-         Status: <%= JSON.stringify(responses[method][path]['status'])%>
-       </div>
-       
-       <div class=response-body>
-         Response body:
-         <pre><code><%= JSON.stringify(responses[method][path]['response'], undefined, 2)%></code></pre>
-       </div>
-     
-       <% if (requests[method] && requests[method][path] ) { %>
-         <div class=last-request>
-           Last request:
-           <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
+    <section>
+       <span class="method <%= method %>"><%= method %></span>
+       <span class=path><%= path %></span>   
+
+       <% var endpointID = "" + method + path.split('/')[1] %>
+       <button class="toggle-btn expand" onclick="return toggle(event);" data-id="<%= endpointID  %>"></button>
+
+       <div id="<%= endpointID %>" class=collapsed>
+
+         <div class=status>
+           Status: <%= JSON.stringify(responses[method][path]['status'])%>
          </div>
-        <% } %> 
-      
-     </div>
+
+         <div class=response-body>
+           Response body:
+           <pre><code><%= JSON.stringify(responses[method][path]['response'], undefined, 2)%></code></pre>
+         </div>
+
+         <% if (requests[method] && requests[method][path] ) { %>
+           <div class=last-request>
+             Last request:
+             <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
+           </div>
+          <% } %> 
+
+       </div>
+     </section>
 
     <% } %>
-  </section>
+
   
 <% } %>
 
@@ -113,19 +113,13 @@ Simulado running..
   
   .collapsed {
     max-height: 0;
-    transition: all 0.15s;
-    opacity: 0;
+    overflow: hidden;
     margin-left: 10px;
   }  
   
-  .collapsed  * {
-    display: none;
-  }
   
   .expanded {
-    max-height: 500px;
-    opacity: 1;
-    transition: all 0.25s;
+    max-height: auto;
     margin-left: 10px;
   }
 
