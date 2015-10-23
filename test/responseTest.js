@@ -115,13 +115,39 @@ describe('Simulado', function() {
             });
         });
 
+        it('should respond to wild card path', function(done) {
+            Simulado.mock({
+                path: '/test/*',
+                status: 200,
+                response: 'some data'
+            }, function() {
+                superagent.get('http://localhost:7000/test/path').end(function(_, res) {
+                    res.text.should.equal('some data');
+                    done()
+                });
+            });
+        });
+
+        it('should respond to wild card and return params', function(done) {
+            Simulado.mock({
+                path: '/test/path?*',
+                status: 200,
+                response: 'some data'
+            }, function() {
+                superagent.get('http://localhost:7000/test/path?fred=jim').end(function(_, res) {
+                    res.text.should.equal('some data');
+                    done()
+                });
+            });
+        });
+
         it('should mock a url with params', function(done) {
             Simulado.mock({
                 path: '/test?param=blah',
                 status: 200
             }, function() {
                 superagent.get('http://localhost:7000/test?param=blah').end(function(_, res) {
-                    res.status.should.equal(200)
+                    res.status.should.equal(200);
                     done()
                 });
             });

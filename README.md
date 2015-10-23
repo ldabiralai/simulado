@@ -34,6 +34,21 @@ Simulado.mock({
   }
 }, callback)
 ```
+##### Wildcards
+```javascript
+Simulado.mock({
+  path: '/account/*',
+  status: 200,
+  headers: {"Content-Type": 'application/json'},
+  response:
+    id: 123,
+    type: "MOBILE",
+    name: "My work phone"
+  }
+}, callback)
+```
+<code>GET localhost.com/account/path-here => OK 200</code>
+
 ### Getting the last request
 You can retrive the request made to an endpoint with ```Simulado.lastRequest(httpMethod, path)```
 ```javascript

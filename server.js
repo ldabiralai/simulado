@@ -39,7 +39,7 @@ var Server = function() {
   app.delete('/clearLastRequests', function(request, res) {
     requestStore.reset();
     res.sendStatus(200);
-  })
+  });
 
   app.post('/syncDefaults', function(req, res) {
     responseStore.defaults(req.body, function() {
@@ -50,7 +50,7 @@ var Server = function() {
   app.all('*', function(req, res) {
       responseStore.find(req, function(mock) {
           if(mock) {
-              requestStore.add(req);
+              requestStore.add(req, mock.path);
               for(var header in mock.headers) {
                   res.header(header, mock.headers[header]);
               }
@@ -73,6 +73,6 @@ var Server = function() {
   this.stop = function(callback) {
     this.server.close(callback);
   };
-}
+};
 
 module.exports = Server;
