@@ -42,6 +42,36 @@ describe('Simulado requests', function() {
                 });
             });
         });
+
+        it('should return a request made to a mocked path with a wild card', function(done) {
+            Simulado.mock({
+              path:'/myPath/*',
+              method: 'POST'
+
+            }, function(){
+                superagent.post('http://localhost:7000/myPath/more')
+                  .send({some: 'json'})
+                  .accept('json')
+                  .type('json')
+                  .end(function(_, res) {
+                    Simulado.lastRequest("POST", "/myPath/*").body.should.deep.equal({some: 'json'});
+                    done()
+                });
+            });
+        });
+
+      it('should return params for a request made to the mocked path with a wild card', function(done) {
+            Simulado.mock({
+                path:'/myPath/*'
+            }, function(){
+                superagent.get('http://localhost:7000/myPath/more')
+                .query({query:"a-query"})
+                .end(function(_, res) {
+                    Simulado.lastRequest("GET", "/myPath/*?").params.should.deep.equal({query:"a-query"});
+                    done()
+                });
+            });
+        });
     });
 
     describe('http POST requests', function() {
