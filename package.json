@@ -1,6 +1,6 @@
 {
   "name": "simulado",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "A simple nodejs mockserver",
   "main": "simulado.js",
   "scripts": {
