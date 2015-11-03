@@ -1,6 +1,6 @@
 {
   "name": "simulado",
-  "version": "1.8.1",
+  "version": "1.9.2",
   "description": "A simple nodejs mockserver",
   "main": "simulado.js",
   "scripts": {
@@ -17,13 +17,15 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "zombie": "^2.5.1"
   },
   "dependencies": {
     "async": "^1.2.1",
     "body-parser": "^1.12.4",
     "cors": "^2.7.1",
-    "express": "^4.12.4",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
     "ps-node": "0.0.4",
     "superagent": "^1.2.0"
   }

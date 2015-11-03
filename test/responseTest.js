@@ -9,7 +9,7 @@ describe('Simulado', function() {
         it('should start up a webserver', function(done) {
             superagent.get('http://localhost:7000/').end(function(_, res) {
                 res.status.should.equal(200)
-                res.text.should.equal("Simulado running..")
+                res.text.should.include("Simulado running..")
                 done()
             });
         });
@@ -187,7 +187,7 @@ describe('Simulado', function() {
             Simulado.mock({}, function() {
                 superagent.get('http://localhost:7000/').end(function(_, res) {
                     res.status.should.equal(200)
-                    res.text.should.equal('Simulado running..')
+                    res.text.should.include('Simulado running..')
                     done()
                 });
             });
