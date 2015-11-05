@@ -22,6 +22,10 @@ var Server = function() {
     res.send(responseStore.getAll());
   });
 
+  app.get('/lastRequests', function(request, res) {
+    res.send(requestStore.returnLastFiveRequests());
+  });
+
   app.get('/lastRequest', function(request, res) {
     var lastRequest = requestStore.find(request.headers.method, request.headers.path)
     if (lastRequest !== undefined) {
