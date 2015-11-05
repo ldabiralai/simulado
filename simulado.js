@@ -18,7 +18,7 @@ var Simulado = function() {
     requestStore.reset();
   }
 
-  this.server = new Server().start(7001);
+  this.server = new Server().start(7000);
 
   this.stop = function() {
     this.server.stop();
