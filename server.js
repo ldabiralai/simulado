@@ -23,7 +23,7 @@ var Server = function() {
   });
 
   app.get('/lastRequests', function(request, res) {
-    res.send(requestStore.returnLastFiveRequests());
+    res.send(requestStore.returnLastRequests());
   });
 
   app.get('/lastRequest', function(request, res) {
