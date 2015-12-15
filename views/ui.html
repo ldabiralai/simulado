@@ -3,6 +3,16 @@
 <body>
   <script>
     (function() {
+      window.format = function () {
+        try {
+        var response  = window.document.querySelector('#response');
+
+        response.value = JSON.stringify(JSON.parse(response.value), 0, 2);
+        } catch(e) {
+          alert('Response is not a valid JSON!!!! Make sure you adding "');
+        }
+      };
+
       window.prime = function () {
 
         var method    = window.document.querySelector('#method').value.toUpperCase();
@@ -24,7 +34,7 @@
             response: JSON.parse(response)
           };
         } catch(e) {
-          alert('Response is not a valid JSON');
+          alert('Response is not a valid JSON!!!! Make sure you adding "');
         }
 
         request.onreadystatechange = function () {
@@ -44,9 +54,8 @@
 
   Method:<br /><input type="text" id="method" value="get" /><br /><br />
   Path:<br /><input type="text" id="path" value="path-here" /><br /><br />
-  Response:<br /><textarea id="response" style="margin: 0px; padding: 0; width: 645px; height: 792px;">{
-    "example": true
-  }</textarea><br />
+  Response: <a href="#" onClick="format();" style="margin-left: 20px;">prettify JSON</a>
+  <br /><textarea id="response" style="margin: 0px; padding: 0; width: 645px; height: 792px;">{"example": true}</textarea><br /><a href="#" onClick="format();">prettify JSON</a>
   <button id="prime" onClick="prime();">Prime</button><br />
   <div id="link" style="font-size: 24px; color: blue;"></div>
 </body>
