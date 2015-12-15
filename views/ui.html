@@ -17,8 +17,9 @@
 
         var method    = window.document.querySelector('#method').value.toUpperCase();
         var path      = window.document.querySelector('#path').value;
+        var statusCode= parseInt(window.document.querySelector('#statusCode').value);
         var response  = window.document.querySelector('#response').value;
-        var link   = window.document.querySelector('#link');
+        var link      = window.document.querySelector('#link');
         var message   = window.document.querySelector('#message');
         message.innerText = "";
 
@@ -30,6 +31,7 @@
         try {
           var payload = {
             path: path,
+            status: statusCode,
             method: method,
             response: JSON.parse(response)
           };
@@ -53,6 +55,7 @@
   </script>
   <div id="message" style="font-size: 24px; color: green;"></div>
 
+  Status Code:<br /><input type="text" id="statusCode" value="200" /><br /><br />
   Method:<br /><input type="text" id="method" value="get" /><br /><br />
   Path:<br /><input type="text" id="path" value="path-here" /><br /><br />
   Response: <a href="#" onClick="format();" style="margin-left: 20px;">prettify JSON</a>
