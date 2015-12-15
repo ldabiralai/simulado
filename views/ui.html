@@ -17,6 +17,7 @@
 
         var method    = window.document.querySelector('#method').value.toUpperCase();
         var path      = window.document.querySelector('#path').value;
+        var timeout   = parseInt(window.document.querySelector('#timeout').value);
         var statusCode= parseInt(window.document.querySelector('#statusCode').value);
         var response  = window.document.querySelector('#response').value;
         var link      = window.document.querySelector('#link');
@@ -33,6 +34,7 @@
             path: path,
             status: statusCode,
             method: method,
+            timeout: timeout,
             response: JSON.parse(response)
           };
         } catch(e) {
@@ -57,6 +59,7 @@
 
   Status Code:<br /><input type="text" id="statusCode" value="200" /><br /><br />
   Method:<br /><input type="text" id="method" value="get" /><br /><br />
+  Timeout:<br /><input type="text" id="timeout" value="0" /><br /><br />
   Path:<br /><input type="text" id="path" value="path-here" /><br /><br />
   Response: <a href="#" onClick="format();" style="margin-left: 20px;">prettify JSON</a>
   <br /><textarea id="response" style="margin: 0px; padding: 0; width: 645px; height: 792px;">{"example": true}</textarea><br /><a href="#" onClick="format();">prettify JSON</a>
