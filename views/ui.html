@@ -35,6 +35,7 @@
           };
         } catch(e) {
           alert('Response is not a valid JSON!!!! Make sure you adding "');
+          return false;
         }
 
         request.onreadystatechange = function () {
