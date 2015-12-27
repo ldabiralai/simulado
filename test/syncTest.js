@@ -34,7 +34,8 @@ describe('Simulado sync', function() {
       Simulado.mock(mock, function(){
         superagent.get('http://localhost:7001/inspect')
         .end(function(_, res) {
-          res.body["POST"]["/myPath"].should.deep.equal(mock);
+          res.body["POST"]["/myPath"][0].should.deep.equal(mock);
+          res.body["POST"]["/myPath"][1].should.deep.equal(mock);
           done()
         });
       });

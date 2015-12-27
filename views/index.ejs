@@ -13,12 +13,12 @@ Simulado running..
        <div id="<%= endpointID %>" class=collapsed>
 
          <div class=status>
-           Status: <%= JSON.stringify(responses[method][path]['status'])%>
+           Status: <%= JSON.stringify(responses[method][path][0]['status'])%>
          </div>
 
          <div class=response-body>
            Response body:
-           <pre><code><%= JSON.stringify(responses[method][path]['response'], undefined, 2)%></code></pre>
+           <pre><code><%= JSON.stringify(responses[method][path][0]['response'], undefined, 2)%></code></pre>
          </div>
 
          <% if (requests[method] && requests[method][path] ) { %>

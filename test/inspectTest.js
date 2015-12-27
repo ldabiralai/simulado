@@ -25,14 +25,14 @@ describe('Simulado inspect', function() {
       }, function(){
         superagent.get('http://localhost:7000/inspect')
         .end(function(_, res) {
-          res.body['GET']['/myPath'].should.deep.equal({
+          res.body['GET']['/myPath'].should.deep.equal([{
             path: '/myPath',
             headers: {},
             method: 'GET',
             status: 400,
             response: {test: 'value'},
             timeout: 0
-          });
+          }]);
           done()
         });
       });
@@ -61,14 +61,14 @@ describe('Simulado inspect', function() {
       }, function(){
         superagent.get('http://localhost:7000/inspect')
         .end(function(_, res) {
-          res.body['POST']['/myPath'].should.deep.equal({
+          res.body['POST']['/myPath'].should.deep.equal([{
             path: '/myPath',
             headers: {},
             method: 'POST',
             status: 400,
             timeout: 0,
             response: {}
-          });
+          }]);
           done()
         });
       });
@@ -97,14 +97,14 @@ describe('Simulado inspect', function() {
       }, function(){
         superagent.get('http://localhost:7000/inspect')
         .end(function(_, res) {
-          res.body['PUT']['/myPath'].should.deep.equal({
+          res.body['PUT']['/myPath'].should.deep.equal([{
             path: '/myPath',
             headers: {},
             method: 'PUT',
             status: 400,
             timeout: 0,
             response: {}
-          });
+          }]);
           done()
         });
       });
@@ -133,14 +133,14 @@ describe('Simulado inspect', function() {
       }, function(){
         superagent.get('http://localhost:7000/inspect')
         .end(function(_, res) {
-          res.body['DELETE']['/myPath'].should.deep.equal({
+          res.body['DELETE']['/myPath'].should.deep.equal([{
             path: '/myPath',
             headers: {},
             method: 'DELETE',
             status: 400,
             timeout: 0,
             response: {}
-          });
+          }]);
           done()
         });
       });
