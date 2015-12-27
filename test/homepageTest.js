@@ -69,7 +69,7 @@ describe('Simulado homepage', function () {
     }, function () {
       superagent.get('http://localhost:7000/test').end(function (_, _) {
         browser.visit('http://localhost:7000/', function () {
-          browser.assert.text('.last-request', 'Last request: { "headers": { "host": "localhost:7000", "accept-encoding": "gzip, deflate", "user-agent": "node-superagent/1.4.0", "connection": "close" }, "body": {}, "params": {} }');
+          browser.assert.text('.last-request', 'Last request: { "headers": { "host": "localhost:7000", "accept-encoding": "gzip, deflate", "user-agent": "node-superagent/1.6.1", "connection": "close" }, "body": {}, "params": {} }');
           done();
         });
       });

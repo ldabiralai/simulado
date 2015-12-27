@@ -27,7 +27,7 @@
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "ps-node": "0.0.4",
-    "superagent": "^1.2.0"
+    "superagent": "1.6.1"
   },
   "keyboard": [
     "mock",
