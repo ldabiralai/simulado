@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 var Server = require('../server');
 
-new Server().start(7001);
+new Server().start(process.env.PORT || 7001);

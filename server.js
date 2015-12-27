@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var responseStore = require('./lib/responseStore');
 var requestStore = require('./lib/requestStore');
+var path = require('path');
 
 var Server = function() {
   app.use(cors());
@@ -16,6 +17,10 @@ var Server = function() {
 
   app.get('/', function(_, res) {
       res.render("index.ejs", { responses: responseStore.getAll(), requests: requestStore.getAll() });
+  });
+
+  app.get('/ui', function(_, res) {
+      res.sendFile(path.join(__dirname + '/views/ui.html'));
   });
 
   app.get('/inspect', function(_, res) {
