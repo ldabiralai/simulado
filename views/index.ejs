@@ -11,17 +11,36 @@ Simulado running..
        <button class="toggle-btn expand" onclick="return toggle(event);" data-id="<%= endpointID  %>"></button>
 
        <div id="<%= endpointID %>" class=collapsed>
-
-         <div class=status>
-           Status: <%= JSON.stringify(responses[method][path][0]['status'])%>
-         </div>
-
-         <div class=response-body>
-           Response body:
-           <pre><code><%= JSON.stringify(responses[method][path][0]['response'], undefined, 2)%></code></pre>
-         </div>
+         
+        <div class=responses-info>
+          <%= responses[method][path].length %> possible responses on this http method &amp; endpoint
+         </div>                                             
+                              
+        <% for ( i in responses[method][path] ) { 
+            
+            var mockedResponse = responses[method][path][i];
+        %>
+         <hr><span class=response-index><%= +i+1 %>)</span>        
+           <div class=status>
+             Status: <%= JSON.stringify(mockedResponse['status'])%>
+           </div>
+           
+           <% if (mockedResponse['conditionalRequestBody']) { %>
+             <div class=conditional-request-body>
+                Only responds to:
+                <pre><code><%= JSON.stringify(mockedResponse['conditionalRequestBody'], undefined, 2)%></code></pre>
+             </div>
+           <% } %>
+           
+           <div class=response-body>
+             Response body:
+             <pre><code><%= JSON.stringify(mockedResponse['response'], undefined, 2)%></code></pre>
+           </div>
+           
+        <% } %>
 
          <% if (requests[method] && requests[method][path] ) { %>
+           <hr>
            <div class=last-request>
              Last request:
              <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
@@ -84,9 +103,22 @@ Simulado running..
       background-color: #BAD;
   }
   
-  .status {
+  .status, .conditional-request-body {
     margin: 5px 0;
     font-size: 9px;
+  }
+  
+  .responses-info {
+    margin: 5px 0;
+    color: #999;
+  }
+    
+  .response-index {
+    color: #999;
+  }
+  
+  hr {
+    border: 1px dotted #444;
   }
   
   .toggle-btn {
@@ -122,5 +154,6 @@ Simulado running..
     max-height: auto;
     margin-left: 10px;
   }
+  
 
 </style>
