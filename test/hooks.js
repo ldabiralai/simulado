@@ -1,4 +1,4 @@
-var Simulado = require('../simulado.js');
+var Simulado = require('../lib/embedded-api');
 
 beforeEach(function(done){
     Simulado.reset();

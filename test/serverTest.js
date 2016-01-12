@@ -1,12 +1,12 @@
-var Simulado = require('../simulado.js');
+var api = require('../lib/remote-api.js');
 var chai = require('chai').should();
 var expect = require('chai').expect
 var superagent = require('superagent');
-var SyncServer = require('../server.js');
+var server = require('../server.js');
 
-describe('Simulado sync', function() {
+describe('Simulado end to end', function() {
   before(function(done) {
-    new SyncServer().start(7001);
+    new server().start(7001);
     done();
   });
 
@@ -21,7 +21,7 @@ describe('Simulado sync', function() {
   });
 
   describe('mock responses', function() {
-    it('should sync to the dev mockserver', function(done) {
+    it('should set default on remote mockserver', function(done) {
       var mock = {
         path:'/myPath',
         headers: {"Content-Type": "application/json"},
@@ -31,12 +31,15 @@ describe('Simulado sync', function() {
         timeout: 0
       };
 
-      Simulado.mock(mock, function(){
+      api.mock(mock, function(){
         superagent.get('http://localhost:7001/inspect')
         .end(function(_, res) {
-          res.body["POST"]["/myPath"][0].should.deep.equal(mock);
-          res.body["POST"]["/myPath"][1].should.deep.equal(mock);
-          done()
+          res.body.should.deep.equal({
+            POST: {
+              "/myPath": [mock]
+            }
+          });
+          done();
         });
       });
     });
