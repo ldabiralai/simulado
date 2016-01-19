@@ -1,7 +1,7 @@
 # Simulado
 A simple mockserver for testing with nodejs
 
-[![Build Status](https://travis-ci.org/ldabiralai/simulado.svg)](https://travis-ci.org/ldabiralai/simulado)
+[![Circle CI](https://circleci.com/gh/ldabiralai/simulado.svg?style=svg)](https://circleci.com/gh/ldabiralai/simulado)
 
 ## How to use
 ### Install
