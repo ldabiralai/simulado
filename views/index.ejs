@@ -5,38 +5,45 @@ Simulado running..
     <% for ( path in responses[method] ) { %>
     <section>
        <span class="method <%= method %>"><%= method %></span>
-       <span class=path><%= path %></span>   
+       <span class=path><%= path %></span>
 
        <% var endpointID = "" + method + path.replace(/\//g, '') %>
        <button class="toggle-btn expand" onclick="return toggle(event);" data-id="<%= endpointID  %>"></button>
 
        <div id="<%= endpointID %>" class=collapsed>
-         
+
         <div class=responses-info>
           <%= responses[method][path].length %> possible responses on this http method &amp; endpoint
-         </div>                                             
-                              
-        <% for ( i in responses[method][path] ) { 
-            
+         </div>
+
+        <% for ( i in responses[method][path] ) {
+
             var mockedResponse = responses[method][path][i];
         %>
-         <hr><span class=response-index><%= +i+1 %>)</span>        
+         <hr><span class=response-index><%= +i+1 %>)</span>
            <div class=status>
              Status: <%= JSON.stringify(mockedResponse['status'])%>
            </div>
-           
+
            <% if (mockedResponse['conditionalRequestBody']) { %>
              <div class=conditional-request-body>
                 Only responds to:
                 <pre><code><%= JSON.stringify(mockedResponse['conditionalRequestBody'], undefined, 2)%></code></pre>
              </div>
            <% } %>
-           
+
+           <% if (mockedResponse['requestHeaders']) { %>
+             <div class=request-headers>
+                Request Headers:
+                <pre><code><%= JSON.stringify(mockedResponse['requestHeaders'], undefined, 2)%></code></pre>
+             </div>
+           <% } %>
+
            <div class=response-body>
              Response body:
              <pre><code><%= JSON.stringify(mockedResponse['response'], undefined, 2)%></code></pre>
            </div>
-           
+
         <% } %>
 
          <% if (requests[method] && requests[method][path] ) { %>
@@ -45,14 +52,14 @@ Simulado running..
              Last request:
              <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
            </div>
-          <% } %> 
+          <% } %>
 
        </div>
      </section>
 
     <% } %>
 
-  
+
 <% } %>
 
 
@@ -60,7 +67,7 @@ Simulado running..
 <script src="/highlight.js/highlight.min.js"></script>
 <script type="text/javascript">
   hljs.initHighlightingOnLoad();
-  
+
   function toggle(e) {
     var content = document.getElementById(e.target.dataset.id);
     var currentState = content.className;
@@ -79,7 +86,7 @@ Simulado running..
     font-family: "Lucida Console", Monaco, monospace;
     font-size: 12px;
   }
-  
+
   section {
     margin: 5px;
   }
@@ -94,66 +101,66 @@ Simulado running..
     border-radius: 20px;
     vertical-align: middle;
   }
-  
+
   .method.post {
       background-color: #1CE1CE;
-  }  
-  
+  }
+
   .method.put {
       background-color: #BAD;
   }
-  
+
   .status, .conditional-request-body {
     margin: 5px 0;
     font-size: 9px;
   }
-  
+
   .responses-info {
     margin: 5px 0;
     color: #999;
   }
-    
+
   .response-index {
     color: #999;
   }
-  
+
   hr {
     border: 1px dotted #444;
   }
-  
+
   .toggle-btn {
     background-color: #1d1f21;
-    border: 2px solid #1d1f21; 
+    border: 2px solid #1d1f21;
     color: a55;
     border-radius: 10px;
     font-family: sans-serif;
     font-size: 10px;
     outline: none;
   }
-  
+
   .toggle-btn:hover {
-     border: 2px solid #a55; 
+     border: 2px solid #a55;
   }
-  
+
   .toggle-btn.expand::before {
      content: 'Expand'
   }
-  
+
   .toggle-btn.collapse::before {
      content: 'Collapse'
   }
-  
+
   .collapsed {
     max-height: 0;
     overflow: hidden;
     margin-left: 10px;
-  }  
-  
-  
+  }
+
+
   .expanded {
     max-height: auto;
     margin-left: 10px;
   }
-  
+
 
 </style>

@@ -1,47 +1,67 @@
 # Simulado
-A simple mockserver for testing with nodejs
+ > A simple mockserver for testing with nodejs
 
 [![Build Status](https://travis-ci.org/ldabiralai/simulado.svg)](https://travis-ci.org/ldabiralai/simulado)
 
 ## How to use
+
 ### Install
     npm install simulado
+
 ### Start
+
 ```bash
 # If you have simulado installed gloabally run
 simulado
 # otherwise
 ./node_modules/simulado/bin/simulado
 ```
+
 ### Require
     var Simulado = require('simulado');
+
+
 ### Mock
-```path``` is mandatory, without it Simulado will not mock anything.
 
-```status``` defaults to ```200``` if no status is provided.
+```javascript
+Simulado.mock(opts, callback)
+```
 
-```headers``` defaults to ```{}``` if no headers are provided.
+`path` is mandatory, without it Simulado will not mock anything.
 
-```response``` will respond with ```{}``` if no response is provided, otherwise it will return what you give it.
+`method` (defaults to `GET`). Possible values are `GET`, `POST`, `PUT`or `DELETE`
 
-```method``` defaults to ```GET``` if no method is provided. Possible values are ```GET``` ```POST``` ```PUT``` ```DELETE```
+`requestHeaders` if supplied, the mocks will only be returned when the request supplies these headers.
 
-```timeout``` defaults to ```0``` so there will be no delay, accepts seconds. If it's specified, simulado will wait and then send a response.
+`status` (defaults to `200`) Status of the mock response.
 
-The ```callback``` will be called once Simulado has finished mocking the endpoint. You should probably put the rest of your step in a function here.
+`headers` (defaults to `{}`) Headers of the mock response.
+
+`response` (defaults to `{}`) body of the mock response.
+
+`timeout` (defaults to `0`, i.e. no delay) If it's specified, Simulado will wait (x seconds) and then send a response.
+
+**callback**
+
+The `callback` will be called once Simulado has finished mocking the endpoint. You should probably put the rest of your step in a function here.
+
 ```javascript
 Simulado.mock({
-  path: '/account/devices',
-  status: 401,
-  headers: {"Content-Type": 'application/json'},
-  response: {
-    id: 123,
-    type: "MOBILE",
-    name: "My work phone"
+    path: '/account/devices'
+    requestHeaders: { "X-USER-ID" : "expected-user-id" },
+    status: 401,
+    headers: {"Content-Type": 'application/json'},
+    response: {
+      id: 123,
+      type: "MOBILE",
+      name: "My work phone"
+    }
   }
 }, callback)
 ```
+
 ##### Wildcards
+
 ```javascript
 Simulado.mock({
   path: '/account/*',
@@ -54,6 +74,7 @@ Simulado.mock({
   }
 }, callback)
 ```
+
 <code>GET localhost.com/account/path-here => OK 200</code>
 
 ### Getting the last request
