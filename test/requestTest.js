@@ -60,7 +60,7 @@ describe('Simulado requests', function() {
             });
         });
 
-      it('should return params for a request made to the mocked path with a wild card', function(done) {
+        it('should return params for a request made to the mocked path with a wild card', function(done) {
             Simulado.mock({
                 path:'/myPath/*'
             }, function(){

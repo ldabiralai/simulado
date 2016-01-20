@@ -61,6 +61,22 @@ describe('Simulado homepage', function () {
     });
   });
 
+  it('should show the requestHeaders', function (done) {
+    Simulado.mock({
+      path: '/test',
+      method: 'GET',
+      requestHeaders: {
+        'a': 'b'
+      }
+    }, function () {
+      browser.visit('http://localhost:7000/', function () {
+        browser.assert.text('.request-headers',
+          'Request Headers: { "a": "b" }');
+        done();
+      });
+    });
+  });
+
 
   it('should show the last request to the mocked endpoint', function (done) {
     Simulado.mock({
@@ -75,7 +91,7 @@ describe('Simulado homepage', function () {
       });
     });
   });
-  
+
 
   it('should not show the last request section if no request was made to the mocked endpoint', function (done) {
     Simulado.mock({
@@ -89,42 +105,42 @@ describe('Simulado homepage', function () {
 
     });
   });
-  
-  
+
+
   describe('when there are multiple possible responses for an http method & endpoint', function() {
-    
-    beforeEach(function (done){    
+
+    beforeEach(function (done){
       Simulado.mock({ path: '/test', response: "A" }, function() {
           Simulado.mock({ path: '/test', response: "B", conditionalRequestBody: { "conditionalRequest": 1 } }, function() {
-            Simulado.mock({ path: '/test', response: "C", conditionalRequestBody: { "conditionalRequest": 2 }  }, done);    
+            Simulado.mock({ path: '/test', response: "C", conditionalRequestBody: { "conditionalRequest": 2 }  }, done);
           });
-        });                     
+        });
     });
-    
+
     it('should show how many possible responses are mocked for a particular endpoint', function (done) {
         browser.visit('http://localhost:7000/', function () {
           browser.assert.text('.responses-info', '3 possible responses on this http method & endpoint');
           done();
         });
     });
-    
+
     it('should show the conditional request body for responses that have it', function (done) {
         browser.visit('http://localhost:7000/', function () {
           browser.assert.text('.conditional-request-body', 'Only responds to: { "conditionalRequest": 1 } Only responds to: { "conditionalRequest": 2 }');
           done();
         });
-    });    
-    
+    });
+
     it('should show mocked response bodies', function (done) {
         browser.visit('http://localhost:7000/', function () {
           browser.assert.text('.response-body', 'Response body: "A" Response body: "B" Response body: "C"');
           done();
         });
     });
-    
+
   });
-  
-  
+
+
 
 
 

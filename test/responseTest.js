@@ -5,7 +5,7 @@ var superagent = require('superagent');
 
 
 describe('Simulado', function() {
-  
+
     describe('setup', function() {
         it('should start up a webserver', function(done) {
             superagent.get('http://localhost:7000/').end(function(_, res) {
@@ -17,7 +17,7 @@ describe('Simulado', function() {
     });
 
     describe('responses', function() {
-      
+
         it('should respond to a http GET', function(done) {
             Simulado.mock({
                 path: '/test',
@@ -88,6 +88,25 @@ describe('Simulado', function() {
                     done()
                 });
             });
+        });
+
+        it('should only respond to requests with headers matching `requestHeaders`', function(done){
+          Simulado.mock({
+            path: '/test',
+            requestHeaders: {'X-UMV-TOKEN': '234567-34567-4567' },
+          }, function() {
+            superagent.get('http://localhost:7000/test')
+              .end(function(_, res) {
+                expect(res.status).to.eql(404);
+
+                superagent.get('http://localhost:7000/test')
+                  .set({'X-UMV-TOKEN': '234567-34567-4567'})
+                  .end(function(_, res) {
+                    expect(res.status).to.eql(200);
+                    done()
+                  })
+              });
+          });
         });
 
         it('should respond with a status code with an empty json when only status is mocked', function(done) {
@@ -173,26 +192,26 @@ describe('Simulado', function() {
                 });
             });
         });
-      
+
         describe('when multiple mocks on same HTTP method and path have been set', function(){
-          
-          beforeEach(function(done){    
+
+          beforeEach(function(done){
               Simulado.mock({ path: '/test', response: "A" }, function() {
                     Simulado.mock({ path: '/test', response: "B" }, function() {
-                        Simulado.mock({ path: '/test', response: "C" }, done);    
+                        Simulado.mock({ path: '/test', response: "C" }, done);
                     });
-                });                     
+                });
           });
-          
+
           it('should respond with the last set response', function(done) {
             superagent.get('http://localhost:7000/test').end(function(_, res) {
                 res.text.should.equal('C');
                 done();
             });
-          });          
-        
+          });
+
         });
-      
+
         describe('when mock has been set with conditional request body', function() {
 
           beforeEach(function(done){
@@ -200,9 +219,9 @@ describe('Simulado', function() {
                 path: '/test',
                 method: 'POST',
                 conditionalRequestBody: { "particularRequest": true },
-                response: "responseForParticularRequest"         
-              }, done)        
-          });       
+                response: "responseForParticularRequest"
+              }, done)
+          });
 
           it('should not respond when not called with the right request', function(done) {
               superagent.post('http://localhost:7000/test')
@@ -211,7 +230,7 @@ describe('Simulado', function() {
                   res.status.should.equal(404);
                   done();
               });
-          }); 
+          });
 
           it('should respond when called with the right request', function(done) {
               superagent.post('http://localhost:7000/test')
@@ -220,7 +239,7 @@ describe('Simulado', function() {
                   res.status.should.equal(200);
                   done();
               });
-          });   
+          });
 
           describe('when two mocks on same HTTP method and path have been set, one with conditional request body and just normal', function(){
 
@@ -237,7 +256,7 @@ describe('Simulado', function() {
                           done();
                         });
                     });
-              });         
+              });
 
             it('should respond with the other response when not called with the right request', function(done) {
 
@@ -253,11 +272,11 @@ describe('Simulado', function() {
                           done();
                         });
                     });
-              });          
+              });
           })
 
         });
-      
+
         describe('when multiple mocks on same HTTP method and path have been set with conditional request bodies', function() {
 
          beforeEach(function(done){
@@ -271,12 +290,12 @@ describe('Simulado', function() {
                       path: '/test',
                       method: 'POST',
                       conditionalRequestBody: { "particularRequest": 2 },
-                      response: "response For Request 2"         
+                      response: "response For Request 2"
                     }, function() {
                        Simulado.mock({
                         path: '/test',
                         method: 'POST',
-                        response: "default response"         
+                        response: "default response"
                       }, done);
                     });
                 });
@@ -299,7 +318,7 @@ describe('Simulado', function() {
                 });
             });
 
-        }); 
+        });
 
       })
 

@@ -4,7 +4,7 @@
   "description": "A simple nodejs mockserver",
   "main": "lib/remote-api.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "mocha"
   },
   "bin": {
     "simulado": "bin/simulado"
@@ -28,6 +28,7 @@
     "deep-equal": "^1.0.1",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
+    "lodash": "^4.0.0",
     "ps-node": "0.0.4",
     "superagent": "1.6.1"
   },
@@ -35,5 +36,9 @@
     "mock",
     "mockserver",
     "http"
-  ]
+  ],
+  "engines": {
+    "node": ">5.0.0",
+    "npm": ">3.0.0"
+  }
 }
