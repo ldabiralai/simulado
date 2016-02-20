@@ -103,21 +103,21 @@ describe('Simulado homepage', function () {
     
     it('should show how many possible responses are mocked for a particular endpoint', function (done) {
         browser.visit('http://localhost:7000/', function () {
-          browser.assert.text('.responses-info', '3 possible responses on this http method & endpoint');
+          browser.assert.text('.responses-info', '3 possible responses on this http method & endpoint. Higher ones trump lower ones.');
           done();
         });
     });
     
     it('should show the conditional request body for responses that have it', function (done) {
         browser.visit('http://localhost:7000/', function () {
-          browser.assert.text('.conditional-request-body', 'Only responds to: { "conditionalRequest": 1 } Only responds to: { "conditionalRequest": 2 }');
+          browser.assert.text('.conditional-request-body', 'Only responds to: { "conditionalRequest": 2 } Only responds to: { "conditionalRequest": 1 }');
           done();
         });
     });    
     
     it('should show mocked response bodies', function (done) {
         browser.visit('http://localhost:7000/', function () {
-          browser.assert.text('.response-body', 'Response body: "A" Response body: "B" Response body: "C"');
+          browser.assert.text('.response-body', 'Response body: "C" Response body: "B" Response body: "A"');
           done();
         });
     });
