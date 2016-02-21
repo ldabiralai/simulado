@@ -1,4 +1,4 @@
-var express = require('express');
+ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
@@ -61,6 +61,12 @@ var Server = function() {
       res.sendStatus(200);
     });
   });
+  
+  app.delete('/reset', function(req, res) {
+    responseStore.reset(req.body, function() {
+      res.sendStatus(200);
+    });
+  });  
 
   app.all('*', function(req, res) {
       responseStore.find(req, function(mock) {
