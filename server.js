@@ -62,7 +62,7 @@ var Server = function() {
     });
   });
   
-  app.delete('/reset', function(req, res) {
+  app.post('/reset', function(req, res) {
     responseStore.reset(req.body, function() {
       res.sendStatus(200);
     });
