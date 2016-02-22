@@ -22,7 +22,7 @@ describe('reset', function() {
   
   it('should clear all mocks', function (done) {
 
-    superagent.del('http://localhost:7000/reset').end(function (_, _) {
+    superagent.post('http://localhost:7000/reset').end(function (_, _) {
       superagent.post('http://localhost:7000/myPath')
         .end(function (err, res) {
           expect(res.status).to.equal(404);
@@ -39,7 +39,7 @@ describe('reset', function() {
   describe('when given a specific method and path', function () {
     
     beforeEach(function(done) {
-       superagent.del('http://localhost:7000/reset')
+       superagent.post('http://localhost:7000/reset')
          .send({ method: "GET", path: "/myPath" })
          .end( done )
     })
@@ -65,7 +65,7 @@ describe('reset', function() {
   describe('when given a only a method and no path', function () {
     
     beforeEach(function(done) {
-       superagent.del('http://localhost:7000/reset')
+       superagent.post('http://localhost:7000/reset')
          .send({ method: "GET" })
          .end( done )
     })
@@ -88,7 +88,7 @@ describe('reset', function() {
   describe('when given a only a path and no method', function () {
     
     beforeEach(function(done) {
-       superagent.del('http://localhost:7000/reset')
+       superagent.post('http://localhost:7000/reset')
          .send({ path: "/myPath" })
          .end( done )
     })
