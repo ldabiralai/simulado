@@ -71,6 +71,7 @@ var Server = function() {
   app.all('*', function(req, res) {
       responseStore.find(req, function(mock) {
           if (mock) {
+              if (mock.once) { responseStore.remove(mock) }
               requestStore.add(req, mock.path);
               for(var header in mock.headers) {
                   res.header(header, mock.headers[header]);
