@@ -76,9 +76,13 @@ var Server = function() {
               for(var header in mock.headers) {
                   res.header(header, mock.headers[header]);
               }
-              setTimeout(function() {
-                res.status(mock.status).send(mock.response);
-              }, mock.timeout * 1000);
+              if(mock.timeout > 0) {
+                setTimeout(function() {
+                  res.status(mock.status).send(mock.response);
+                }, mock.timeout * 1000);
+              } else {
+                  res.status(mock.status).send(mock.response);
+              }
           } else {
               res.status(404).send({});
           }
