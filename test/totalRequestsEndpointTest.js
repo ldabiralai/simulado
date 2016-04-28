@@ -46,6 +46,23 @@ describe('Simulado totalRequests', function() {
     });
   });
 
+  describe('GET endpoint with wildcard', function() {
+    it('should return the total number of requests for any endpoint', function(done) {
+      Simulado.mock({ path: "/path/*" }, function() {
+        superagent.get('http://localhost:7000/path/1').end(function(_, res) {
+          superagent.get('http://localhost:7000/path/2').end(function(_, res) {
+            superagent.get('http://localhost:7000/totalRequests')
+            .set('method', 'GET')
+            .set('path', '/path/*')
+            .end(function(_, res) {
+              res.body.should.deep.equal({ total: 2 });
+              done()
+            });
+          });
+        });
+      });
+    });
+  });
 
   it("should reset the total number of requests", function(done) {
     Simulado.mock({ path: "/pathToReset" }, function() {
