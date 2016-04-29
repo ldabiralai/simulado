@@ -28,7 +28,7 @@ var Server = function() {
   });
 
   app.get('/lastRequests', function(request, res) {
-    res.send(requestStore.returnLastRequests());
+    res.send(requestStore.returnLastRequests(request.headers.method, request.headers.path));
   });
 
   app.get('/lastRequest', function(request, res) {
