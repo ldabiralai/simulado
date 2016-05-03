@@ -1,6 +1,6 @@
 {
   "name": "simulado",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "A simple nodejs mockserver",
   "main": "lib/remote-api.js",
   "scripts": {
