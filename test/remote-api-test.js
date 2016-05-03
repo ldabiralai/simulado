@@ -42,6 +42,15 @@ describe("Remote API", function() {
     });
   });
 
+  it("should call lastRequests", function(done) {
+    var lastRequestsData = {data: "info"};
 
+    var scope = nock('http://localhost:7001',  { method: 'POST', path: '/' }).get('/lastRequests').reply(204, lastRequestsData);
 
+    api.lastRequests("POST", "/", function(err, res) {
+      expect(res.body).to.deep.eq(lastRequestsData);
+      scope.done();
+      done();
+    });
+  });
 });
