@@ -53,4 +53,14 @@ describe("Remote API", function() {
       done();
     });
   });
+
+  it("should call clearLastRequests", function(done) {
+    var scope = nock('http://localhost:7001').delete('/clearLastRequests').reply(204);
+
+    api.clearLastRequests(function() {
+      scope.done();
+      done();
+    });
+  });
+
 });
