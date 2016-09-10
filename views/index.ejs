@@ -46,7 +46,6 @@ Simulado running..
 
          <% if (requests[method] && requests[method][path] ) { %>
            <hr>
-           <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
            <div class=last-request>
              Last request:
              <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
@@ -67,11 +66,29 @@ Simulado running..
 <script type="text/javascript">
   hljs.initHighlightingOnLoad();
   
+  var expandedItems = JSON.parse(document.cookie.split('simulado=')[1]);
+  for (var i = 0; i<expandedItems.length; i++){ 
+    var itemButton = document.querySelector('[data-id='+expandedItems[i]+']')
+    if (itemButton) {
+      itemButton.click();
+    }
+  }
+    
   function toggle(e) {
     var content = document.getElementById(e.target.dataset.id);
     var currentState = content.className;
     content.className =  currentState === 'collapsed' ? 'expanded' : 'collapsed'
     e.target.className = e.target.className === 'toggle-btn collapse'  ? 'toggle-btn expand' : 'toggle-btn collapse'
+    document.cookie = 'simulado='+JSON.stringify(getListOfExpandedItems());
+  }
+  
+  function getListOfExpandedItems() {
+    var expanded = document.getElementsByClassName('expanded');
+    var state = [];
+    for (var i = 0; i<expanded.length; i++){ 
+      state.push(expanded[i].id)
+    }
+    return state;
   }
 
 </script>
