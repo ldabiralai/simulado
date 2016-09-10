@@ -76,7 +76,7 @@ var Server = function() {
               for(var header in mock.headers) {
                   res.header(header, mock.headers[header]);
               }
-              if(mock.timeout > 0) {
+              if (mock.timeout > 0) {
                 setTimeout(function() {
                   res.status(mock.status).send(mock.response);
                 }, mock.timeout * 1000);

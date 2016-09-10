@@ -24,12 +24,16 @@ Simulado running..
          <hr><span class=response-index><%= +i+1 %>)</span>        
            <div class=status>
              Status: <%= JSON.stringify(mockedResponse['status'])%>
-           </div>
-           
-           <% if (mockedResponse['conditionalRequestBody']) { %>
-             <div class=conditional-request-body>
-                Only responds to:
+           </div>        
+                    
+           <% if (mockedResponse['conditionalRequestBody'] ||  mockedResponse['conditionalRequestHeaders']) { %>
+             <div class=conditional-request>                  
+               <% if (mockedResponse['conditionalRequestHeaders']) { %> Request headers:
+                <pre><code><%= JSON.stringify(mockedResponse['conditionalRequestHeaders'], undefined, 2)%></code></pre>
+              <% } %>
+              <% if (mockedResponse['conditionalRequestBody']) { %> Request body:
                 <pre><code><%= JSON.stringify(mockedResponse['conditionalRequestBody'], undefined, 2)%></code></pre>
+              <% } %>
              </div>
            <% } %>
            
@@ -42,6 +46,7 @@ Simulado running..
 
          <% if (requests[method] && requests[method][path] ) { %>
            <hr>
+           <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
            <div class=last-request>
              Last request:
              <pre><code><%= JSON.stringify(requests[method][path], undefined, 2)%></code></pre>
