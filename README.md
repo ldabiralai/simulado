@@ -83,3 +83,9 @@ superagent.get('http://localhost:7000/lastRequest')
 After mocking, you can call the endpoint whichever way you like. Simulado starts a server on ```localhost:7001``` the path you specify is relative to this.
 ### Viewing mocked reponses
 To inspect all the mocked endpoints you can goto `http://localhost:7001/inspect`. You can use these enpoints while developing your app by making an API call the `http://localhost:7001/[path]`.
+### Custom URL
+If you want to host simulado on a remote machine, you can require the remote API implementation which allows you to customize the endpoint.
+Example:
+```javascript
+var Simulado = require('simulado/lib/remote-api-impl')({ baseUrl: 'http://simulado.onthecloud.com' });
+```
