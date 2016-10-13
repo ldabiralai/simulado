@@ -60,7 +60,7 @@ describe('Simulado end to end', function() {
 
   });
 
-  describe('defaults', () => {
+  describe('defaults', function() {
     var sandbox, responseStoreAddStub;
 
     beforeEach(function() {
