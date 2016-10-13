@@ -2,11 +2,13 @@ var api = require('../lib/remote-api.js');
 var chai = require('chai').should();
 var expect = require('chai').expect;
 var superagent = require('superagent');
-var server = require('../server.js');
+var Server = require('../server.js');
+var responseStore = require('../lib/responseStore');
+var sinon = require('sinon');
 
 describe('Simulado end to end', function() {
   before(function(done) {
-    new server().start(7001);
+    new Server().start(7001);
     done();
   });
 
@@ -58,5 +60,31 @@ describe('Simulado end to end', function() {
 
   });
 
+  describe('defaults', () => {
+    var sandbox, responseStoreAddStub;
+
+    beforeEach(function() {
+      sandbox = sinon.sandbox.create();
+      responseStoreAddStub = sandbox.stub(responseStore, 'add');
+    });
+
+    afterEach(function() {
+      sandbox.restore();
+    });
+
+    it('should add a default response to the response store', function() {
+      var server = new Server();
+      var defaultMocks = [{ path: '/test' }];
+      server.defaults(defaultMocks);
+      expect(responseStoreAddStub.calledWith(defaultMocks[0])).to.equal(true);
+    });
+
+    it('should add multiple mocks to the response store', function() {
+      var server = new Server();
+      var defaultMocks = [{ path: '/test' }, { path: '/anotherMock'} ];
+      server.defaults(defaultMocks);
+      expect(responseStoreAddStub.calledTwice).to.equal(true);
+    });
+  });
 });
 

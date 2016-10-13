@@ -1,4 +1,13 @@
 #!/usr/bin/env node
 var Server = require('../server');
+var fs = require('fs');
 
-new Server().start(process.env.PORT || 7001);
+var server = new Server()
+
+if (process.argv[2]) {
+  var defaultResponsesJSON = fs.readFileSync(process.argv[2]);
+  var defaultResponses = JSON.parse(defaultResponsesJSON);
+  server.defaults(defaultResponses);
+}
+
+server.start(process.env.PORT || 7001);

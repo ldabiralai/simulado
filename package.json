@@ -21,6 +21,7 @@
     "mocha": "^2.2.5",
     "nock": "^5.2.1",
     "zombie": "^5.0.5"
+    "sinon": "^1.17.6"
   },
   "dependencies": {
     "async": "^1.2.1",
