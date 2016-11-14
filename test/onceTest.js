@@ -140,8 +140,7 @@ describe('mock with once parameter', function () {
                 });
         });
 
-
-        it('should respond only once to the conditional request', function(done) {
+        it('should respond only once to the conditional request with Content-Type of application/json', function (done) {
             superagent.post('http://localhost:7000/test')
               .set({ 'Authorization': 'YOLO' })
               .send({ 'particularRequest': 1 })
@@ -153,15 +152,31 @@ describe('mock with once parameter', function () {
                   .set({ 'Authorization': 'YOLO' })
                   .send({ 'particularRequest': 1 })
                   .accept('json')
-                  .type('json').end(function(_, res) {
-                    res.text.should.equal('default response')
+                  .type('json').end(function (_, res) {
+                    res.text.should.equal('default response');
                     done();
-                });   
+                  });
+              });
+        });
 
-            });          
-        });        
-    
+        it('should respond only once to the conditional request sent with Content-Type of application/x-www-form-urlencoded', function (done) {
+            superagent.post('http://localhost:7000/test')
+              .set({ 'Authorization': 'YOLO' })
+              .send('particularRequest=1')
+              .accept('json')
+              .type('application/x-www-form-urlencoded').end(function (_, res) {
+                 res.text.should.equal('response For Request 1');
+
+                 superagent.post('http://localhost:7000/test')
+                   .set({ 'Authorization': 'YOLO' })
+                    .send({ 'particularRequest': 1 })
+                    .accept('json')
+                    .type('json')
+                    .end(function (_, res) {
+                      res.text.should.equal('default response');
+                      done();
+                    });
+              });
+        });
     });
-
-
 });
