@@ -15,7 +15,8 @@ simulado
 ```
 ### Require
     var Simulado = require('simulado');
-### Mock
+
+### API
 ```path``` is mandatory, without it Simulado will not mock anything.
 
 ```status``` defaults to ```200``` if no status is provided.
@@ -28,6 +29,7 @@ simulado
 
 ```timeout``` defaults to ```0``` so there will be no delay, accepts seconds. If it's specified, simulado will wait and then send a response.
 
+### Mock
 The ```callback``` will be called once Simulado has finished mocking the endpoint. You should probably put the rest of your step in a function here.
 ```javascript
 Simulado.mock({
@@ -55,6 +57,37 @@ Simulado.mock({
 }, callback)
 ```
 <code>GET localhost.com/account/path-here => OK 200</code>
+
+### Mocks
+If you want to mock out multiple requests at once you can use the `mocks` function.
+
+The API endpoint for it is `/syncMocks`
+
+```javascript
+Simulado.mocks([
+    {
+      path: '/account/devices',
+      status: 401,
+      headers: {"Content-Type": 'application/json'},
+      response: {
+        id: 123,
+        type: "MOBILE",
+        name: "My work phone"
+      }
+    },
+    {
+      path: '/interactions/basket',
+      status: 201,
+      headers: {"Content-Type": 'application/json'},
+      response: {
+        products: [
+            {id: '1'}
+        ]
+      }
+    }
+], callback)
+```
+
 
 ### Getting the last request
 You can retrive the request made to an endpoint with ```Simulado.lastRequest(httpMethod, path)```
