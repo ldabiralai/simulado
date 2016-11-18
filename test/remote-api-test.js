@@ -19,6 +19,17 @@ describe("Remote API", function() {
     });
   });
 
+  it("should add mocks", function(done) {
+    var mocksData = [{ path: "/1"}, { path: "/2"}];
+
+    var scope = nock('http://localhost:7001').post('/syncMocks', mocksData).reply(200);
+
+    api.mocks(mocksData, function() {
+      scope.done();
+      done();
+    });
+  });
+
   it("should call defaults", function(done) {
     var defaultsData = [ { path: "/1"}, { path: "/2"}];
 

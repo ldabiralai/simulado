@@ -54,6 +54,12 @@ var Server = function() {
     });
   });
 
+  app.post('/syncMocks', function(req, res) {
+    responseStore.addMocks(req.body, function() {
+      res.sendStatus(200);
+    });
+  });
+
   app.delete('/clearLastRequests', function(request, res) {
     requestStore.reset();
     res.sendStatus(200);
