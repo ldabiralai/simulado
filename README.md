@@ -30,7 +30,8 @@ simulado
 ```timeout``` defaults to ```0``` so there will be no delay, accepts seconds. If it's specified, simulado will wait and then send a response.
 
 ### Mock
-The ```callback``` will be called once Simulado has finished mocking the endpoint. You should probably put the rest of your step in a function here.
+The `mock` will return a promise which will be fulfilled once the Simulado has finished mocking the endpoint. 
+You may chain requests using `then` or `await` the call if you're inside an `async` function (See https://babeljs.io/docs/plugins/transform-async-to-generator/).
 ```javascript
 Simulado.mock({
   path: '/account/devices',
@@ -41,8 +42,9 @@ Simulado.mock({
     type: "MOBILE",
     name: "My work phone"
   }
-}, callback)
+})
 ```
+
 ##### Wildcards
 ```javascript
 Simulado.mock({
@@ -54,7 +56,7 @@ Simulado.mock({
     type: "MOBILE",
     name: "My work phone"
   }
-}, callback)
+})
 ```
 <code>GET localhost.com/account/path-here => OK 200</code>
 
@@ -85,21 +87,20 @@ Simulado.mocks([
         ]
       }
     }
-], callback)
+])
 ```
 
 
 ### Getting the last request
 You can retrive the request made to an endpoint with ```Simulado.lastRequest(httpMethod, path)```
+For instance, using `async/await`
 ```javascript
-Simulado.lastRequest('POST', '/postingPath', function(err, lastRequestMade) {
-  lastRequestMade.headers // => {"Content-Type": "application/json"}
-  lastRequestMade.body // => {"name": "simulado"}
+const lastRequestMade = await Simulado.lastRequest('POST', '/postingPath');
+console.log(lastRequestMade.headers); // => {"Content-Type": "application/json"}
+console.log(lastRequestMade.body); // => {"name": "simulado"}
 
-  // http://localhost:7000/postingPath?paramName=value
-  lastRequestMade.params // => {"paramName": "value"}
-})
-
+// when called with: http://localhost:7000/postingPath?paramName=value
+console.log(lastRequestMade.params); // => {"paramName": "value"}
 ```
 or you can make a request to ```http://localhost:7000/lastRequest``` with two headers (method and path), which will respond with the last request as JSON.
 Example (using superagent)
@@ -112,10 +113,28 @@ superagent.get('http://localhost:7000/lastRequest')
     res.body.headers // => {"paramName": "value"}
   });
 ```
+
+### Callbacks
+The old style `callbacks` are still available on all calls if you prefer to use them, but are now deprecated. 
+The `callback` is always the last parameter and will be called once the method has completed or failed. 
+For instance:
+```javascript
+Simulado.lastRequest(function(error, result) {
+ if (error) {
+   console.error(error);
+ } else {
+   var lastRequestMade = result.body;
+   console.log(lastRequestMade.headers); // => {"paramName": "value"}
+ }
+});
+```
+
 ### Use
 After mocking, you can call the endpoint whichever way you like. Simulado starts a server on ```localhost:7001``` the path you specify is relative to this.
+
 ### Viewing mocked reponses
 To inspect all the mocked endpoints you can goto `http://localhost:7001/inspect`. You can use these enpoints while developing your app by making an API call the `http://localhost:7001/[path]`.
+
 ### Custom URL
 If you want to host simulado on a remote machine, you can require the remote API implementation which allows you to customize the endpoint.
 Example:
