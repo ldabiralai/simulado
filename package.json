@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
+    "chai-spies": "^0.7.1",
     "mocha": "^2.2.5",
     "nock": "^5.2.1",
     "zombie": "^5.0.5"
