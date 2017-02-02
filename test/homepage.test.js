@@ -1,6 +1,5 @@
 var Simulado = require('../lib/embedded-api');
 var chai = require('chai').should();
-var expect = require('chai').expect
 var superagent = require('superagent');
 var Browser = require('zombie');
 
