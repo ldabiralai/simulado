@@ -61,6 +61,14 @@ describe('callback-or-promise', function () {
       expect(callback).to.have.been.called.with(error);
     });
 
+    it('logs a deprecation warning', function() {
+      var spy = chai.spy.on(console, 'warn');
+
+      callbackOrPromise(function() {}, function() {});
+
+      expect(spy).to.have.been.called.with("Callbacks are deprecated, we're moving towards a promise-based API.");
+    });
+
   });
 
   describe('without callback', function () {
@@ -97,7 +105,13 @@ describe('callback-or-promise', function () {
       });
     });
 
+    it('does not log a deprecation warning', function() {
+      var spy = chai.spy.on(console, 'warn');
 
+      callbackOrPromise(function() {}, function() {});
+
+      expect(spy).to.have.not.been.called;
+    });
   });
 
 });
