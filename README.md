@@ -16,7 +16,7 @@ simulado
 ### Default Mocks on startup
 You can pass the location of a default mocks json file on startup adding them to Simulado straight away.
 ```
-simulado ./defaultMocks.json
+simulado --file ./defaultMocks.json
 ```
 ### Require
     var Simulado = require('simulado');
@@ -35,7 +35,7 @@ simulado ./defaultMocks.json
 ```timeout``` defaults to ```0``` so there will be no delay, accepts seconds. If it's specified, simulado will wait and then send a response.
 
 ### Mock
-The `mock` will return a promise which will be fulfilled once the Simulado has finished mocking the endpoint. 
+The `mock` will return a promise which will be fulfilled once the Simulado has finished mocking the endpoint.
 You may chain requests using `then` or `await` the call if you're inside an `async` function (See https://babeljs.io/docs/plugins/transform-async-to-generator/).
 ```javascript
 Simulado.mock({
@@ -120,8 +120,8 @@ superagent.get('http://localhost:7000/lastRequest')
 ```
 
 ### Callbacks
-The old style `callbacks` are still available on all calls if you prefer to use them, but are now deprecated. 
-The `callback` is always the last parameter and will be called once the method has completed or failed. 
+The old style `callbacks` are still available on all calls if you prefer to use them, but are now deprecated.
+The `callback` is always the last parameter and will be called once the method has completed or failed.
 For instance:
 ```javascript
 Simulado.lastRequest(function(error, result) {

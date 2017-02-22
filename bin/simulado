@@ -2,10 +2,15 @@
 var Server = require('../server');
 var fs = require('fs');
 
-var server = new Server()
+var server = new Server();
+var commands = require('commander');
 
-if (process.argv[2]) {
-  var defaultResponsesJSON = fs.readFileSync(process.argv[2]);
+commands
+  .option('-f, --file <name>', 'JSON file containing default mocks')
+  .parse(process.argv)
+
+if (commands.file) {
+  var defaultResponsesJSON = fs.readFileSync(commands.file);
   var defaultResponses = JSON.parse(defaultResponsesJSON);
   server.defaults(defaultResponses);
 }
