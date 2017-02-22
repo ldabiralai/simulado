@@ -13,6 +13,11 @@ simulado
 # otherwise
 ./node_modules/simulado/bin/simulado
 ```
+### Default Mocks on startup
+You can pass the location of a default mocks json file on startup adding them to Simulado straight away.
+```
+simulado ./defaultMocks.json
+```
 ### Require
     var Simulado = require('simulado');
 

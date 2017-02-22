@@ -1,4 +1,4 @@
- var express = require('express');
+var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
@@ -16,7 +16,6 @@ var Server = function() {
   app.set('views', __dirname + '/views');
   app.engine('ejs', require('ejs').__express);
   app.set('view engine','ejs');
-
 
   app.get('/', function(_, res) {
       res.render("index.ejs", { responses: responseStore.getAll(), requests: requestStore.getAll() });
@@ -108,6 +107,10 @@ var Server = function() {
   this.stop = function(callback) {
     this.server.close(callback);
   };
+
+  this.defaults = function(defaultResponses) {
+    responseStore.defaults(defaultResponses);
+  }
 };
 
 module.exports = Server;
