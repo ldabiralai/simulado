@@ -109,9 +109,7 @@ var Server = function() {
   };
 
   this.defaults = function(defaultResponses) {
-    defaultResponses.forEach(function(response) {
-      responseStore.add(response);
-    });
+    responseStore.defaults(defaultResponses);
   }
 };
 
