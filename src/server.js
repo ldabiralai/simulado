@@ -47,9 +47,8 @@ app.all('*', (req, res) => {
   res.sendStatus(404);
 });
 
-const PORT_NUMBER = 9999;
-const server = app.listen(PORT_NUMBER, () => {
-  console.log(`SIMULADO STARTED ON PORT: ${PORT_NUMBER}`);
-});
+const DEFAULT_PORT_NUMBER = 9999;
 
-module.exports = server;
+export const start = portNumber =>  app.listen(portNumber || DEFAULT_PORT_NUMBER, () => {
+  console.log(`SIMULADO STARTED ON PORT: ${DEFAULT_PORT_NUMBER}`);
+});

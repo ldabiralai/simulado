@@ -1,6 +1,7 @@
 import request from 'supertest';
 import ResponseStore from './stores/ResponseStore';
 import RequestStore from './stores/RequestStore';
+import { start } from './server';
 
 describe('src/server', () => {
   let server;
@@ -18,7 +19,7 @@ describe('src/server', () => {
     addRequestStub = sinon.stub(RequestStore.prototype, 'add');
     removeAllRequestStub = sinon.stub(RequestStore.prototype, 'removeAll');
     getStateRequestStub = sinon.stub(RequestStore.prototype, 'getState');
-    server = require('./server');
+    server = start();
   });
 
   afterEach(() => {
