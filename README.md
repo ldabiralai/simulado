@@ -10,15 +10,15 @@ npm i simulado --save-dev
 ### Basic Usage
 #### ES2015
 ```javascript
-import { start, addMock } from 'simulado';
+import simulado from 'simulado';
 
 let simuladoServer;
 
 // Start Simulado server
-simuladoServer = start();
+simuladoServer = simulado.start();
 
 // Mock a response
-addMock({
+simulado.addMock({
   method: 'GET',
   path: '/data',
   status: 200,
@@ -29,4 +29,9 @@ addMock({
 
 // Stop Simulado server once done
 simuladoServer.close();
+```
+
+Once a response is mocked you can then make a normal HTTP request to it.
+```bash
+curl -X GET http://localhost:9999/data #=> { "data": "Some data" }
 ```
