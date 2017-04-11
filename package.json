@@ -9,10 +9,9 @@
   },
   "keywords": ["mock", "mockserver", "http"],
   "scripts": {
-    "test": "mocha"
-  },
-  "bin": {
-    "simulado": "bin/simulado"
+    "start": "./node_modules/.bin/babel-node ./src/server.js",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --require test.setup.js --recursive './src/**/*.test.js'",
+    "compile": "./node_modules/.bin/babel src --out-dir lib"
   },
   "author": "",
   "license": "ISC",
