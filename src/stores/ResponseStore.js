@@ -1,6 +1,13 @@
+let instance;
+
 export default class ResponseStore {
   constructor(initialState = {}) {
-    this.state = initialState;
+    if (!instance) {
+      this.state = initialState;
+      instance = this;
+    }
+
+    return instance;
   }
 
   getState() {
@@ -86,4 +93,12 @@ export default class ResponseStore {
     }
     return true;
   }
+
+  _removeInstance() {
+    instance = null;
+  }
 }
+
+export const addMock = responseToMock => {
+  new ResponseStore().add(responseToMock);
+};
