@@ -8,10 +8,9 @@ var path = require('path');
 
 var Server = function() {
   app.use(cors({
-  origin: 'http://localhost:3030',
-  credentials: true,
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}));
+    origin: 'http://localhost',
+    credentials: true
+  }));
   app.use(bodyParser.json({limit: '1mb'}));
   app.use(bodyParser.urlencoded({
       extended: true
