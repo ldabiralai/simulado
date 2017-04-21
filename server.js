@@ -7,7 +7,10 @@ var requestStore = require('./lib/requestStore');
 var path = require('path');
 
 var Server = function() {
-  app.use(cors());
+  app.use(cors({
+    origin: 'http://localhost',
+    credentials: true
+  }));
   app.use(bodyParser.json({limit: '1mb'}));
   app.use(bodyParser.urlencoded({
       extended: true
@@ -69,14 +72,15 @@ var Server = function() {
       res.sendStatus(200);
     });
   });
-  
+
   app.post('/reset', function(req, res) {
     responseStore.reset(req.body, function() {
       res.sendStatus(200);
     });
-  });  
+  });
 
   app.all('*', function(req, res) {
+      res.set('Access-Control-Allow-Origin', req.get('origin'))
       responseStore.find(req, function(mock) {
           if (mock) {
               if (mock.once) { responseStore.remove(mock) }
