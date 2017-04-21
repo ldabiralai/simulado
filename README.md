@@ -41,12 +41,13 @@ curl -X GET http://localhost:9999/data #=> { "data": "Some data" }
 
 ### API ( Proposed )
 
-#### start([options])
+#### `start([options])`
 Start Simulado
 
 * options `<Object>`
   * `port` `<number>` - Specify the port number to start Simulado on. Default: `7001`
   * `keepAlive` `<Boolean>` - Keep Simulado running after main process it killed. Default `false`
+
 
 #### `addMock(mockResponse)`
 Add a mock response
