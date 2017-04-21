@@ -43,28 +43,27 @@ curl -X GET http://localhost:9999/data #=> { "data": "Some data" }
 
 #### `start([options])`
 Start Simulado
-
-* options `<Object>`
-  * `port` `<number>` - Specify the port number to start Simulado on. Default: `7001`
-  * `keepAlive` `<Boolean>` - Keep Simulado running after main process it killed. Default `false`
+  * options `<Object>`
+    * `port` `<number>` - Specify the port number to start Simulado on. Default: `7001`
+    * `keepAlive` `<Boolean>` - Keep Simulado running after main process it killed. Default `false`
 
 
 #### `addMock(mockResponse)`
 Add a mock response
-* `mockResponse` `<MockResponse>` - Add a response to the store.
+  * `mockResponse` `<MockResponse>` - Add a response to the store.
 
 
 #### `lastRequests(method, path[, limit])`
 Fetch the last requests for a path
-* `method` `<String>` - The request method for the requests you want to fetch
-* `path` `<String>` - The path of the requests you want to fetch
-* `limit` `<number>` - Only return the given number of last requests
+  * `method` `<String>` - The request method for the requests you want to fetch
+  * `path` `<String>` - The path of the requests you want to fetch
+  * `limit` `<number>` - Only return the given number of last requests
 
 
 #### `lastRequest(method, path)`
 Fetch the last request for a path
-* `method` `<String>` - The request method for the requests you want to fetch
-* `path` `<String>` - The path of the requests you want to fetch
+  * `method` `<String>` - The request method for the requests you want to fetch
+  * `path` `<String>` - The path of the requests you want to fetch
 
 
 #### `clearResponses()`
