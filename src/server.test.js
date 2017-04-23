@@ -2,7 +2,7 @@ import request from 'supertest';
 import portscanner from 'portscanner';
 import ResponseStore from './stores/ResponseStore';
 import RequestStore from './stores/RequestStore';
-import { start } from './server';
+import { start, stop } from './server';
 
 const portInUse = (port) => {
   return new Promise((resolve, reject) => {
@@ -37,6 +37,13 @@ describe('src/server', () => {
       server.close()
     })
 
+  })
+
+  it('stop', async () => {
+    start()
+    stop()
+
+    expect(await portInUse(9999)).to.be.false
   })
 
   describe('endpoints', () => {
