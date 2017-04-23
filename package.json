@@ -27,6 +27,7 @@
     "chai-spies": "^0.7.1",
     "mocha": "^2.2.5",
     "nock": "^5.2.1",
+    "portscanner": "^2.1.1",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.9.0",
     "supertest": "^3.0.0",
