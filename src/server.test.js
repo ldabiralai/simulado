@@ -21,26 +21,20 @@ describe('src/server', () => {
 
   describe('start', () => {
 
-    it('default port', (done) => {
+    it('default port', async () => {
       const server = start()
 
-      portInUse(9999).then((inUse) => {
-        expect(inUse).to.be.true
+      expect(await portInUse(9999)).to.be.true
 
-        server.close()
-        done()
-      })
+      server.close()
     })
 
-    it('custom port', (done) => {
+    it('custom port', async () => {
       const server = start(7001)
 
-      portInUse(7001).then((inUse) => {
-        expect(inUse).to.be.true
+      expect(await portInUse(7001)).to.be.true
 
-        server.close()
-        done()
-      })
+      server.close()
     })
 
   })
