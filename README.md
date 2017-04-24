@@ -76,3 +76,26 @@ Clear all captured requests from the store.
 
 #### `stop()`
 Stop Simulado.
+
+### Mock Response Options
+```javascript
+{
+  method: 'GET', // Mandatory - The HTTP request method that you want the mock to response to.
+  
+  path: '/testPath', // Mandatory - The HTTP request path that you want the mock to response to.
+  
+  status: 200, // Mandatory - The HTTP status you want to mock to response with.
+  
+  body: {
+    data: 'DATA'
+  }, // Optional - The HTTP response body you want to mock to response with.
+  
+  conditionalHeaders: {
+    needMe: 'true'
+  }, // Optional - The mock with only response if the conditional headers are sent in the request.
+  
+  conditionalBody: {
+    data: 'YouNeedThisData'
+  } // Optional - The mock will only response if the conditional body is sent in the request.
+}
+```
