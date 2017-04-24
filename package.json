@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "start": "./node_modules/.bin/babel-node ./src/server.js",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --require test.setup.js --recursive './src/**/*.test.js'",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --require babel-polyfill --require test.setup.js --recursive './src/**/*.test.js'",
     "compile": "./node_modules/.bin/babel src --out-dir lib"
   },
   "author": "",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "async": "^1.2.1",
+    "axios": "^0.16.1",
     "body-parser": "^1.12.4",
     "commander": "^2.9.0",
     "cors": "^2.7.1",
