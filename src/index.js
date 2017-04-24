@@ -1,7 +1,17 @@
 import { start } from './server';
-import { addMock } from './stores/ResponseStore';
+import {
+  addMock,
+  lastRequests,
+  lastRequest,
+  clearResponses,
+  clearRequests
+} from './simulado.js';
 
 export default {
   start,
-  addMock
+  addMock,
+  lastRequests,
+  lastRequest,
+  clearResponses,
+  clearRequests
 };
