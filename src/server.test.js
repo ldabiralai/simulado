@@ -48,8 +48,8 @@ describe('src/server', () => {
       it('files passed correctly', (done) => {
         const server = start({
           https: {
-            key: './localhost.key',
-            cert: './localhost.crt'
+            key: '../certs/localhost.key',
+            cert: '../certs/localhost.crt'
           }
         })
 
@@ -65,7 +65,7 @@ describe('src/server', () => {
         try {
           start({
             https: {
-              cert: './localhost.crt'
+              cert: '../certs/localhost.crt'
             }
           })
         } catch (e) {
@@ -79,7 +79,7 @@ describe('src/server', () => {
         try {
           start({
             https: {
-              key: './localhost.key'
+              key: '../certs/localhost.key'
             }
           })
         } catch (e) {
