@@ -30,7 +30,9 @@ describe('src/server', () => {
     })
 
     it('custom port', async () => {
-      const server = start(7001)
+      const server = start({
+        port: 7001
+      })
 
       expect(await portInUse(7001)).to.be.true
 

@@ -16,7 +16,7 @@ let simuladoServer;
 
 // Start Simulado server
 simuladoServer = simulado.start({
-  port: 1234, // Default: 7001
+  port: 1234, // Default: 9999
   keepAlive: true // Keep server running even if main process is killed. Default: false
 });
 
@@ -81,19 +81,19 @@ Stop Simulado.
 ```javascript
 {
   method: 'GET', // Mandatory - The HTTP request method that you want the mock to response to.
-  
+
   path: '/testPath', // Mandatory - The HTTP request path that you want the mock to response to.
-  
+
   status: 200, // Mandatory - The HTTP status you want to mock to response with.
-  
+
   body: {
     data: 'DATA'
   }, // Optional - The HTTP response body you want to mock to response with.
-  
+
   conditionalHeaders: {
     needMe: 'true'
   }, // Optional - The mock with only response if the conditional headers are sent in the request.
-  
+
   conditionalBody: {
     data: 'YouNeedThisData'
   } // Optional - The mock will only response if the conditional body is sent in the request.
