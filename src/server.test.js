@@ -39,6 +39,58 @@ describe('src/server', () => {
       server.close()
     })
 
+    describe('using https', () => {
+
+      before(() => {
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+      })
+
+      it('files passed correctly', (done) => {
+        const server = start({
+          https: {
+            key: './localhost.key',
+            cert: './localhost.crt'
+          }
+        })
+
+        request('https://localhost:9999')
+          .get('/')
+          .expect(200, (err) => {
+            server.close()
+            done(err)
+          })
+      })
+
+      it('no key path', () => {
+        try {
+          start({
+            https: {
+              cert: './localhost.crt'
+            }
+          })
+        } catch (e) {
+          return
+        }
+
+        throw new Error('Should have thrown an error')
+      })
+
+      it('no cert path', () => {
+        try {
+          start({
+            https: {
+              key: './localhost.key'
+            }
+          })
+        } catch (e) {
+          return
+        }
+
+        throw new Error('Should have thrown an error')
+      })
+    })
+
+
   })
 
   it('stop', async () => {

@@ -18,6 +18,10 @@ let simuladoServer;
 simuladoServer = simulado.start({
   port: 1234, // Default: 9999
   keepAlive: true // Keep server running even if main process is killed. Default: false
+  https: {
+    key: 'path/to/key',
+    cert: 'path/to/cert'
+  }
 });
 
 // Mock a response

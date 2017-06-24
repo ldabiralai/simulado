@@ -1,5 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import http from 'http';
+import spdy from 'spdy';
+import fs from 'fs';
+import path from 'path'
 import ResponseStore from './stores/ResponseStore';
 import RequestStore from './stores/RequestStore';
 
@@ -51,10 +55,27 @@ let server
 
 export const start = (options={}) => {
   const port = options.port || 9999
+  const https = options.https
 
-  server = app.listen(port, () => {
-    console.log(`SIMULADO STARTED ON PORT: ${port}`);
-  });
+  if (https) {
+    const {key, cert} = https
+
+    if (!key || !cert) {
+      throw new Error('Passed https option, but no key or cert path defined')
+    }
+
+    const httpsOptions = {
+      key: fs.readFileSync(path.join(__dirname, key)),
+      cert: fs.readFileSync(path.join(__dirname, cert)),
+      spdy: ['h2', 'http/1.1']
+    }
+
+    server = spdy.createServer(httpsOptions, app).listen(port)
+  } else {
+    server = http.createServer(app).listen(port)
+  }
+
+  console.log(`SIMULADO STARTED ON PORT: ${port}`);
 
   return server
 }
