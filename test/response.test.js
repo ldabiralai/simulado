@@ -156,6 +156,26 @@ describe('Simulado', function() {
           });
         });
 
+        it('should respond to more exact matches over regex', function (done) {
+            Simulado.mock({
+                path: '/test/path',
+                response: 'some data',
+            }, function() {
+                Simulado.mock({
+                    path: /(.*)/,
+                    response: 'more data'
+                }, function () {
+                    superagent.get('http://localhost:7000/test/path').end(function (_, res) {
+                        res.text.should.equal('some data')
+                        superagent.get('http://localhost:7000/another/path').end(function (_, res) {
+                            res.text.should.equal('more data')
+                            done()
+                        })
+                    })
+                })
+            })
+        })
+
         it('should mock a url with params', function(done) {
             Simulado.mock({
                 path: '/test?param=blah',
