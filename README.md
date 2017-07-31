@@ -65,6 +65,21 @@ Simulado.mock({
 ```
 <code>GET localhost.com/account/path-here => OK 200</code>
 
+##### Regex
+```javascript
+Simulado.mock({
+  path: /[^\?]\?username=/,
+  status: 200,
+  headers: {"Content-Type": 'application/json'},
+  response: {
+    id: 123,
+    type: "MOBILE",
+    name: "My work phone"
+  }
+})
+```
+Note: Regex are not supported when using a json file. Please consider using plain javascript objects.
+
 ### Mocks
 If you want to mock out multiple requests at once you can use the `mocks` function.
 

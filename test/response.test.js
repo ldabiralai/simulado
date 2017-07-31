@@ -5,7 +5,7 @@ var superagent = require('superagent');
 
 
 describe('Simulado', function() {
-  
+
     describe('setup', function() {
         it('should start up a webserver', function(done) {
             superagent.get('http://localhost:7000/').end(function(_, res) {
@@ -17,7 +17,7 @@ describe('Simulado', function() {
     });
 
     describe('responses', function() {
-      
+
         it('should respond to a http GET', function(done) {
             Simulado.mock({
                 path: '/test',
@@ -71,8 +71,8 @@ describe('Simulado', function() {
                 path: '/test'
             }, function() {
                 superagent.get('http://localhost:7000/test').end(function(_, res) {
-                    res.status.should.equal(200)
-                    res.text.should.equal('{}')
+                    res.status.should.equal(200);
+                    res.text.should.equal('{}');
                     done()
                 });
             });
@@ -81,7 +81,7 @@ describe('Simulado', function() {
         it('should respond with pre-set header', function(done) {
             Simulado.mock({
                 path: '/test',
-                headers: {'our-header': 'a value'},
+                headers: {'our-header': 'a value'}
             }, function() {
                 superagent.get('http://localhost:7000/test').end(function(_, res) {
                     res.headers['our-header'].should.equal('a value');
@@ -96,8 +96,8 @@ describe('Simulado', function() {
                 status: 401
             }, function() {
                 superagent.get('http://localhost:7000/test').end(function(_, res) {
-                    res.status.should.equal(401)
-                    res.text.should.equal('{}')
+                    res.status.should.equal(401);
+                    res.text.should.equal('{}');
                     done()
                 });
             });
@@ -110,8 +110,8 @@ describe('Simulado', function() {
                 response: "401 Unauthorised"
             }, function() {
                 superagent.get('http://localhost:7000/test').end(function(_, res) {
-                    res.status.should.equal(401)
-                    res.text.should.equal("401 Unauthorised")
+                    res.status.should.equal(401);
+                    res.text.should.equal("401 Unauthorised");
                     done()
                 });
             });
@@ -143,6 +143,39 @@ describe('Simulado', function() {
             });
         });
 
+        it('should respond to regexp path', function(done) {
+            Simulado.mock({
+                path: /[^\?].*\?[^&]*?&?fred=[^&]*/,
+                status: 200,
+                response: 'some data'
+            }, function() {
+                superagent.get('http://localhost:7000/test/path?fred=jim').end(function(_, res) {
+                    res.text.should.equal('some data');
+                    done()
+                });
+          });
+        });
+
+        it('should respond to more exact matches over regex', function (done) {
+            Simulado.mock({
+                path: '/test/path',
+                response: 'some data',
+            }, function() {
+                Simulado.mock({
+                    path: /(.*)/,
+                    response: 'more data'
+                }, function () {
+                    superagent.get('http://localhost:7000/test/path').end(function (_, res) {
+                        res.text.should.equal('some data')
+                        superagent.get('http://localhost:7000/another/path').end(function (_, res) {
+                            res.text.should.equal('more data')
+                            done()
+                        })
+                    })
+                })
+            })
+        })
+
         it('should mock a url with params', function(done) {
             Simulado.mock({
                 path: '/test?param=blah',
@@ -173,26 +206,26 @@ describe('Simulado', function() {
                 });
             });
         });
-      
+
         describe('when multiple mocks on same HTTP method and path have been set', function(){
-          
-          beforeEach(function(done){    
+
+          beforeEach(function(done){
               Simulado.mock({ path: '/test', response: "A" }, function() {
                     Simulado.mock({ path: '/test', response: "B" }, function() {
-                        Simulado.mock({ path: '/test', response: "C" }, done);    
+                        Simulado.mock({ path: '/test', response: "C" }, done);
                     });
-                });                     
+                });
           });
-          
+
           it('should respond with the last set response', function(done) {
             superagent.get('http://localhost:7000/test').end(function(_, res) {
                 res.text.should.equal('C');
                 done();
             });
-          });          
-        
+          });
+
         });
-      
+
         describe('when mock has been set with conditional request body', function() {
 
           beforeEach(function(done){
@@ -200,9 +233,9 @@ describe('Simulado', function() {
                 path: '/test',
                 method: 'POST',
                 conditionalRequestBody: { "particularRequest": true },
-                response: "responseForParticularRequest"         
-              }, done)        
-          });       
+                response: "responseForParticularRequest"
+              }, done)
+          });
 
           it('should not respond when not called with the right request', function(done) {
               superagent.post('http://localhost:7000/test')
@@ -211,7 +244,7 @@ describe('Simulado', function() {
                   res.status.should.equal(404);
                   done();
               });
-          }); 
+          });
 
           it('should respond when called with the right request', function(done) {
               superagent.post('http://localhost:7000/test')
@@ -220,7 +253,7 @@ describe('Simulado', function() {
                   res.status.should.equal(200);
                   done();
               });
-          });   
+          });
 
         describe('when two mocks on same HTTP method and path have been set, one with conditional request body and just normal', function(){
 
@@ -237,7 +270,7 @@ describe('Simulado', function() {
                           done();
                         });
                     });
-              });         
+              });
 
             it('should respond with the other response when not called with the right request', function(done) {
 
@@ -253,11 +286,11 @@ describe('Simulado', function() {
                           done();
                         });
                     });
-              });          
+              });
           })
 
         });
-      
+
         describe('when multiple mocks on same HTTP method and path have been set with conditional request bodies', function() {
 
          beforeEach(function(done){
@@ -271,16 +304,16 @@ describe('Simulado', function() {
                       path: '/test',
                       method: 'POST',
                       conditionalRequestBody: { "particularRequest": 2 },
-                      response: "response For Request 2"         
+                      response: "response For Request 2"
                     }, function() {
                        Simulado.mock({
                         path: '/test',
                         method: 'POST',
-                        response: "default response"         
+                        response: "default response"
                       }, done);
                     });
                 });
-         })
+         });
 
          it('should respond with the correct response when called the right conditional request', function(done) {
 
@@ -299,10 +332,10 @@ describe('Simulado', function() {
                 });
             });
 
-        }); 
+        });
 
       });
-        
+
         describe('when mock has been set with conditional request header', function() {
 
           beforeEach(function(done){
@@ -310,9 +343,9 @@ describe('Simulado', function() {
                 path: '/test',
                 method: 'POST',
                 conditionalRequestHeaders: { 'Authorization': 'Custom: ==test==' },
-                response: "responseForParticularRequest"         
-              }, done)        
-          });       
+                response: "responseForParticularRequest"
+              }, done)
+          });
 
           it('should not respond when called without the expected header', function(done) {
               superagent.post('http://localhost:7000/test')
@@ -320,8 +353,8 @@ describe('Simulado', function() {
                   res.status.should.equal(404);
                   done();
               });
-          }); 
-          
+          });
+
           it('should not respond when called with unexpected header value', function(done) {
               superagent.post('http://localhost:7000/test')
                 .set({ 'Authorization': 'Custom: ==wrong=='})
@@ -329,7 +362,7 @@ describe('Simulado', function() {
                   res.status.should.equal(404);
                   done();
               });
-          }); 
+          });
 
           it('should respond when called with the correct header', function(done) {
               superagent.post('http://localhost:7000/test')
@@ -338,8 +371,8 @@ describe('Simulado', function() {
                   res.status.should.equal(200);
                   done();
               });
-          });   
-          
+          });
+
           it('should respond when called with the lower-case but correct header name', function(done) {
               superagent.post('http://localhost:7000/test')
                 .set({ 'authorization': 'Custom: ==test=='})
@@ -347,9 +380,9 @@ describe('Simulado', function() {
                   res.status.should.equal(200);
                   done();
               });
-          }); 
+          });
         });
-      
+
         describe('when mock has been set with multiple conditional request headers', function() {
 
           beforeEach(function(done){
@@ -357,9 +390,9 @@ describe('Simulado', function() {
                 path: '/test',
                 method: 'POST',
                 conditionalRequestHeaders: { 'Authorization': 'Custom: ==test==', 'X-Custom': 'blah' },
-                response: "responseForParticularRequest"         
-              }, done)        
-          });       
+                response: "responseForParticularRequest"
+              }, done)
+          });
 
           it('should not respond when called without all the expected header', function(done) {
               superagent.post('http://localhost:7000/test')
@@ -368,8 +401,8 @@ describe('Simulado', function() {
                   res.status.should.equal(404);
                   done();
               });
-          }); 
-          
+          });
+
           it('should not respond when only one header matches', function(done) {
               superagent.post('http://localhost:7000/test')
                 .set({ 'Authorization': 'Custom: ==wrong==', 'X-Custom': 'blah' })
@@ -377,7 +410,7 @@ describe('Simulado', function() {
                   res.status.should.equal(404);
                   done();
               });
-          }); 
+          });
 
           it('should respond when called with the correct headers', function(done) {
               superagent.post('http://localhost:7000/test')
@@ -386,8 +419,8 @@ describe('Simulado', function() {
                   res.status.should.equal(200);
                   done();
               });
-          });   
-          
+          });
+
           it('should respond when called with the lower-case but correct header name', function(done) {
               superagent.post('http://localhost:7000/test')
                 .set({ 'authorization': 'Custom: ==test==', 'x-custom': 'blah' })
@@ -395,9 +428,9 @@ describe('Simulado', function() {
                   res.status.should.equal(200);
                   done();
               });
-          }); 
+          });
         });
-      
+
         describe('when multiple mocks on same HTTP method and path have been set with conditional request headers', function() {
 
          beforeEach(function(done){
@@ -411,12 +444,12 @@ describe('Simulado', function() {
                       path: '/test',
                       method: 'POST',
                       conditionalRequestHeaders: { 'Authorization': 'Custom: ==two==' },
-                      response: "response For Request 2"         
+                      response: "response For Request 2"
                     }, function() {
                        Simulado.mock({
                         path: '/test',
                         method: 'POST',
-                        response: "default response"         
+                        response: "default response"
                       }, done);
                     });
                 });
@@ -439,10 +472,10 @@ describe('Simulado', function() {
                 });
             });
 
-        }); 
+        });
 
       })
-             
+
         describe('when multiple mocks on same HTTP method and path have been set with conditional request body and headers', function() {
 
          beforeEach(function(done){
@@ -456,14 +489,14 @@ describe('Simulado', function() {
                       path: '/test',
                       method: 'POST',
                       conditionalRequestBody: { "particularRequest": 2 },
-                      response: "response 2"         
+                      response: "response 2"
                     }, function() {
                        Simulado.mock({
                         path: '/test',
                         method: 'POST',
                         conditionalRequestHeaders: { 'Authorization': 'Custom: ==A==' },
                         conditionalRequestBody: { "particularRequest": 'A'},
-                        response: "response A"         
+                        response: "response A"
                       }, done);
                     });
                 });
@@ -479,8 +512,8 @@ describe('Simulado', function() {
                 res.text.should.equal('response 1')
                 done();
             });
-         }); 
-          
+         });
+
          it('should respond with the correct response when called with the conditional body', function(done) {
 
             superagent.post('http://localhost:7000/test')
@@ -491,8 +524,8 @@ describe('Simulado', function() {
                 res.text.should.equal('response 2')
                 done();
             });
-         }); 
-          
+         });
+
          it('should respond with the correct response when called with the conditional header and body', function(done) {
 
             superagent.post('http://localhost:7000/test')
@@ -503,7 +536,7 @@ describe('Simulado', function() {
                 res.text.should.equal('response A')
                 done();
             });
-         }); 
+         });
 
       })
 

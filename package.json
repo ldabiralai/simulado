@@ -20,8 +20,8 @@
     "chai-spies": "^0.7.1",
     "mocha": "^2.2.5",
     "nock": "^5.2.1",
-    "zombie": "^5.0.5",
-    "sinon": "^1.17.6"
+    "sinon": "^1.17.6",
+    "zombie": "^5.0.5"
   },
   "dependencies": {
     "async": "^1.2.1",
@@ -31,6 +31,7 @@
     "deep-equal": "^1.0.1",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
+    "lodash": "^4.17.4",
     "ps-node": "0.0.4",
     "superagent": "1.6.1"
   },
