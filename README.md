@@ -49,6 +49,7 @@ Simulado.mock({
   }
 })
 ```
+Note: Do not use a slash both at the beginning and at the end of the path. It will be parsed as regex otherwise.
 
 ##### Wildcards
 ```javascript
@@ -78,7 +79,21 @@ Simulado.mock({
   }
 })
 ```
-Note: Regex are not supported when using a json file. Please consider using plain javascript objects.
+
+Or
+
+```javascript
+Simulado.mock({
+  path: "/[^\?]\?username=/",
+  status: 200,
+  headers: {"Content-Type": 'application/json'},
+  response: {
+    id: 123,
+    type: "MOBILE",
+    name: "My work phone"
+  }
+})
+```
 
 ### Mocks
 If you want to mock out multiple requests at once you can use the `mocks` function.
