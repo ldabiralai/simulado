@@ -1,5 +1,6 @@
 import request from 'supertest';
 import portscanner from 'portscanner';
+import PortStore from './stores/PortStore';
 import ResponseStore from './stores/ResponseStore';
 import RequestStore from './stores/RequestStore';
 import { start, stop } from './server';
@@ -18,45 +19,46 @@ const portInUse = (port) => {
 }
 
 describe('src/server', () => {
+  const defaultPortNumber = 7001;
 
-  describe('start', () => {
+  describe('start()', () => {
+    let server;
+    afterEach(() => {
+      // Remove port store as it is a singleton and does not clear
+      // the port number after each test
+      const portStoreInstance = new PortStore();
+      portStoreInstance._removeInstance();
+      server.close();
+    });
 
-    it('default port', async () => {
-      const server = start()
-
-      expect(await portInUse(9999)).to.be.true
-
-      server.close()
+    it('starts on the default port', async () => {
+      server = start()
+      expect(await portInUse(defaultPortNumber)).to.be.true
     })
 
-    it('custom port', async () => {
-      const server = start({
-        port: 7001
-      })
+    it('starts on a custom port number', async () => {
+      const customPortNumber = 1234;
+      server = start({ port: customPortNumber });
 
-      expect(await portInUse(7001)).to.be.true
-
-      server.close()
+      expect(await portInUse(customPortNumber)).to.be.true
     })
 
     describe('using https', () => {
-
       before(() => {
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-      })
+      });
 
       it('files passed correctly', (done) => {
-        const server = start({
+        server = start({
           https: {
             key: '../certs/localhost.key',
             cert: '../certs/localhost.crt'
           }
         })
 
-        request('https://localhost:9999')
+        request(`https://localhost:${defaultPortNumber}`)
           .get('/')
           .expect(200, (err) => {
-            server.close()
             done(err)
           })
       })

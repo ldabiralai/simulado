@@ -1,8 +1,14 @@
 import axios from 'axios';
+import PortStore from './stores/PortStore';
+
+const getPortNumber = () => {
+  const portStoreInstance = new PortStore();
+  return portStoreInstance.getState().port;
+};
 
 export const addMock = responseToMock => {
   return axios.post(
-    'http://localhost:7001/simulado/response/set',
+    `http://localhost:${getPortNumber()}/simulado/response/set`,
     responseToMock,
     { headers: { 'Content-Type': 'application/json' } }
   ).then(() => true);
@@ -10,7 +16,7 @@ export const addMock = responseToMock => {
 
 export const lastRequests = (method, path, limit) => {
   return axios.get(
-    `http://localhost:7001/simulado/requests?method=${method.toUpperCase()}&path=${path}${ limit ? `&limit=${limit}` : '' }`,
+    `http://localhost:${getPortNumber()}/simulado/requests?method=${method.toUpperCase()}&path=${path}${ limit ? `&limit=${limit}` : '' }`,
     { headers: { 'Content-Type': 'application/json' } }
   ).then(response => response.data);
 };
@@ -21,11 +27,11 @@ export const lastRequest = async (method, path) => {
 };
 
 export const clearResponses = () => {
-  return axios.delete('http://localhost:7001/simulado/responses/clear')
+  return axios.delete(`http://localhost:${getPortNumber()}/simulado/responses/clear`)
     .then(() => true);
 };
 
 export const clearRequests = () => {
-  return axios.delete('http://localhost:7001/simulado/requests/clear')
+  return axios.delete(`http://localhost:${getPortNumber()}/simulado/requests/clear`)
     .then(() => true);
 };
