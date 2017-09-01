@@ -1,4 +1,4 @@
-import { start } from './server';
+import { start, stop } from './server';
 import {
   addMock,
   lastRequests,
@@ -9,6 +9,7 @@ import {
 
 export default {
   start,
+  stop,
   addMock,
   lastRequests,
   lastRequest,
