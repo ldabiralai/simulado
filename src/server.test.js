@@ -109,7 +109,7 @@ describe('src/server', () => {
     let removeAllResponseStub;
     let addRequestStub;
     let removeAllRequestStub;
-    let getStateRequestStub;
+    let getRequestStub;
 
     beforeEach(() => {
       addResponseStub = sinon.stub(ResponseStore.prototype, 'add');
@@ -117,7 +117,7 @@ describe('src/server', () => {
       removeAllResponseStub = sinon.stub(ResponseStore.prototype, 'removeAll');
       addRequestStub = sinon.stub(RequestStore.prototype, 'add');
       removeAllRequestStub = sinon.stub(RequestStore.prototype, 'removeAll');
-      getStateRequestStub = sinon.stub(RequestStore.prototype, 'getState');
+      getRequestStub = sinon.stub(RequestStore.prototype, 'get');
       server = start();
     });
 
@@ -127,7 +127,7 @@ describe('src/server', () => {
       removeAllResponseStub.restore();
       addRequestStub.restore();
       removeAllRequestStub.restore();
-      getStateRequestStub.restore();
+      getRequestStub.restore();
       server.close();
     });
 
@@ -189,13 +189,13 @@ describe('src/server', () => {
 
     describe('GET /simulado/requests', () => {
       it('returns all of the requests from the request store', (done) => {
-        const allRequests = { GET: ['Requests'] };
-        getStateRequestStub.returns(allRequests);
+        const allRequests = [{ path: '/one' }, { path: '/two' }];
+        getRequestStub.returns(allRequests);
 
         request(server)
           .get('/simulado/requests')
           .expect((res) => {
-            expect(getStateRequestStub).to.have.been.called
+            expect(getRequestStub).to.have.been.called
             expect(res.body).to.deep.equal(allRequests);
           })
           .expect(200, done);
