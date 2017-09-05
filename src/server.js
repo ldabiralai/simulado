@@ -20,8 +20,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/simulado/requests', (req, res) => {
-  const allRequests = requestStore.getState();
-  res.status(200).send(allRequests);
+  const { method, path, limit } = req.query;
+  const requests = requestStore.get(method, path, limit);
+  res.status(200).send(requests);
 });
 
 app.post('/simulado/response/set', (req, res) => {

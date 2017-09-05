@@ -27,6 +27,44 @@ describe('src/stores/request', () => {
     });
   });
 
+  describe('get()', () => {
+    const requestOne = { path: '/one', method: 'GET' };
+    const requestTwo = { path: '/two', method: 'POST' };
+    const requests = [requestOne, requestOne, requestTwo];
+
+    it('returns all requests matching the given method and path', () => {
+      const initialState = { GET: requests };
+      const { requestStoreInstance } = setup({ initialState });
+
+      const result = requestStoreInstance.get('get', '/one');
+      expect(result).to.deep.equal([requestOne, requestOne]);
+    });
+
+    it('returns [] when there are no requests to that method', () => {
+      const initialState = { GET: requests };
+      const { requestStoreInstance } = setup({ initialState });
+
+      const result = requestStoreInstance.get('post', '/noRequestHere');
+      expect(result).to.deep.equal([]);
+    });
+
+    it('returns [] when there are no requests to that path', () => {
+      const initialState = { GET: requests };
+      const { requestStoreInstance } = setup({ initialState });
+
+      const result = requestStoreInstance.get('get', '/noRequestHere');
+      expect(result).to.deep.equal([]);
+    });
+
+    it('returns number of results based on provied limit', () => {
+      const initialState = { GET: requests };
+      const { requestStoreInstance } = setup({ initialState });
+
+      const result = requestStoreInstance.get('get', '/one', 1);
+      expect(result).to.deep.equal([requestOne]);
+    });
+  });
+
   describe('add()', () => {
     it('adds a request to the store under the specified method', () => {
       const { requestStoreInstance } = setup();
