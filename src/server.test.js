@@ -91,8 +91,6 @@ describe('src/server', () => {
         throw new Error('Should have thrown an error')
       })
     })
-
-
   })
 
   it('stop', async () => {
