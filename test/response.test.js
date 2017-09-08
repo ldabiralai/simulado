@@ -207,6 +207,26 @@ describe('Simulado', function() {
             });
         });
 
+        it('should respond to matches with similar paths', function (done) {
+            Simulado.mock({
+                path: '/test/path',
+                response: 'some data',
+            }, function() {
+                Simulado.mock({
+                    path: '/test/path/more',
+                    response: 'more data'
+                }, function () {
+                    superagent.get('http://localhost:7000/test/path').end(function (_, res) {
+                        res.text.should.equal('some data')
+                        superagent.get('http://localhost:7000/test/path/more').end(function (_, res) {
+                            res.text.should.equal('more data')
+                            done()
+                        })
+                    })
+                })
+            })
+        })
+
         describe('when multiple mocks on same HTTP method and path have been set', function(){
 
           beforeEach(function(done){
