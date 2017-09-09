@@ -42,6 +42,7 @@ app.delete('/simulado/requests/clear', (req, res) => {
 });
 
 app.all('*', (req, res) => {
+  console.log('=========>', req.body)
   const matchedResponse = responseStore.match(req.method, req.path, req.headers, req.body);
 
   if (matchedResponse) {

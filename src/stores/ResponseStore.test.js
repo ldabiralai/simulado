@@ -171,6 +171,16 @@ describe('src/stores/response', () => {
         expect(responseStoreInstance.match(mockedResponse.method, '/mockedPath/withAddedStuff')).to.equal(mockedResponse);
       });
 
+      it('returns false when the path regex does not match', () => {
+        const mockedResponse = { method: 'get', path: /mockedPath\/*/ };
+        const initialState = {
+          GET: [mockedResponse]
+        };
+        const { responseStoreInstance } = setup({ initialState });
+
+        expect(responseStoreInstance.match(mockedResponse.method, '/notMatching')).to.equal(false);
+      });
+
       describe('conditional request options', () => {
         it('returns the match when conditional header is present', () => {
           const mockedResponse = {
