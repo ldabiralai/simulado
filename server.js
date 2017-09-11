@@ -30,11 +30,13 @@ var Server = function() {
   });
 
   app.get('/lastRequests', function(request, res) {
-    res.send(requestStore.returnLastRequests(request.headers.method, request.headers.path));
+    var method = (request.headers.method || '').toUpperCase();
+    res.send(requestStore.returnLastRequests(method, request.headers.path));
   });
 
   app.get('/lastRequest', function(request, res) {
-    var lastRequest = requestStore.find(request.headers.method, request.headers.path)
+    var method = (request.headers.method || '').toUpperCase();
+    var lastRequest = requestStore.find(method, request.headers.path)
     if (lastRequest !== undefined) {
       res.send(lastRequest);
     } else {
