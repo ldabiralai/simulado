@@ -34,6 +34,10 @@ simulado --file ./defaultMocks.json
 
 ```timeout``` defaults to ```0``` so there will be no delay, accepts seconds. If it's specified, simulado will wait and then send a response.
 
+```conditionalRequestHeaders``` takes an object that reflects the headers sent in the request the mock should respond to
+
+```conditionalRequestBody``` takes an object that reflects the body sent in the request the mock should respond to
+
 ### Mock
 The `mock` will return a promise which will be fulfilled once the Simulado has finished mocking the endpoint.
 You may chain requests using `then` or `await` the call if you're inside an `async` function (See https://babeljs.io/docs/plugins/transform-async-to-generator/).
