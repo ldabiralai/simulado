@@ -1,3 +1,4 @@
+const deepEqual = require('deep-equal');
 let instance;
 
 export default class ResponseStore {
@@ -51,7 +52,7 @@ export default class ResponseStore {
   }
 
   removeAll() {
-    this.state = {}; 
+    this.state = {};
   }
 
   _isPathMatch(mockedResponse, pathToMatch) {
@@ -89,7 +90,7 @@ export default class ResponseStore {
   _isConditionalBodyMatch(mockedResponse, requestBody) {
     const { conditionalBody } = mockedResponse;
     if (conditionalBody) {
-      return conditionalBody === requestBody;
+      return deepEqual(conditionalBody, requestBody);
     }
     return true;
   }
