@@ -100,6 +100,8 @@ Stop Simulado.
 
   conditionalBody: {
     data: 'YouNeedThisData'
-  } // Optional - The mock will only response if the conditional body is sent in the request.
+  }, // Optional - The mock will only response if the conditional body is sent in the request.
+  
+  delay: 5000 // the time (in milliseconds) to wait until responding to a request
 }
 ```

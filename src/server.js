@@ -46,12 +46,21 @@ app.all('*', (req, res) => {
   const matchedResponse = responseStore.match(req.method, req.path, req.headers, req.body);
 
   if (matchedResponse) {
+    const { delay } = matchedResponse;
     const { path, method, headers, body } = req;
-    requestStore.add({ path, method, headers, body });
-    return res.status(matchedResponse.status).send(matchedResponse.body);
-  }
 
-  res.sendStatus(404);
+    if (delay) {
+      setTimeout(() => {
+        requestStore.add({ path, method, headers, body });
+        return res.status(matchedResponse.status).send(matchedResponse.body);
+      }, delay)
+    } else {
+      requestStore.add({ path, method, headers, body });
+      return res.status(matchedResponse.status).send(matchedResponse.body);
+    }
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 let server

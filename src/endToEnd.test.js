@@ -175,6 +175,23 @@ describe('Simulado Mock Server', () => {
         .send({ data: 'This is not the data your looking for' })
         .expect(404);
     });
+
+    it('responds to an endpoint with a delay when specified', async () => {
+      await Simulado.addMock({
+        path: '/testing',
+        method: 'GET',
+        status: 200,
+        delay: 100
+      });
+
+      const startTime = new Date();
+      await request(server)
+        .get('/testing')
+      const endTime = new Date()
+
+      const timeTaken = endTime - startTime;
+      expect(timeTaken).to.be.above(100);
+    });
   });
 
   describe('get last requests', () => {
