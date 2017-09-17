@@ -195,7 +195,27 @@ describe('Simulado Mock Server', () => {
   });
 
   describe('get last requests', () => {
-    it('returns a list of last requests made for an endpoint');
+    it('returns a list of last requests made for an endpoint', async () => {
+      await Simulado.addMock({
+        path: '/testing',
+        method: 'GET',
+        status: 200
+      });
+
+      await request(server)
+        .get('/testing')
+
+      const res = await request(server)
+        .get('/simulado/requests')
+        .query({method: 'GET', path: '/testing'})
+
+      expect(res.body).to.deep.equal([{
+        headers: res.body[0].headers,
+        path: '/testing',
+        method: 'GET',
+        body: {}
+      }])
+    });
 
     it('returns a limited list of requests made for an endpoint');
 
