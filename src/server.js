@@ -1,12 +1,12 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import http from 'http';
-import spdy from 'spdy';
-import fs from 'fs';
-import path from 'path'
-import PortStore from './stores/PortStore';
-import ResponseStore from './stores/ResponseStore';
-import RequestStore from './stores/RequestStore';
+const express = require('express');
+const bodyParser = require('body-parser');
+const http = require('http');
+const spdy = require('spdy');
+const fs = require('fs');
+const path = require('path');
+const PortStore = require('./stores/PortStore');
+const ResponseStore = require('./stores/ResponseStore');
+const RequestStore = require('./stores/RequestStore');
 
 const app = express();
 const responseStore = new ResponseStore();
@@ -64,7 +64,7 @@ app.all('*', (req, res) => {
 });
 
 let server
-export const start = (options={}) => {
+module.exports.start = (options={}) => {
   const portStore = new PortStore(options.port);
   const portNumber = portStore.getState().port;
   const https = options.https
@@ -92,6 +92,6 @@ export const start = (options={}) => {
   return server
 }
 
-export const stop = () => {
+module.exports.stop = () => {
   server.close()
 }

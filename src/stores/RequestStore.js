@@ -1,4 +1,4 @@
-export default class RequestStore {
+class RequestStore {
   constructor(initialState = {}) {
     this.state = initialState;
   }
@@ -37,3 +37,5 @@ export default class RequestStore {
     this.state = {};
   }
 }
+
+module.exports = RequestStore;

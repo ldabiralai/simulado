@@ -1,13 +1,13 @@
-import { start, stop } from './server';
-import {
+const {start, stop} = require('./server')
+const {
   addMock,
   lastRequests,
   lastRequest,
   clearResponses,
   clearRequests
-} from './simulado.js';
+} = require('./simulado.js');
 
-export default {
+module.exports = {
   start,
   stop,
   addMock,

@@ -1,7 +1,7 @@
 const deepEqual = require('deep-equal');
 let instance;
 
-export default class ResponseStore {
+class ResponseStore {
   constructor(initialState = {}) {
     if (!instance) {
       this.state = initialState;
@@ -100,6 +100,8 @@ export default class ResponseStore {
   }
 }
 
-export const addMock = responseToMock => {
+module.exports = ResponseStore;
+
+module.exports.addMock = responseToMock => {
   new ResponseStore().add(responseToMock);
 };

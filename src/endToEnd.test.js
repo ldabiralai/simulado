@@ -19,7 +19,7 @@ describe('Simulado Mock Server', () => {
   let server;
 
   before(() => {
-    Simulado = require('./index').default;
+    Simulado = require('./index');
     server = Simulado.start();
   });
 

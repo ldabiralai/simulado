@@ -1,6 +1,6 @@
 let instance;
 
-export default class PortStore {
+class PortStore {
   constructor(portNumber = 7001) {
     if (!instance) {
       this.state = { port: portNumber };
@@ -19,3 +19,4 @@ export default class PortStore {
   }
 }
 
+module.exports = PortStore;
