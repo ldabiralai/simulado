@@ -97,7 +97,7 @@ describe('src/server', () => {
     start()
     stop()
 
-    expect(await portInUse(9999)).to.be.false
+    expect(await portInUse(7001)).to.be.false
   })
 
   describe('endpoints', () => {

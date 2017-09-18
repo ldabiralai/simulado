@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+const Server = require('../src');
+const commands = require('commander');
+
+commands
+  .option('-p, --port <port>', 'Port to listen on')
+  .parse(process.argv)
+
+Server.start(commands.port || 7001);

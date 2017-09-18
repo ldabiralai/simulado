@@ -7,7 +7,14 @@
 npm i simulado --save-dev
 ```
 
-### Basic Usage ( Proposed )
+### Basic Usage
+#### CLI
+```bash
+./node_modules/.bin/simulado
+```
+
+This will keep the server alive until the process is killed (unlike the below).
+
 #### ES2015
 ```javascript
 import simulado from 'simulado';
@@ -16,8 +23,7 @@ let simuladoServer;
 
 // Start Simulado server
 simuladoServer = simulado.start({
-  port: 1234, // Default: 9999
-  keepAlive: true // Keep server running even if main process is killed. Default: false
+  port: 1234, // Default: 7001
   https: {
     key: 'path/to/key',
     cert: 'path/to/cert'
@@ -40,7 +46,7 @@ simuladoServer.close();
 
 Once a response is mocked you can then make a normal HTTP request to it.
 ```bash
-curl -X GET http://localhost:9999/data #=> { "data": "Some data" }
+curl -X GET http://localhost:7001/data #=> { "data": "Some data" }
 ```
 
 ### API ( Proposed )
@@ -49,7 +55,10 @@ curl -X GET http://localhost:9999/data #=> { "data": "Some data" }
 Start Simulado
   * options `<Object>`
     * `port` `<number>` - Specify the port number to start Simulado on. Default: `7001`
-    * `keepAlive` `<Boolean>` - Keep Simulado running after main process it killed. Default `false`
+    * `https` `<object>` - Enable https support
+      * `key` `<string>` - path to key file
+      * `cert` `<string>` - path to cert file
+    * `keepAlive` `<Boolean>` - Keep Simulado running after main process it killed. Default `false` - _coming soon_
 
 
 #### `addMock(mockResponse)`
