@@ -226,29 +226,90 @@ describe('Simulado Mock Server', () => {
 
       await request(server)
         .get('/testing')
+        .set('request', '1')
       await request(server)
         .get('/testing')
+        .set('request', '2')
 
       const res = await request(server)
         .get('/simulado/requests')
-        .query({method: 'GET', path: '/testing'})
+        .query({method: 'GET', path: '/testing', limit: 1})
 
       expect(res.body).to.deep.equal([{
-        headers: res.body[0].headers,
+        headers: {
+          ...res.body[0].headers,
+          request: '1'
+        },
         path: '/testing',
         method: 'GET',
         body: {}
       }])
     });
 
-    it('returns empty list if no requests have been made for an endpoint.');
+    it('returns empty list if no requests have been made for an endpoint.', async () => {
+      await Simulado.addMock({
+        path: '/testing',
+        method: 'GET',
+        status: 200
+      });
+
+      const res = await request(server)
+        .get('/simulado/requests')
+        .query({method: 'GET', path: '/testing'})
+
+      expect(res.body).to.deep.equal([])
+    });
 
     it('returns the only the last request made for an endpoint');
   });
 
   describe('clearing mocks', () => {
-    it('clears all mocked responses');
+    it('clears all mocked responses', async () => {
+      await Simulado.addMock({
+        path: '/testing',
+        method: 'GET',
+        status: 200
+      }) 
+      
+      await request(server)
+        .get('/testing')
+        .expect(200)
 
-    it('clears all requests made to mocked endpoints');
+      await request(server)
+        .delete('/simulado/responses/clear')
+
+      await request(server)
+        .get('/testing')
+        .expect(404)
+    });
+
+    it('clears all requests made to mocked endpoints', async () => {
+      await Simulado.addMock({
+        path: '/testing',
+        method: 'GET',
+        status: 200
+      }) 
+      
+      await request(server)
+        .get('/testing')
+        .expect(200)
+
+      await request(server)
+        .get('/simulado/requests')
+        .query({method: 'GET', path: '/testing'})
+        .expect((res) => {
+          expect(res.body).to.have.length(1)
+        })
+
+      await request(server)
+        .delete('/simulado/requests/clear')
+
+      await request(server)
+        .get('/simulado/requests')
+        .query({method: 'GET', path: '/testing'})
+        .expect((res) => {
+          expect(res.body).to.have.length(0)
+        })
+    });
   });
 });
