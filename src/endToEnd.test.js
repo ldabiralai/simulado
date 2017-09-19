@@ -98,9 +98,9 @@ describe('Simulado Mock Server', () => {
         path: '/testing',
         method: 'GET',
         status: 200,
-        headers: [{
+        headers: {
           [headerName]: headerValue
-        }]
+        }
       });
 
       return await request(server)

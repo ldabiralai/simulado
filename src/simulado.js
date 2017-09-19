@@ -7,9 +7,15 @@ const getPortNumber = () => {
 };
 
 const addMock = responseToMock => {
+  const { path } = responseToMock;
+
   return axios.post(
     `http://localhost:${getPortNumber()}/simulado/response/set`,
-    responseToMock,
+    {
+      ...responseToMock,
+      path: path.toString(),
+      isRegexPath: (typeof path === 'object')
+    },
     { headers: { 'Content-Type': 'application/json' } }
   ).then(() => true);
 };

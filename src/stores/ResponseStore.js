@@ -56,8 +56,8 @@ class ResponseStore {
   }
 
   _isPathMatch(mockedResponse, pathToMatch) {
-    const { path } = mockedResponse;
-    if (typeof path === 'object') {
+    const { path, isRegexPath } = mockedResponse;
+    if (typeof path === 'object' || isRegexPath) {
       const pathRegExp = new RegExp(path);
       return Boolean(pathToMatch.match(pathRegExp));
     }
