@@ -184,7 +184,7 @@ describe('src/stores/response', () => {
       it('returns the match for the given method and path when response path is a regex as a string', () => {
         const mockedResponse = {
           method: 'get',
-          path: (/mockedPath\/*/).toString(),
+          path: (/^\/mockedPath\/*/).toString(),
           isRegexPath: true
         };
         const initialState = {
@@ -198,7 +198,7 @@ describe('src/stores/response', () => {
       it('returns false when the path regex as a string does not match', () => {
         const mockedResponse = {
           method: 'get',
-          path: (/mockedPath\/*/).toString(),
+          path: (/^\/mockedPath\/*/).toString(),
           isRegexPath: true
         };
         const initialState = {
