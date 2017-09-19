@@ -42,21 +42,24 @@ app.delete('/simulado/requests/clear', (req, res) => {
 });
 
 app.all('*', (req, res) => {
-  console.log('=========>', req.body)
   const matchedResponse = responseStore.match(req.method, req.path, req.headers, req.body);
 
   if (matchedResponse) {
     const { delay } = matchedResponse;
     const { path, method, headers, body } = req;
+    const response = () => res
+      .set(matchedResponse.headers)
+      .status(matchedResponse.status)
+      .send(matchedResponse.body);
 
     if (delay) {
       setTimeout(() => {
         requestStore.add({ path, method, headers, body });
-        return res.status(matchedResponse.status).send(matchedResponse.body);
+        return response();
       }, delay)
     } else {
       requestStore.add({ path, method, headers, body });
-      return res.status(matchedResponse.status).send(matchedResponse.body);
+      return response();
     }
   } else {
     res.sendStatus(404);

@@ -181,6 +181,34 @@ describe('src/stores/response', () => {
         expect(responseStoreInstance.match(mockedResponse.method, '/notMatching')).to.equal(false);
       });
 
+      it('returns the match for the given method and path when response path is a regex as a string', () => {
+        const mockedResponse = {
+          method: 'get',
+          path: (/^\/mockedPath\/*/).toString(),
+          isRegexPath: true
+        };
+        const initialState = {
+          GET: [mockedResponse]
+        };
+        const { responseStoreInstance } = setup({ initialState });
+
+        expect(responseStoreInstance.match(mockedResponse.method, '/mockedPath/withAddedStuff')).to.equal(mockedResponse);
+      });
+
+      it('returns false when the path regex as a string does not match', () => {
+        const mockedResponse = {
+          method: 'get',
+          path: (/^\/mockedPath\/*/).toString(),
+          isRegexPath: true
+        };
+        const initialState = {
+          GET: [mockedResponse]
+        };
+        const { responseStoreInstance } = setup({ initialState });
+
+        expect(responseStoreInstance.match(mockedResponse.method, '/notMatching')).to.equal(false);
+      });
+
       describe('conditional request options', () => {
         it('returns the match when conditional header is present', () => {
           const mockedResponse = {

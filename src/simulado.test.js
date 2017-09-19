@@ -16,6 +16,7 @@ describe('src/simulado', () => {
         method: 'GET',
         path: '/testPath',
         status: 200,
+        isRegexPath: false,
         body: { some: 'data' }
       };
 
