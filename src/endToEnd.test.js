@@ -161,8 +161,6 @@ describe('Simulado Mock Server', () => {
     });
 
     it('does not respond to an endpoint that has a conditional body which the request does not include', async () => {
-      const mandatoryBody = { data: 'Some data I need' };
-
       await Simulado.addMock({
         path: '/testing',
         method: 'POST',
@@ -195,42 +193,54 @@ describe('Simulado Mock Server', () => {
   });
 
   describe('get last requests', () => {
-    beforeEach(async () => {
-      await Simulado.addMock({
-        path: '/testing',
-        method: 'GET',
-        status: 200
-      });
-
-      await request(server)
-        .get('/testing')
-
-      await request(server)
-        .get('/testing')
-    });
-
     describe('lastRequests()', () => {
       it('returns a list of last requests made for an endpoint', async () => {
+        await Simulado.addMock({
+          path: '/testing',
+          method: 'GET',
+          status: 200
+        });
+
+        await request(server)
+          .get('/testing')
+        await request(server)
+          .get('/testing')
+
         const requests = await Simulado.lastRequests('GET', '/testing');
         expect(requests.length).to.equal(2);
       });
 
       it('returns details of last requests made for an endpoint', async () => {
+        await Simulado.addMock({
+          path: '/testing',
+          method: 'GET',
+          status: 200
+        });
+
+        await request(server)
+          .get('/testing')
+
         const requests = await Simulado.lastRequests('GET', '/testing');
         expect(requests[0]).to.deep.equal({
           path: '/testing',
           method: 'GET',
-          headers: {
-            host: '127.0.0.1:7001',
-            'accept-encoding': 'gzip, deflate',
-            'user-agent': 'node-superagent/3.6.0',
-            connection: 'close'
-          },
+          headers: requests[0].headers,
           body: {}
         });
       });
 
       it('returns a limited list of requests made for an endpoint', async () => {
+        await Simulado.addMock({
+          path: '/testing',
+          method: 'GET',
+          status: 200
+        });
+
+        await request(server)
+          .get('/testing')
+        await request(server)
+          .get('/testing')
+
         const requests = await Simulado.lastRequests('GET', '/testing', 1);
         expect(requests.length).to.equal(1);
       });
@@ -249,16 +259,20 @@ describe('Simulado Mock Server', () => {
 
     describe('lastRequest()', () => {
       it('returns details of last request made for an endpoint', async () => {
+        await Simulado.addMock({
+          path: '/testing',
+          method: 'GET',
+          status: 200
+        });
+
+        await request(server)
+          .get('/testing')
+
         const lastRequest = await Simulado.lastRequest('GET', '/testing');
         expect(lastRequest).to.deep.equal({
           path: '/testing',
           method: 'GET',
-          headers: {
-            host: '127.0.0.1:7001',
-            'accept-encoding': 'gzip, deflate',
-            'user-agent': 'node-superagent/3.6.0',
-            connection: 'close'
-          },
+          headers: lastRequest.headers,
           body: {}
         });
       });
