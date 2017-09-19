@@ -7,7 +7,7 @@
 npm i simulado --save-dev
 ```
 
-### Basic Usage
+### Usage
 #### CLI
 ```bash
 ./node_modules/.bin/simulado
@@ -15,14 +15,12 @@ npm i simulado --save-dev
 
 This will keep the server alive until the process is killed (unlike the below).
 
-#### ES2015
+#### Basic Usage
 ```javascript
 import simulado from 'simulado';
 
-let simuladoServer;
-
 // Start Simulado server
-simuladoServer = simulado.start({
+simulado.start({
   port: 1234, // Default: 7001
   https: {
     key: 'path/to/key',
@@ -40,16 +38,15 @@ simulado.addMock({
   }
 });
 
+// Make a request
+request.get('http://localhost:1234/data')
+  .then(console.log) // => { data: 'Some Data' }
+
 // Stop Simulado server once done
-simuladoServer.close();
+simulado.close();
 ```
 
-Once a response is mocked you can then make a normal HTTP request to it.
-```bash
-curl -X GET http://localhost:7001/data #=> { "data": "Some data" }
-```
-
-### API ( Proposed )
+### API
 
 #### `start([options])`
 Start Simulado
@@ -58,12 +55,11 @@ Start Simulado
     * `https` `<object>` - Enable https support
       * `key` `<string>` - path to key file
       * `cert` `<string>` - path to cert file
-    * `keepAlive` `<Boolean>` - Keep Simulado running after main process it killed. Default `false` - _coming soon_
 
 
 #### `addMock(mockResponse)`
 Add a mock response
-  * `mockResponse` `<MockResponse>` - Add a response to the store.
+  * `mockResponse` `<MockResponse>` - Add a response to the store. [Full options MockResponse](#mock-response-options).
 
 
 #### `lastRequests(method, path[, limit])`
@@ -98,10 +94,14 @@ Stop Simulado.
   path: '/testPath', // Mandatory - The HTTP request path that you want the mock to response to.
 
   status: 200, // Mandatory - The HTTP status you want to mock to response with.
+  
+  headers: {
+    'X-Custom-Header': 'Custom Header Value'
+  }, // Optional - The HTTP headers you want the mock to respond with.
 
   body: {
     data: 'DATA'
-  }, // Optional - The HTTP response body you want to mock to response with.
+  }, // Optional - The HTTP response body you want the mock to respond with.
 
   conditionalHeaders: {
     needMe: 'true'
