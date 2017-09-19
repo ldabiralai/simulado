@@ -91,7 +91,9 @@ Stop Simulado.
 {
   method: 'GET', // Mandatory - The HTTP request method that you want the mock to response to.
 
-  path: '/testPath', // Mandatory - The HTTP request path that you want the mock to response to.
+  // Path - Mandatory - The HTTP request path that you want the mock to response to.
+  path: '/testPath', // String path
+  path: /\/testPath/.*/, // Regex path
 
   status: 200, // Mandatory - The HTTP status you want to mock to response with.
   
