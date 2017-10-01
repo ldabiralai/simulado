@@ -17,21 +17,20 @@ class ResponseStore {
 
   add(responseToMock) {
     const responseMethod = responseToMock.method.toUpperCase();
-    this.state = {
-      ...this.state,
-      [responseMethod]: [
-        ...(this.state[responseMethod] || []),
-        responseToMock
-      ]
-    }
+    this.state = Object.assign(
+      {},
+      this.state,
+      {[responseMethod]: (this.state[responseMethod] || []).concat(responseToMock)}
+    )
   }
 
   remove(method, path) {
     const responseToRemoveMethod = method.toUpperCase();
-    this.state = {
-      ...this.state,
-      [responseToRemoveMethod]: this.state[responseToRemoveMethod].filter(response => response.path !== path)
-    };
+    this.state = Object.assign(
+      {},
+      this.state,
+      {[responseToRemoveMethod]: this.state[responseToRemoveMethod].filter(response => response.path !== path)}
+    )
   }
 
   match(method, path, requestHeaders = {}, requestBody) {

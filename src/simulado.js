@@ -11,11 +11,11 @@ const addMock = responseToMock => {
 
   return axios.post(
     `http://localhost:${getPortNumber()}/simulado/response/set`,
-    {
-      ...responseToMock,
-      path: path.toString(),
-      isRegexPath: (typeof path === 'object')
-    },
+    Object.assign(
+      {},
+      responseToMock,
+      { path: path.toString(), isRegexPath: (typeof path === 'object') },
+    ),
     { headers: { 'Content-Type': 'application/json' } }
   ).then(() => true);
 };
