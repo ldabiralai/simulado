@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Simulado</title>
+    <link rel="stylesheet" href="/simulado/public/darcula.css">
+    <script src="/simulado/public/highlight.pack.js"></script>
+    <script src="/simulado/public/react.production.min.js"></script>
+    <script src="/simulado/public/react-dom.production.min.js"></script>
+    <script src="/simulado/public/babel.min.js"></script>
+    <script type="text/javascript">
+      window.mockedResponses = <%- mockedResponses %>;
+      hljs.initHighlightingOnLoad();
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            background-color: #1d1f21;
+            color: #FFDEAD;
+            font-family: "Lucida Console", Monaco, monospace;
+            font-size: 12px;
+        }
+
+        pre {
+            margin: 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const App = () => {
+        const mockedMethods = Object.entries(window.mockedResponses)
+        const listStyles = {
+            listStyle: 'none',
+            padding: 0
+        }
+
+        return (
+            <div>
+                <h1>Mocks</h1>
+                <ul style={listStyles}>
+                    {mockedMethods.map(([method, mocks]) =>
+                        <Method key={method} method={method} mocks={mocks} />
+                    )}
+                </ul>
+            </div>
+        )
+      }
+
+      const Method = ({method, mocks}) => {
+        const itemStyles = {
+            margin: '10px 0'
+        }
+
+        return (
+            <li style={itemStyles}>
+                <h2>{method}</h2>
+                <ul>
+                    {mocks.map((mock, i) => <Mock key={i} mock={mock} />)}
+                </ul>
+            </li>
+        )
+      }
+
+      class Mock extends React.Component {
+        state = {
+            open: false
+        }
+
+        toggle = () => {
+            this.setState({open: !this.state.open})
+        }
+
+        render() {
+            const {mock} = this.props
+            const {open} = this.state
+
+            const paneStyles = {
+                overflow: open ? 'auto' : 'hidden',
+                height: open ? 'auto' : 0
+            }
+
+            const buttonStyles = {
+                width: '60px',
+                backgroundColor: '#a55',
+                border: '2px solid #a55',
+                color: '#1d1f21',
+                borderRadius: '10px',
+                cursor: 'pointer',
+                outline: 'none',
+            }
+
+            return (
+                <div>
+                    <h3>
+                        {mock.path} - {mock.status}
+                        {` `}
+                        <button style={buttonStyles} onClick={this.toggle}>
+                            {open ? 'Collapse' : 'Expand'}
+                        </button>
+                    </h3>
+                    <div style={paneStyles}>
+                        <pre>
+                            <code className="json">{JSON.stringify(mock, null, 2)}</code>
+                        </pre>
+                    </div>
+                </div>
+            )
+        }
+      }
+
+      ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

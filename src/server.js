@@ -13,10 +13,12 @@ const responseStore = new ResponseStore();
 const requestStore = new RequestStore();
 
 app.use(bodyParser.json());
-app.use(express.static(`${__dirname}/../public`))
+app.use('/simulado/public', express.static(`${__dirname}/../public`))
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  res.status(200).sendFile(`${__dirname}/../public/index.html`);
+  const mockedResponses = responseStore.getState()
+  res.render('index', {mockedResponses: JSON.stringify(mockedResponses)});
 });
 
 app.get('/simulado/requests', (req, res) => {
