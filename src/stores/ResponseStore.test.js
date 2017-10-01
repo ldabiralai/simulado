@@ -405,10 +405,37 @@ describe('src/stores/response', () => {
       responseStoreAddStub.restore();
     })
 
-    it('adds a mock to the store', () => {
-      const responseToMock = 'ResponseToMock';
+    it('adds a mock to the store with defaults', () => {
+      const responseToMock = {};
+
       addMock(responseToMock);
-      expect(responseStoreAddStub).to.have.been.calledWith(responseToMock);
+
+      expect(responseStoreAddStub).to.have.been.calledWith({
+        method: 'GET',
+        status: 200
+      });
+    });
+
+    it('should not override method when specified', () => {
+      const responseToMock = {method: 'POST'};
+
+      addMock(responseToMock);
+
+      expect(responseStoreAddStub).to.have.been.calledWith({
+        method: 'POST',
+        status: 200
+      });
+    });
+
+    it('should not override status when specified', () => {
+      const responseToMock = {status: 201};
+
+      addMock(responseToMock);
+
+      expect(responseStoreAddStub).to.have.been.calledWith({
+        method: 'GET',
+        status: 201
+      });
     });
   });
 });

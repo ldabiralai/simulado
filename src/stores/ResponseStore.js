@@ -105,5 +105,11 @@ class ResponseStore {
 module.exports = ResponseStore;
 
 module.exports.addMock = responseToMock => {
-  new ResponseStore().add(responseToMock);
+  const defaults = {
+    method: 'GET',
+    status: 200
+  };
+  const mergedMock = Object.assign({}, defaults, responseToMock);
+
+  new ResponseStore().add(mergedMock);
 };

@@ -94,13 +94,13 @@ Stop Simulado.
 ### Mock Response Options
 ```javascript
 {
-  method: 'GET', // Mandatory - The HTTP request method that you want the mock to response to.
-
   // Path - Mandatory - The HTTP request path that you want the mock to response to.
   path: '/testPath', // String path
   path: /\/testPath/.*/, // Regex path
-
-  status: 200, // Mandatory - The HTTP status you want to mock to response with.
+  
+  method: 'GET', // Optional (defaults to GET if not set) - The HTTP request method that you want the mock to response to.
+  
+  status: 200, // Optional (defaults to 200 if not set) - The HTTP status you want to mock to response with.
   
   headers: {
     'X-Custom-Header': 'Custom Header Value'
