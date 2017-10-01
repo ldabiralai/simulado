@@ -62,6 +62,11 @@ Add a mock response
   * `mockResponse` `<MockResponse>` - Add a response to the store. [Full options MockResponse](#mock-response-options).
 
 
+#### `setDefaults(mockResponses)`
+Clears mocked responses and sets new mocked responses 
+  * `mockResponses` `[<MockResponse>]` - Add responses to the store. [Full options MockResponse](#mock-response-options).
+
+
 #### `lastRequests(method, path[, limit])`
 Fetch the last requests for a path
   * `method` `<String>` - The request method for the requests you want to fetch

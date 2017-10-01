@@ -20,6 +20,13 @@ const addMock = responseToMock => {
   ).then(() => true);
 };
 
+const setDefaults = async (responsesToMock) => {
+  await clearRequests()
+  await clearResponses()
+
+  return await Promise.all(responsesToMock.map(addMock))
+}
+
 const lastRequests = (method, path, limit) => {
   return axios.get(
     `http://localhost:${getPortNumber()}/simulado/requests?method=${method.toUpperCase()}&path=${path}${ limit ? `&limit=${limit}` : '' }`,
@@ -44,6 +51,7 @@ const clearRequests = () => {
 
 module.exports = {
   addMock,
+  setDefaults,
   lastRequests,
   lastRequest,
   clearResponses,

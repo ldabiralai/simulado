@@ -1,6 +1,7 @@
 const {start, stop} = require('./server')
 const {
   addMock,
+  setDefaults,
   lastRequests,
   lastRequest,
   clearResponses,
@@ -11,6 +12,7 @@ module.exports = {
   start,
   stop,
   addMock,
+  setDefaults,
   lastRequests,
   lastRequest,
   clearResponses,

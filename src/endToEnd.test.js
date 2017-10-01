@@ -192,6 +192,59 @@ describe('Simulado Mock Server', () => {
     });
   });
 
+  describe('setting default mocks', () => {
+    it('should setup mocks from an array', async () => {
+      const responsesToMock = [
+        {
+          method: 'GET',
+          path: '/testPath1',
+          status: 200
+        },
+        {
+          method: 'GET',
+          path: '/testPath2',
+          status: 200
+        }
+      ];
+
+      await Simulado.setDefaults(responsesToMock);
+
+      await request(server)
+        .get('/testPath1')
+        .expect(200);
+
+      return await request(server)
+        .get('/testPath2')
+        .expect(200);
+    });
+
+    it('should clear old mocks before setting defaults', async () => {
+      await Simulado.addMock({
+        method: 'GET',
+        path: '/testPath',
+        status: 200
+      });
+
+      await request(server)
+        .get('/testPath')
+        .expect(200);
+
+      await Simulado.setDefaults([{
+        method: 'GET',
+        path: '/newTestPath',
+        status: 200
+      }]);
+
+      await request(server)
+        .get('/testPath')
+        .expect(404);
+
+      return await request(server)
+        .get('/newTestPath')
+        .expect(200);
+    });
+  });
+
   describe('get last requests', () => {
     describe('lastRequests()', () => {
       it('returns a list of last requests made for an endpoint', async () => {
