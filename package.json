@@ -4,7 +4,7 @@
   "description": "A simple nodejs mockserver",
   "main": "lib/index.js",
   "bin": {
-    "simulado": "src/simulado"
+    "simulado": "bin/simulado"
   },
   "repository": {
     "type": "git",
