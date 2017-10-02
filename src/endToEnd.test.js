@@ -51,6 +51,18 @@ describe('Simulado Mock Server', () => {
         .expect(204);
     });
 
+    it('responds to an endpoint with mocked path with a query parameter', async () => {
+      await Simulado.addMock({
+        path: '/testing?test',
+        method: 'GET',
+        status: 200
+      });
+
+      return request(server)
+        .get('/testing?test')
+        .expect(200);
+    });
+
     it('responds to an endpoint with a mocked regex path', async () => {
       await Simulado.addMock({
         path: /test.*/,
