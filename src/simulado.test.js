@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   addMock,
+  addMocks,
   lastRequests,
   lastRequest,
   clearResponses,
@@ -32,6 +33,30 @@ describe('src/simulado', () => {
 
       return addMock(responseToMock).then(result => {
         expect(result).to.equal(true);
+      });
+    }));
+  });
+
+  describe('addMocks()', () => {
+    it('makes multiple requests to add each mock', sinon.test(function () {
+      const responsesToMock = [
+        {
+          method: 'GET',
+          path: '/testPath'
+        },
+        {
+          method: 'GET',
+          path: '/testPath'
+        }
+      ];
+
+      this.mock(axios)
+        .expects('post')
+        .twice()
+        .returns(Promise.resolve());
+
+      return addMocks(responsesToMock).then(result => {
+        expect(result).to.deep.equal([true, true]);
       });
     }));
   });

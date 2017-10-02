@@ -20,11 +20,15 @@ const addMock = responseToMock => {
   ).then(() => true);
 };
 
+const addMocks = async (responsesToMock) => {
+  return await Promise.all(responsesToMock.map(addMock))
+}
+
 const setDefaults = async (responsesToMock) => {
   await clearRequests()
   await clearResponses()
 
-  return await Promise.all(responsesToMock.map(addMock))
+  return await addMocks(responsesToMock)
 }
 
 const lastRequests = (method, path, limit) => {
@@ -51,6 +55,7 @@ const clearRequests = () => {
 
 module.exports = {
   addMock,
+  addMocks,
   setDefaults,
   lastRequests,
   lastRequest,
