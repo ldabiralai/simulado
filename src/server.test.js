@@ -5,18 +5,18 @@ import ResponseStore from './stores/ResponseStore';
 import RequestStore from './stores/RequestStore';
 import { start, stop } from './server';
 
-const portInUse = (port) => {
+const portInUse = port => {
   return new Promise((resolve, reject) => {
     portscanner.checkPortStatus(port, '127.0.0.1', (error, status) => {
       if (error) {
-        reject(error)
+        reject(error);
       }
 
-      const inUse = status == 'open'
-      resolve(inUse)
-    })
-  })
-}
+      const inUse = status == 'open';
+      resolve(inUse);
+    });
+  });
+};
 
 describe('src/server', () => {
   const defaultPortNumber = 7001;
@@ -32,36 +32,36 @@ describe('src/server', () => {
     });
 
     it('starts on the default port', async () => {
-      server = start()
-      expect(await portInUse(defaultPortNumber)).to.be.true
-    })
+      server = start();
+      expect(await portInUse(defaultPortNumber)).to.be.true;
+    });
 
     it('starts on a custom port number', async () => {
       const customPortNumber = 1234;
       server = start({ port: customPortNumber });
 
-      expect(await portInUse(customPortNumber)).to.be.true
-    })
+      expect(await portInUse(customPortNumber)).to.be.true;
+    });
 
     describe('using https', () => {
       before(() => {
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
       });
 
-      it('files passed correctly', (done) => {
+      it('files passed correctly', done => {
         server = start({
           https: {
             key: '../certs/localhost.key',
             cert: '../certs/localhost.crt'
           }
-        })
+        });
 
         request(`https://localhost:${defaultPortNumber}`)
           .get('/')
-          .expect(200, (err) => {
-            done(err)
-          })
-      })
+          .expect(200, err => {
+            done(err);
+          });
+      });
 
       it('no key path', () => {
         try {
@@ -69,13 +69,13 @@ describe('src/server', () => {
             https: {
               cert: '../certs/localhost.crt'
             }
-          })
+          });
         } catch (e) {
-          return
+          return;
         }
 
-        throw new Error('Should have thrown an error')
-      })
+        throw new Error('Should have thrown an error');
+      });
 
       it('no cert path', () => {
         try {
@@ -83,22 +83,22 @@ describe('src/server', () => {
             https: {
               key: '../certs/localhost.key'
             }
-          })
+          });
         } catch (e) {
-          return
+          return;
         }
 
-        throw new Error('Should have thrown an error')
-      })
-    })
-  })
+        throw new Error('Should have thrown an error');
+      });
+    });
+  });
 
   it('stop', async () => {
-    start()
-    stop()
+    start();
+    stop();
 
-    expect(await portInUse(7001)).to.be.false
-  })
+    expect(await portInUse(7001)).to.be.false;
+  });
 
   describe('endpoints', () => {
     let server;
@@ -130,7 +130,7 @@ describe('src/server', () => {
     });
 
     describe('/', () => {
-      it('returns index.html from the root path', (done) => {
+      it('returns index.html from the root path', done => {
         request(server)
           .get('/')
           .expect(200, done);
@@ -138,14 +138,14 @@ describe('src/server', () => {
     });
 
     describe('/*', () => {
-      it('returns 404 Not Found if no matching mock is found', (done) => {
+      it('returns 404 Not Found if no matching mock is found', done => {
         matchResponseStub.returns(false);
         request(server)
           .get('/pathThatIsntMocked')
           .expect(404, done);
       });
 
-      it('returns response mock status and body when matching mock is found', (done) => {
+      it('returns response mock status and body when matching mock is found', done => {
         const mockedResponse = {
           path: '/testPath',
           method: 'get',
@@ -157,7 +157,7 @@ describe('src/server', () => {
 
         request(server)
           .get(mockedResponse.path)
-          .expect((res) => {
+          .expect(res => {
             expect(res.body).to.deep.equal(mockedResponse.body);
             expect(matchResponseStub).to.have.been.called;
             expect(addRequestStub).to.have.been.called;
@@ -167,7 +167,7 @@ describe('src/server', () => {
     });
 
     describe('POST /simulado/response/set', () => {
-      it('sets the mock in the response store', (done) => {
+      it('sets the mock in the response store', done => {
         const mockResponse = {
           method: 'GET',
           path: '/testPath',
@@ -179,21 +179,21 @@ describe('src/server', () => {
           .set('Content-Type', 'application/json')
           .send(mockResponse)
           .expect(() => {
-            expect(addResponseStub).to.have.been.calledWith(mockResponse)
+            expect(addResponseStub).to.have.been.calledWith(mockResponse);
           })
           .expect(201, done);
       });
     });
 
     describe('GET /simulado/requests', () => {
-      it('returns all of the requests from the request store', (done) => {
+      it('returns all of the requests from the request store', done => {
         const allRequests = [{ path: '/one' }, { path: '/two' }];
         getRequestStub.returns(allRequests);
 
         request(server)
           .get('/simulado/requests')
-          .expect((res) => {
-            expect(getRequestStub).to.have.been.called
+          .expect(res => {
+            expect(getRequestStub).to.have.been.called;
             expect(res.body).to.deep.equal(allRequests);
           })
           .expect(200, done);
@@ -201,26 +201,25 @@ describe('src/server', () => {
     });
 
     describe('DELETE /simulado/requests/clear', () => {
-      it('clears all the requests from the request store', (done) => {
+      it('clears all the requests from the request store', done => {
         request(server)
           .del('/simulado/requests/clear')
           .expect(() => {
-            expect(removeAllRequestStub).to.have.been.called
+            expect(removeAllRequestStub).to.have.been.called;
           })
           .expect(201, done);
       });
     });
 
     describe('DELETE /simulado/responses/clear', () => {
-      it('clears all the responses from the response store', (done) => {
+      it('clears all the responses from the response store', done => {
         request(server)
           .del('/simulado/responses/clear')
           .expect(() => {
-            expect(removeAllResponseStub).to.have.been.called
+            expect(removeAllResponseStub).to.have.been.called;
           })
           .expect(201, done);
       });
     });
-
   });
 });

@@ -65,8 +65,11 @@ describe('src/stores/response', () => {
       });
 
       it('adds a response to the store under a specific method and keeps existing store responses for that method', () => {
-        const previouslyMockedResponse = { method: 'get', path: '/previouslyMockedPath' };
-        const initialState = { GET: [previouslyMockedResponse] }
+        const previouslyMockedResponse = {
+          method: 'get',
+          path: '/previouslyMockedPath'
+        };
+        const initialState = { GET: [previouslyMockedResponse] };
         const { responseStoreInstance } = setup({ initialState });
 
         const responseToMock = {
@@ -76,16 +79,16 @@ describe('src/stores/response', () => {
 
         responseStoreInstance.add(responseToMock);
         expect(responseStoreInstance.state).to.deep.equal({
-          GET: [
-            previouslyMockedResponse,
-            responseToMock
-          ]
+          GET: [previouslyMockedResponse, responseToMock]
         });
       });
 
       it('adds a response to the store under a specific method and keeps existing store responses for a different method', () => {
-        const previouslyMockedResponse = { method: 'post', path: '/previouslyMockedPath' };
-        const initialState = { POST: [previouslyMockedResponse] }
+        const previouslyMockedResponse = {
+          method: 'post',
+          path: '/previouslyMockedPath'
+        };
+        const initialState = { POST: [previouslyMockedResponse] };
         const { responseStoreInstance } = setup({ initialState });
 
         const responseToMock = {
@@ -107,14 +110,20 @@ describe('src/stores/response', () => {
         const initialState = { POST: [responseToRemove] };
         const { responseStoreInstance } = setup({ initialState });
 
-        responseStoreInstance.remove(responseToRemove.method, responseToRemove.path);
+        responseStoreInstance.remove(
+          responseToRemove.method,
+          responseToRemove.path
+        );
         expect(responseStoreInstance.state).to.deep.equal({
           POST: []
         });
       });
 
       it('removes a response under a specific method using path but keeps exising responses', () => {
-        const previouslyMockedResponse = { method: 'get', path: '/previouslyMockedPath' };
+        const previouslyMockedResponse = {
+          method: 'get',
+          path: '/previouslyMockedPath'
+        };
         const responseToRemove = { method: 'post', path: '/deleteMe' };
         const initialState = {
           GET: [previouslyMockedResponse],
@@ -122,7 +131,10 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        responseStoreInstance.remove(responseToRemove.method, responseToRemove.path);
+        responseStoreInstance.remove(
+          responseToRemove.method,
+          responseToRemove.path
+        );
         expect(responseStoreInstance.state).to.deep.equal({
           GET: [previouslyMockedResponse],
           POST: []
@@ -138,7 +150,12 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(responseStoreInstance.match(mockedResponse.method, '/pathThatDoesNotExist')).to.equal(false);
+        expect(
+          responseStoreInstance.match(
+            mockedResponse.method,
+            '/pathThatDoesNotExist'
+          )
+        ).to.equal(false);
       });
 
       it('returns false if it cannot find the method in the store', () => {
@@ -148,7 +165,9 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(responseStoreInstance.match('POST', '/pathThatDoesNotExist')).to.equal(false);
+        expect(
+          responseStoreInstance.match('POST', '/pathThatDoesNotExist')
+        ).to.equal(false);
       });
 
       it('returns the match for the given method and path when response path is a string', () => {
@@ -158,7 +177,12 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(responseStoreInstance.match(mockedResponse.method, mockedResponse.path)).to.equal(mockedResponse);
+        expect(
+          responseStoreInstance.match(
+            mockedResponse.method,
+            mockedResponse.path
+          )
+        ).to.equal(mockedResponse);
       });
 
       it('returns the match for the given method and path when response path is a regex', () => {
@@ -168,7 +192,12 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(responseStoreInstance.match(mockedResponse.method, '/mockedPath/withAddedStuff')).to.equal(mockedResponse);
+        expect(
+          responseStoreInstance.match(
+            mockedResponse.method,
+            '/mockedPath/withAddedStuff'
+          )
+        ).to.equal(mockedResponse);
       });
 
       it('returns false when the path regex does not match', () => {
@@ -178,13 +207,15 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(responseStoreInstance.match(mockedResponse.method, '/notMatching')).to.equal(false);
+        expect(
+          responseStoreInstance.match(mockedResponse.method, '/notMatching')
+        ).to.equal(false);
       });
 
       it('returns the match for the given method and path when response path is a regex as a string', () => {
         const mockedResponse = {
           method: 'get',
-          path: (/^\/mockedPath\/*/).toString(),
+          path: /^\/mockedPath\/*/.toString(),
           isRegexPath: true
         };
         const initialState = {
@@ -192,13 +223,18 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(responseStoreInstance.match(mockedResponse.method, '/mockedPath/withAddedStuff')).to.equal(mockedResponse);
+        expect(
+          responseStoreInstance.match(
+            mockedResponse.method,
+            '/mockedPath/withAddedStuff'
+          )
+        ).to.equal(mockedResponse);
       });
 
       it('returns false when the path regex as a string does not match', () => {
         const mockedResponse = {
           method: 'get',
-          path: (/^\/mockedPath\/*/).toString(),
+          path: /^\/mockedPath\/*/.toString(),
           isRegexPath: true
         };
         const initialState = {
@@ -206,7 +242,9 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(responseStoreInstance.match(mockedResponse.method, '/notMatching')).to.equal(false);
+        expect(
+          responseStoreInstance.match(mockedResponse.method, '/notMatching')
+        ).to.equal(false);
       });
 
       describe('conditional request options', () => {
@@ -381,14 +419,16 @@ describe('src/stores/response', () => {
 
       describe('removeAll()', () => {
         it('removes all responses from the store', () => {
-          const mockedResponse = { method: 'get', path: '/previouslyMockedPath' };
-          const initialState = { GET: [mockedResponse] }
+          const mockedResponse = {
+            method: 'get',
+            path: '/previouslyMockedPath'
+          };
+          const initialState = { GET: [mockedResponse] };
           const { responseStoreInstance } = setup({ initialState });
 
           responseStoreInstance.removeAll();
 
           expect(responseStoreInstance.state).to.deep.equal({});
-
         });
       });
     });
@@ -398,12 +438,12 @@ describe('src/stores/response', () => {
     let responseStoreAddStub;
 
     beforeEach(() => {
-      responseStoreAddStub = sinon.stub(ResponseStore.prototype, 'add');  
+      responseStoreAddStub = sinon.stub(ResponseStore.prototype, 'add');
     });
 
     afterEach(() => {
       responseStoreAddStub.restore();
-    })
+    });
 
     it('adds a mock to the store with defaults', () => {
       const responseToMock = {};
@@ -417,7 +457,7 @@ describe('src/stores/response', () => {
     });
 
     it('should not override method when specified', () => {
-      const responseToMock = {method: 'POST'};
+      const responseToMock = { method: 'POST' };
 
       addMock(responseToMock);
 
@@ -428,7 +468,7 @@ describe('src/stores/response', () => {
     });
 
     it('should not override status when specified', () => {
-      const responseToMock = {status: 201};
+      const responseToMock = { status: 201 };
 
       addMock(responseToMock);
 

@@ -94,8 +94,11 @@ describe('src/stores/request', () => {
     });
 
     it('adds a request to the store under a specific method and keeps existing store requests for that method', () => {
-      const previouslyMockedrequest = { method: 'get', path: '/previouslyMockedPath' };
-      const initialState = { GET: [previouslyMockedrequest] }
+      const previouslyMockedrequest = {
+        method: 'get',
+        path: '/previouslyMockedPath'
+      };
+      const initialState = { GET: [previouslyMockedrequest] };
       const { requestStoreInstance } = setup({ initialState });
 
       const requestToMock = {
@@ -105,16 +108,16 @@ describe('src/stores/request', () => {
 
       requestStoreInstance.add(requestToMock);
       expect(requestStoreInstance.state).to.deep.equal({
-        GET: [
-          previouslyMockedrequest,
-          requestToMock
-        ]
+        GET: [previouslyMockedrequest, requestToMock]
       });
     });
 
     it('adds a request to the store under a specific method and keeps existing store requests for a different method', () => {
-      const previouslyMockedrequest = { method: 'post', path: '/previouslyMockedPath' };
-      const initialState = { POST: [previouslyMockedrequest] }
+      const previouslyMockedrequest = {
+        method: 'post',
+        path: '/previouslyMockedPath'
+      };
+      const initialState = { POST: [previouslyMockedrequest] };
       const { requestStoreInstance } = setup({ initialState });
 
       const requestToMock = {
@@ -133,7 +136,7 @@ describe('src/stores/request', () => {
   describe('removeAll()', () => {
     it('removes all requests from the store', () => {
       const mockedrequest = { method: 'post', path: '/previouslyMockedPath' };
-      const initialState = { POST: [mockedrequest] }
+      const initialState = { POST: [mockedrequest] };
       const { requestStoreInstance } = setup({ initialState });
 
       requestStoreInstance.removeAll();
