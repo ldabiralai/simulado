@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const spdy = require('spdy');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const PortStore = require('./stores/PortStore');
@@ -12,6 +13,7 @@ const app = express();
 const responseStore = new ResponseStore();
 const requestStore = new RequestStore();
 
+app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use('/simulado/public', express.static(`${__dirname}/../public`));
 app.set('views', path.join(__dirname, '../views'));
