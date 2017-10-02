@@ -12,7 +12,7 @@ const app = express();
 const responseStore = new ResponseStore();
 const requestStore = new RequestStore();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use('/simulado/public', express.static(`${__dirname}/../public`));
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
