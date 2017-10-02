@@ -1,6 +1,6 @@
 # Simulado
 
-[![Circle CI](https://circleci.com/gh/ldabiralai/simulado.svg?style=svg)](https://circleci.com/gh/ldabiralai/simulado)
+[![CircleCI](https://img.shields.io/circleci/project/github/ldabiralai/simulado.svg)](https://circleci.com/gh/ldabiralai/simulado) [![npm](https://img.shields.io/npm/v/simulado.svg)](https://www.npmjs.com/package/simulado)
 
 ### Install
 ```bash
