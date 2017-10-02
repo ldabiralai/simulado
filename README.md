@@ -2,6 +2,8 @@
 
 [![CircleCI](https://img.shields.io/circleci/project/github/ldabiralai/simulado.svg)](https://circleci.com/gh/ldabiralai/simulado) [![npm](https://img.shields.io/npm/v/simulado.svg)](https://www.npmjs.com/package/simulado)
 
+[2.x docs](https://github.com/ldabiralai/simulado/tree/v2)
+
 ### Install
 ```bash
 npm i simulado --save-dev
