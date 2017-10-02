@@ -1,4 +1,4 @@
-const {start, stop} = require('./server')
+const { start, stop } = require('./server');
 const {
   addMock,
   addMocks,
