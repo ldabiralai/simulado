@@ -268,6 +268,17 @@ describe('src/stores/response', () => {
         expect(responseStoreInstance.match(mockedResponse.method, '/notMatching')).to.equal(false);
       });
 
+      it('returns last match if multiple matches have been made for the same path', () => {
+        const initialMockedResponse = { method: 'get', path: '/mockedPath', body: {some: 'info'} };
+        const nextMockedResponse = { method: 'get', path: '/mockedPath', body: {more: 'info'} };
+        const initialState = {
+          GET: [initialMockedResponse, nextMockedResponse]
+        };
+        const { responseStoreInstance } = setup({ initialState });
+
+        expect(responseStoreInstance.match(initialMockedResponse.method, initialMockedResponse.path)).to.equal(nextMockedResponse);
+      });
+
       describe('conditional request options', () => {
         it('returns the match when conditional header is present', () => {
           const mockedResponse = {
@@ -437,18 +448,18 @@ describe('src/stores/response', () => {
           expect(matchResult).to.equal(false);
         });
       });
+    });
 
-      describe('removeAll()', () => {
-        it('removes all responses from the store', () => {
-          const mockedResponse = { method: 'get', path: '/previouslyMockedPath' };
-          const initialState = { GET: [mockedResponse] }
-          const { responseStoreInstance } = setup({ initialState });
+    describe('removeAll()', () => {
+      it('removes all responses from the store', () => {
+        const mockedResponse = { method: 'get', path: '/previouslyMockedPath' };
+        const initialState = { GET: [mockedResponse] }
+        const { responseStoreInstance } = setup({ initialState });
 
-          responseStoreInstance.removeAll();
+        responseStoreInstance.removeAll();
 
-          expect(responseStoreInstance.state).to.deep.equal({});
+        expect(responseStoreInstance.state).to.deep.equal({});
 
-        });
       });
     });
   });

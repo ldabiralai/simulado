@@ -45,13 +45,15 @@ class ResponseStore {
     const responsesForMethod = this.state[requestMethod];
 
     if (Boolean(responsesForMethod)) {
-      return this.state[requestMethod].find(mockedResponse => {
+      const matchedResponses = this.state[requestMethod].filter(mockedResponse => {
         const isPathMatch = this._isPathMatch(mockedResponse, path);
         const isConditionalHeadersMatch = this._isConditionalHeadersMatch(mockedResponse, requestHeaders);
         const isConditionalBodyMatch = this._isConditionalBodyMatch(mockedResponse, requestBody);
 
         return isPathMatch && isConditionalHeadersMatch && isConditionalBodyMatch;
-      }) || false;
+      }) || []
+
+      return matchedResponses[matchedResponses.length - 1] || false
     }
 
     return false;
