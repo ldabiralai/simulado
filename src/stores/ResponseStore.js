@@ -1,4 +1,5 @@
 const deepEqual = require('deep-equal');
+const merge = require('lodash.merge')
 let instance;
 
 class ResponseStore {
@@ -16,11 +17,17 @@ class ResponseStore {
   }
 
   add(responseToMock) {
-    const responseMethod = responseToMock.method.toUpperCase();
+    const defaults = {
+      method: 'GET',
+      status: 200
+    };
+    const mergedMock = merge({}, defaults, responseToMock);
+    const responseMethod = mergedMock.method.toUpperCase();
+
     this.state = Object.assign(
       {},
       this.state,
-      {[responseMethod]: (this.state[responseMethod] || []).concat(responseToMock)}
+      {[responseMethod]: (this.state[responseMethod] || []).concat(mergedMock)}
     )
   }
 
@@ -103,13 +110,3 @@ class ResponseStore {
 }
 
 module.exports = ResponseStore;
-
-module.exports.addMock = responseToMock => {
-  const defaults = {
-    method: 'GET',
-    status: 200
-  };
-  const mergedMock = Object.assign({}, defaults, responseToMock);
-
-  new ResponseStore().add(mergedMock);
-};

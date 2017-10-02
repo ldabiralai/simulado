@@ -1,4 +1,4 @@
-import ResponseStore, { addMock } from './ResponseStore';
+import ResponseStore from './ResponseStore';
 
 describe('src/stores/response', () => {
   describe('ResponseStore class', () => {
@@ -41,7 +41,8 @@ describe('src/stores/response', () => {
         const { responseStoreInstance } = setup();
         const responseToMock = {
           method: 'get',
-          path: '/testPath'
+          path: '/testPath',
+          status: 200
         };
 
         responseStoreInstance.add(responseToMock);
@@ -55,7 +56,8 @@ describe('src/stores/response', () => {
         const responseToMock = {
           method: 'get',
           path: '/testPath',
-          anotherKey: 'Data'
+          anotherKey: 'Data',
+          status: 200
         };
 
         responseStoreInstance.add(responseToMock);
@@ -71,7 +73,8 @@ describe('src/stores/response', () => {
 
         const responseToMock = {
           method: 'get',
-          path: '/testPath'
+          path: '/testPath',
+          status: 200
         };
 
         responseStoreInstance.add(responseToMock);
@@ -90,7 +93,8 @@ describe('src/stores/response', () => {
 
         const responseToMock = {
           method: 'get',
-          path: '/testPath'
+          path: '/testPath',
+          status: 200
         };
 
         responseStoreInstance.add(responseToMock);
@@ -99,6 +103,61 @@ describe('src/stores/response', () => {
           GET: [responseToMock]
         });
       });
+
+      describe('default behaviour', () => {
+        it('adds a mock to the store with defaults', () => {
+          const { responseStoreInstance } = setup();
+          const responseToMock = {
+            path: '/testPath',
+            method: undefined,
+            status: undefined
+          };
+
+          responseStoreInstance.add(responseToMock);
+          expect(responseStoreInstance.state).to.deep.equal({
+            GET: [{
+              path: '/testPath',
+              method: 'GET',
+              status: 200
+            }]
+          });
+        });
+
+        it('should not override method when specified', () => {
+          const { responseStoreInstance } = setup();
+          const responseToMock = {
+            path: '/testPath',
+            method: 'POST'
+          };
+
+          responseStoreInstance.add(responseToMock);
+          expect(responseStoreInstance.state).to.deep.equal({
+            POST: [{
+              path: '/testPath',
+              method: 'POST',
+              status: 200
+            }]
+          });
+        });
+
+        it('should not override status when specified', () => {
+          const { responseStoreInstance } = setup();
+          const responseToMock = {
+            path: '/testPath',
+            status: 201
+          };
+
+          responseStoreInstance.add(responseToMock);
+          expect(responseStoreInstance.state).to.deep.equal({
+            GET: [{
+              path: '/testPath',
+              method: 'GET',
+              status: 201
+            }]
+          });
+        });
+      })
+
     });
 
     describe('remove()', () => {
@@ -390,51 +449,6 @@ describe('src/stores/response', () => {
           expect(responseStoreInstance.state).to.deep.equal({});
 
         });
-      });
-    });
-  });
-
-  describe('addMock()', () => {
-    let responseStoreAddStub;
-
-    beforeEach(() => {
-      responseStoreAddStub = sinon.stub(ResponseStore.prototype, 'add');  
-    });
-
-    afterEach(() => {
-      responseStoreAddStub.restore();
-    })
-
-    it('adds a mock to the store with defaults', () => {
-      const responseToMock = {};
-
-      addMock(responseToMock);
-
-      expect(responseStoreAddStub).to.have.been.calledWith({
-        method: 'GET',
-        status: 200
-      });
-    });
-
-    it('should not override method when specified', () => {
-      const responseToMock = {method: 'POST'};
-
-      addMock(responseToMock);
-
-      expect(responseStoreAddStub).to.have.been.calledWith({
-        method: 'POST',
-        status: 200
-      });
-    });
-
-    it('should not override status when specified', () => {
-      const responseToMock = {status: 201};
-
-      addMock(responseToMock);
-
-      expect(responseStoreAddStub).to.have.been.calledWith({
-        method: 'GET',
-        status: 201
       });
     });
   });
