@@ -2,7 +2,7 @@ import PortStore from './PortStore';
 
 describe('src/stores/PortStore', () => {
   describe('PortStore class', () => {
-    const setup = (portNumber) => {
+    const setup = portNumber => {
       new PortStore()._removeInstance();
       const portStoreInstance = new PortStore(portNumber);
       return { portStoreInstance };
@@ -17,14 +17,18 @@ describe('src/stores/PortStore', () => {
       it('sets a custom port number', () => {
         const customPortNumber = 1234;
         const { portStoreInstance } = setup(customPortNumber);
-        expect(portStoreInstance.state).to.deep.equal({ port: customPortNumber });
+        expect(portStoreInstance.state).to.deep.equal({
+          port: customPortNumber
+        });
       });
 
       it('is a singleton class', () => {
         const customPortNumber = 1234;
         setup(customPortNumber);
         const anotherPortStoreInstance = new PortStore();
-        expect(anotherPortStoreInstance.state).to.deep.equal({ port: customPortNumber });
+        expect(anotherPortStoreInstance.state).to.deep.equal({
+          port: customPortNumber
+        });
       });
     });
 

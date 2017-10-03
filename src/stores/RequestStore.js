@@ -24,11 +24,9 @@ class RequestStore {
 
   add(request) {
     const requestMethod = request.method.toUpperCase();
-    this.state = Object.assign(
-      {},
-      this.state,
-      {[requestMethod]: (this.state[requestMethod] || []).concat(request)}
-    )
+    this.state = Object.assign({}, this.state, {
+      [requestMethod]: (this.state[requestMethod] || []).concat(request)
+    });
   }
 
   removeAll() {
