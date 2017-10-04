@@ -19,7 +19,8 @@ This will keep the server alive until the process is killed (unlike the below).
 
 ##### Options
 `-p`, `--port` - Port number that Simulado should start on.
-`-f`, `--file` - Path to a JSON file containing mocks to mock on startup
+
+`-f`, `--file` - Path to a JSON file containing mocks to mock on startup.
 
 #### Web Client
 Once Simulado has started, going to `http://localhost:<SIMULADO_PORT_NUM>` will display a list of mocked endpoints and their responses.
