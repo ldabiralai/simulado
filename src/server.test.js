@@ -1,5 +1,6 @@
 import request from 'supertest';
 import portscanner from 'portscanner';
+import sinon from 'sinon';
 import PortStore from './stores/PortStore';
 import ResponseStore from './stores/ResponseStore';
 import RequestStore from './stores/RequestStore';
@@ -64,34 +65,32 @@ describe('src/server', () => {
       });
 
       it('no key path', () => {
-        try {
-          start({
-            https: {
-              cert: '../certs/localhost.crt'
-            }
-          });
-        } catch (e) {
-          return;
-        }
+        const consoleStub = sinon.stub(console, 'error');
 
-        throw new Error('Should have thrown an error');
-      });
+        server = start({
+          https: {
+            cert: '../certs/localhost.crt'
+          }
+        })
+
+        consoleStub.restore()
+        expect(consoleStub).to.have.been.calledWith('* ERR: cert option present, but key was not provided')
+      })
 
       it('no cert path', () => {
-        try {
-          start({
-            https: {
-              key: '../certs/localhost.key'
-            }
-          });
-        } catch (e) {
-          return;
-        }
+        const consoleStub = sinon.stub(console, 'error');
 
-        throw new Error('Should have thrown an error');
-      });
-    });
-  });
+        server = start({
+          https: {
+            key: '../certs/localhost.key'
+          }
+        })
+
+        consoleStub.restore()
+        expect(consoleStub).to.have.been.calledWith('* ERR: key option present, but cert was not provided')
+      })
+    })
+  })
 
   it('stop', async () => {
     start();

@@ -6,9 +6,17 @@ const commands = require('commander');
 commands
   .option('-p, --port <port>', 'Port to listen on')
   .option('-f, --file <filepath>', 'Path to a mocks JSON file to mock on startup')
+  .option('-c, --cert <filepath>', 'Path to certificate')
+  .option('-k, --key <filepath>', 'Path to certificate key')
   .parse(process.argv);
 
-Simulado.start(commands.port || 7001);
+Simulado.start({
+  port: commands.port || 7001,
+  https: {
+    cert: commands.cert,
+    key: commands.key 
+  }
+});
 
 if (commands.file) {
   const filePath = commands.file;
