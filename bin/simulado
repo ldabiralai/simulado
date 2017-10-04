@@ -1,9 +1,17 @@
 #!/usr/bin/env node
-const Server = require('../src');
+const fs = require('fs');
+const Simulado = require('../src');
 const commands = require('commander');
 
 commands
   .option('-p, --port <port>', 'Port to listen on')
+  .option('-f, --file <filepath>', 'Path to a mocks JSON file to mock on startup')
   .parse(process.argv)
 
-Server.start(commands.port || 7001);
+Simulado.start(commands.port || 7001);
+
+if (commands.file) {
+  const fileContents = fs.readFileSync(commands.file);
+  const parsedMocks = JSON.parse(fileContents);
+  Simulado.addMocks(parsedMocks);
+}
