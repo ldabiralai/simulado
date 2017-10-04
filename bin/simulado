@@ -14,7 +14,7 @@ Simulado.start({
   port: commands.port || 7001,
   https: {
     cert: commands.cert,
-    key: commands.key 
+    key: commands.key
   }
 });
 

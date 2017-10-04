@@ -71,11 +71,13 @@ describe('src/server', () => {
           https: {
             cert: '../certs/localhost.crt'
           }
-        })
+        });
 
-        consoleStub.restore()
-        expect(consoleStub).to.have.been.calledWith('* ERR: cert option present, but key was not provided')
-      })
+        consoleStub.restore();
+        expect(consoleStub).to.have.been.calledWith(
+          '* ERR: cert option present, but key was not provided'
+        );
+      });
 
       it('no cert path', () => {
         const consoleStub = sinon.stub(console, 'error');
@@ -84,13 +86,15 @@ describe('src/server', () => {
           https: {
             key: '../certs/localhost.key'
           }
-        })
+        });
 
-        consoleStub.restore()
-        expect(consoleStub).to.have.been.calledWith('* ERR: key option present, but cert was not provided')
-      })
-    })
-  })
+        consoleStub.restore();
+        expect(consoleStub).to.have.been.calledWith(
+          '* ERR: key option present, but cert was not provided'
+        );
+      });
+    });
+  });
 
   it('stop', async () => {
     start();
