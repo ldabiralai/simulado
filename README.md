@@ -11,11 +11,17 @@ npm i simulado --save-dev
 
 ### Usage
 #### CLI
+This will keep the server alive until the process is killed (unlike the below).
+
 ```bash
 ./node_modules/.bin/simulado
 ```
 
-This will keep the server alive until the process is killed (unlike the below).
+##### Options
+`-p`, `--port` - Port number that Simulado should start on.
+
+#### Web Client
+Once Simulado has started, going to `http://localhost:<SIMULADO_PORT_NUM>` will display a list of mocked endpoints and their responses.
 
 #### Basic Usage
 ```javascript
@@ -45,7 +51,7 @@ request.get('http://localhost:1234/data')
   .then(console.log) // => { data: 'Some Data' }
 
 // Stop Simulado server once done
-simulado.close();
+simulado.stop();
 ```
 
 ### API
