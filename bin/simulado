@@ -11,7 +11,15 @@ commands
 Simulado.start(commands.port || 7001);
 
 if (commands.file) {
+  console.log(`Mocking endpoint in '${commands.file}'`);
+
   const fileContents = fs.readFileSync(commands.file);
   const parsedMocks = JSON.parse(fileContents);
-  Simulado.addMocks(parsedMocks);
+  
+  Simulado.addMocks(parsedMocks).catch(() => {
+    console.error(`* ERR: Failed to mock endpoints in '${commands.file}'`);
+    console.error('* ERR: Check you have a valid json format');
+    console.error('* ERR: The file must contain an Array of MockResponses');
+    process.exit(1);
+  });
 }
