@@ -26,11 +26,9 @@ describe('src/simulado', () => {
         this.mock(axios)
           .expects('post')
           .once()
-          .withExactArgs(
-            'http://localhost:7001/simulado/response/set',
-            responseToMock,
-            { headers: expectedHeaders }
-          )
+          .withExactArgs('http://localhost:7001/simulado/response/set', responseToMock, {
+            headers: expectedHeaders
+          })
           .returns(Promise.resolve());
 
         return addMock(responseToMock).then(result => {
@@ -78,10 +76,9 @@ describe('src/simulado', () => {
         this.mock(axios)
           .expects('get')
           .once()
-          .withExactArgs(
-            `http://localhost:7001/simulado/requests?method=${method}&path=${path}`,
-            { headers: expectedHeaders }
-          )
+          .withExactArgs(`http://localhost:7001/simulado/requests?method=${method}&path=${path}`, {
+            headers: expectedHeaders
+          })
           .returns(Promise.resolve({ data: expectedLastRequests }));
 
         return lastRequests(method, path).then(result => {
@@ -103,7 +100,9 @@ describe('src/simulado', () => {
           .once()
           .withExactArgs(
             `http://localhost:7001/simulado/requests?method=${method}&path=${path}&limit=${limit}`,
-            { headers: expectedHeaders }
+            {
+              headers: expectedHeaders
+            }
           )
           .returns(Promise.resolve({ data: expectedLastRequests }));
 
@@ -127,7 +126,9 @@ describe('src/simulado', () => {
           .once()
           .withExactArgs(
             `http://localhost:7001/simulado/requests?method=${method}&path=${path}&limit=1`,
-            { headers: expectedHeaders }
+            {
+              headers: expectedHeaders
+            }
           )
           .returns(Promise.resolve({ data: [expectedLastRequest] }));
 

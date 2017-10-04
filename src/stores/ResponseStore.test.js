@@ -174,10 +174,7 @@ describe('src/stores/response', () => {
         const initialState = { POST: [responseToRemove] };
         const { responseStoreInstance } = setup({ initialState });
 
-        responseStoreInstance.remove(
-          responseToRemove.method,
-          responseToRemove.path
-        );
+        responseStoreInstance.remove(responseToRemove.method, responseToRemove.path);
         expect(responseStoreInstance.state).to.deep.equal({
           POST: []
         });
@@ -195,10 +192,7 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        responseStoreInstance.remove(
-          responseToRemove.method,
-          responseToRemove.path
-        );
+        responseStoreInstance.remove(responseToRemove.method, responseToRemove.path);
         expect(responseStoreInstance.state).to.deep.equal({
           GET: [previouslyMockedResponse],
           POST: []
@@ -215,10 +209,7 @@ describe('src/stores/response', () => {
         const { responseStoreInstance } = setup({ initialState });
 
         expect(
-          responseStoreInstance.match(
-            mockedResponse.method,
-            '/pathThatDoesNotExist'
-          )
+          responseStoreInstance.match(mockedResponse.method, '/pathThatDoesNotExist')
         ).to.equal(false);
       });
 
@@ -229,9 +220,7 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(
-          responseStoreInstance.match('POST', '/pathThatDoesNotExist')
-        ).to.equal(false);
+        expect(responseStoreInstance.match('POST', '/pathThatDoesNotExist')).to.equal(false);
       });
 
       it('returns the match for the given method and path when response path is a string', () => {
@@ -241,12 +230,9 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(
-          responseStoreInstance.match(
-            mockedResponse.method,
-            mockedResponse.path
-          )
-        ).to.equal(mockedResponse);
+        expect(responseStoreInstance.match(mockedResponse.method, mockedResponse.path)).to.equal(
+          mockedResponse
+        );
       });
 
       it('returns the match for the given method and path when response path is a regex', () => {
@@ -257,10 +243,7 @@ describe('src/stores/response', () => {
         const { responseStoreInstance } = setup({ initialState });
 
         expect(
-          responseStoreInstance.match(
-            mockedResponse.method,
-            '/mockedPath/withAddedStuff'
-          )
+          responseStoreInstance.match(mockedResponse.method, '/mockedPath/withAddedStuff')
         ).to.equal(mockedResponse);
       });
 
@@ -271,9 +254,7 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(
-          responseStoreInstance.match(mockedResponse.method, '/notMatching')
-        ).to.equal(false);
+        expect(responseStoreInstance.match(mockedResponse.method, '/notMatching')).to.equal(false);
       });
 
       it('returns the match for the given method and path when response path is a regex as a string', () => {
@@ -288,10 +269,7 @@ describe('src/stores/response', () => {
         const { responseStoreInstance } = setup({ initialState });
 
         expect(
-          responseStoreInstance.match(
-            mockedResponse.method,
-            '/mockedPath/withAddedStuff'
-          )
+          responseStoreInstance.match(mockedResponse.method, '/mockedPath/withAddedStuff')
         ).to.equal(mockedResponse);
       });
 
@@ -306,9 +284,7 @@ describe('src/stores/response', () => {
         };
         const { responseStoreInstance } = setup({ initialState });
 
-        expect(
-          responseStoreInstance.match(mockedResponse.method, '/notMatching')
-        ).to.equal(false);
+        expect(responseStoreInstance.match(mockedResponse.method, '/notMatching')).to.equal(false);
       });
 
       it('returns last match if multiple matches have been made for the same path', () => {
@@ -328,10 +304,7 @@ describe('src/stores/response', () => {
         const { responseStoreInstance } = setup({ initialState });
 
         expect(
-          responseStoreInstance.match(
-            initialMockedResponse.method,
-            initialMockedResponse.path
-          )
+          responseStoreInstance.match(initialMockedResponse.method, initialMockedResponse.path)
         ).to.equal(nextMockedResponse);
       });
 
@@ -370,7 +343,9 @@ describe('src/stores/response', () => {
           const matchResult = responseStoreInstance.match(
             mockedResponse.method,
             mockedResponse.path,
-            { 'some-header': 'headerValue' }
+            {
+              'some-header': 'headerValue'
+            }
           );
 
           expect(matchResult).to.equal(mockedResponse);

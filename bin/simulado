@@ -6,14 +6,14 @@ const commands = require('commander');
 commands
   .option('-p, --port <port>', 'Port to listen on')
   .option('-f, --file <filepath>', 'Path to a mocks JSON file to mock on startup')
-  .parse(process.argv)
+  .parse(process.argv);
 
 Simulado.start(commands.port || 7001);
 
 if (commands.file) {
   const filePath = commands.file;
   const fileExists = fs.existsSync(filePath);
-  
+
   if (fileExists) {
     console.log(`Mocking endpoints in '${filePath}'`);
 

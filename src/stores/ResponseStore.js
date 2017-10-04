@@ -50,14 +50,9 @@ class ResponseStore {
             mockedResponse,
             requestHeaders
           );
-          const isConditionalBodyMatch = this._isConditionalBodyMatch(
-            mockedResponse,
-            requestBody
-          );
+          const isConditionalBodyMatch = this._isConditionalBodyMatch(mockedResponse, requestBody);
 
-          return (
-            isPathMatch && isConditionalHeadersMatch && isConditionalBodyMatch
-          );
+          return isPathMatch && isConditionalHeadersMatch && isConditionalBodyMatch;
         }) || [];
 
       return matchedResponses[matchedResponses.length - 1] || false;
@@ -84,16 +79,11 @@ class ResponseStore {
 
   _isConditionalHeadersMatch(mockedResponse, requestHeaders) {
     const { conditionalHeaders = {} } = mockedResponse;
-    return Object.keys(
-      conditionalHeaders
-    ).reduce((hasMatched, conditionalHeaderName) => {
+    return Object.keys(conditionalHeaders).reduce((hasMatched, conditionalHeaderName) => {
       if (hasMatched) {
         const lowerCaseConditionalHeaderName = conditionalHeaderName.toLowerCase();
-        const lowerCaseRequestHeaders = this._lowerCaseRequestHeaders(
-          requestHeaders
-        );
-        const matchedHeader =
-          lowerCaseRequestHeaders[lowerCaseConditionalHeaderName];
+        const lowerCaseRequestHeaders = this._lowerCaseRequestHeaders(requestHeaders);
+        const matchedHeader = lowerCaseRequestHeaders[lowerCaseConditionalHeaderName];
 
         return matchedHeader === conditionalHeaders[conditionalHeaderName];
       }
@@ -105,8 +95,7 @@ class ResponseStore {
   _lowerCaseRequestHeaders(requestHeaders) {
     const lowerCaseRequestHeaders = {};
     Object.keys(requestHeaders).forEach(headerName => {
-      lowerCaseRequestHeaders[headerName.toLowerCase()] =
-        requestHeaders[headerName];
+      lowerCaseRequestHeaders[headerName.toLowerCase()] = requestHeaders[headerName];
     });
     return lowerCaseRequestHeaders;
   }

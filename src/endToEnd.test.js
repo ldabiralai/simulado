@@ -372,10 +372,7 @@ describe('Simulado Mock Server', () => {
     it('clears all requests made to mocked endpoints', async () => {
       await Simulado.clearRequests();
 
-      const requests = await Simulado.lastRequests(
-        'GET',
-        '/pathThatHasBeenCleared'
-      );
+      const requests = await Simulado.lastRequests('GET', '/pathThatHasBeenCleared');
       expect(requests.length).to.equal(0);
     });
   });

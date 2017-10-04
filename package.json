@@ -20,7 +20,7 @@
     "watch": "nodemon -e js,html ./node_modules/.bin/babel-node ./bin/simulado",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --require babel-polyfill --require test.setup.js --recursive './src/**/*.test.js'",
     "compile": "./node_modules/.bin/babel src --out-dir lib",
-    "format": "prettier --write --single-quote './src/**/*.js'"
+    "format": "prettier --write --single-quote --print-width 100 './src/**/*.js' './bin/simulado'"
   },
   "author": "",
   "license": "ISC",

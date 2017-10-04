@@ -47,12 +47,7 @@ app.delete('/simulado/requests/clear', (req, res) => {
 });
 
 app.all('*', (req, res) => {
-  const matchedResponse = responseStore.match(
-    req.method,
-    req.url,
-    req.headers,
-    req.body
-  );
+  const matchedResponse = responseStore.match(req.method, req.url, req.headers, req.body);
 
   if (matchedResponse) {
     const { delay } = matchedResponse;
