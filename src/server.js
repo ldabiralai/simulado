@@ -76,15 +76,9 @@ let server;
 module.exports.start = (options = {}) => {
   const portStore = new PortStore(options.port);
   const portNumber = portStore.getState().port;
-  const https = options.https;
+  const { key, cert } = options.https || {};
 
-  if (https) {
-    const { key, cert } = https;
-
-    if (!key || !cert) {
-      throw new Error('Passed https option, but no key or cert path defined');
-    }
-
+  if (key && cert) {
     const httpsOptions = {
       key: fs.readFileSync(path.join(__dirname, key)),
       cert: fs.readFileSync(path.join(__dirname, cert)),
@@ -93,6 +87,14 @@ module.exports.start = (options = {}) => {
 
     server = spdy.createServer(httpsOptions, app).listen(portNumber);
   } else {
+    if (key) {
+      console.error('* ERR: key option present, but cert was not provided');
+    }
+
+    if (cert) {
+      console.error('* ERR: cert option present, but key was not provided');
+    }
+
     server = http.createServer(app).listen(portNumber);
   }
 
