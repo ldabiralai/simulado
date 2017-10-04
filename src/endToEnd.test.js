@@ -1,18 +1,18 @@
 import request from 'supertest';
 import portscanner from 'portscanner';
 
-const portInUse = (port) => {
+const portInUse = port => {
   return new Promise((resolve, reject) => {
     portscanner.checkPortStatus(port, '127.0.0.1', (error, status) => {
       if (error) {
-        reject(error)
+        reject(error);
       }
 
-      const inUse = status == 'open'
-      resolve(inUse)
-    })
-  })
-}
+      const inUse = status == 'open';
+      resolve(inUse);
+    });
+  });
+};
 
 describe('Simulado Mock Server', () => {
   let Simulado;
@@ -33,7 +33,7 @@ describe('Simulado Mock Server', () => {
   });
 
   describe('endpoint mocking', () => {
-    it('returns a 404 when the endpoint hasn\'t been mocked', () => {
+    it("returns a 404 when the endpoint hasn't been mocked", () => {
       return request(server)
         .get('/pathThatIsntMocked')
         .expect(404);
@@ -75,7 +75,7 @@ describe('Simulado Mock Server', () => {
         .expect(204);
     });
 
-    it('returns a 404 when the request doesn\'t match the regex path', async () => {
+    it("returns a 404 when the request doesn't match the regex path", async () => {
       await Simulado.addMock({
         path: /test.*/,
         method: 'GET',
@@ -195,9 +195,8 @@ describe('Simulado Mock Server', () => {
       });
 
       const startTime = new Date();
-      await request(server)
-        .get('/testing')
-      const endTime = new Date()
+      await request(server).get('/testing');
+      const endTime = new Date();
 
       const timeTaken = endTime - startTime;
       expect(timeTaken).to.be.above(100);
@@ -241,11 +240,13 @@ describe('Simulado Mock Server', () => {
         .get('/testPath')
         .expect(200);
 
-      await Simulado.setDefaults([{
-        method: 'GET',
-        path: '/newTestPath',
-        status: 200
-      }]);
+      await Simulado.setDefaults([
+        {
+          method: 'GET',
+          path: '/newTestPath',
+          status: 200
+        }
+      ]);
 
       await request(server)
         .get('/testPath')
@@ -266,10 +267,8 @@ describe('Simulado Mock Server', () => {
           status: 200
         });
 
-        await request(server)
-          .get('/testing')
-        await request(server)
-          .get('/testing')
+        await request(server).get('/testing');
+        await request(server).get('/testing');
 
         const requests = await Simulado.lastRequests('GET', '/testing');
         expect(requests.length).to.equal(2);
@@ -282,8 +281,7 @@ describe('Simulado Mock Server', () => {
           status: 200
         });
 
-        await request(server)
-          .get('/testing')
+        await request(server).get('/testing');
 
         const requests = await Simulado.lastRequests('GET', '/testing');
         expect(requests[0]).to.deep.equal({
@@ -301,10 +299,8 @@ describe('Simulado Mock Server', () => {
           status: 200
         });
 
-        await request(server)
-          .get('/testing')
-        await request(server)
-          .get('/testing')
+        await request(server).get('/testing');
+        await request(server).get('/testing');
 
         const requests = await Simulado.lastRequests('GET', '/testing', 1);
         expect(requests.length).to.equal(1);
@@ -330,8 +326,7 @@ describe('Simulado Mock Server', () => {
           status: 200
         });
 
-        await request(server)
-          .get('/testing')
+        await request(server).get('/testing');
 
         const lastRequest = await Simulado.lastRequest('GET', '/testing');
         expect(lastRequest).to.deep.equal({
@@ -363,8 +358,7 @@ describe('Simulado Mock Server', () => {
         status: 200
       });
 
-      await request(server)
-        .get('/pathThatHasBeenCleared')
+      await request(server).get('/pathThatHasBeenCleared');
     });
 
     it('clears all mocked responses', async () => {

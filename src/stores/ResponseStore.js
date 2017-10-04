@@ -1,5 +1,5 @@
 const deepEqual = require('deep-equal');
-const merge = require('lodash.merge')
+const merge = require('lodash.merge');
 let instance;
 
 class ResponseStore {
@@ -24,20 +24,18 @@ class ResponseStore {
     const mergedMock = merge({}, defaults, responseToMock);
     const responseMethod = mergedMock.method.toUpperCase();
 
-    this.state = Object.assign(
-      {},
-      this.state,
-      {[responseMethod]: (this.state[responseMethod] || []).concat(mergedMock)}
-    )
+    this.state = Object.assign({}, this.state, {
+      [responseMethod]: (this.state[responseMethod] || []).concat(mergedMock)
+    });
   }
 
   remove(method, path) {
     const responseToRemoveMethod = method.toUpperCase();
-    this.state = Object.assign(
-      {},
-      this.state,
-      {[responseToRemoveMethod]: this.state[responseToRemoveMethod].filter(response => response.path !== path)}
-    )
+    this.state = Object.assign({}, this.state, {
+      [responseToRemoveMethod]: this.state[responseToRemoveMethod].filter(
+        response => response.path !== path
+      )
+    });
   }
 
   match(method, path, requestHeaders = {}, requestBody) {
@@ -45,15 +43,19 @@ class ResponseStore {
     const responsesForMethod = this.state[requestMethod];
 
     if (Boolean(responsesForMethod)) {
-      const matchedResponses = this.state[requestMethod].filter(mockedResponse => {
-        const isPathMatch = this._isPathMatch(mockedResponse, path);
-        const isConditionalHeadersMatch = this._isConditionalHeadersMatch(mockedResponse, requestHeaders);
-        const isConditionalBodyMatch = this._isConditionalBodyMatch(mockedResponse, requestBody);
+      const matchedResponses =
+        this.state[requestMethod].filter(mockedResponse => {
+          const isPathMatch = this._isPathMatch(mockedResponse, path);
+          const isConditionalHeadersMatch = this._isConditionalHeadersMatch(
+            mockedResponse,
+            requestHeaders
+          );
+          const isConditionalBodyMatch = this._isConditionalBodyMatch(mockedResponse, requestBody);
 
-        return isPathMatch && isConditionalHeadersMatch && isConditionalBodyMatch;
-      }) || []
+          return isPathMatch && isConditionalHeadersMatch && isConditionalBodyMatch;
+        }) || [];
 
-      return matchedResponses[matchedResponses.length - 1] || false
+      return matchedResponses[matchedResponses.length - 1] || false;
     }
 
     return false;
