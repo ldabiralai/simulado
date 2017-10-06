@@ -37,6 +37,7 @@
     "nodemon": "^1.12.1",
     "portscanner": "^2.1.1",
     "prettier": "^1.7.3",
+    "prettier-check": "^2.0.0",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.9.0",
     "supertest": "^3.0.0"
