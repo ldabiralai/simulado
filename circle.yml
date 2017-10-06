@@ -5,4 +5,4 @@ machine:
 test:
   override:
     - npm test
-    - ./node_modules/.bin/danger
+    - npm run danger
