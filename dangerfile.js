@@ -15,5 +15,5 @@ schedule(
   })
   .catch(() => {
     warn('You haven\'t formated the code using prettier. Please run `npm run format` before merging the PR');
-  });
+  })
 );
