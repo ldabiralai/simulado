@@ -48,6 +48,12 @@ const lastRequest = async (method, path) => {
   return lastRequest[0];
 };
 
+const clearResponse = (method, path) => {
+  return axios
+    .delete(`http://localhost:${getPortNumber()}/simulado/response?method=${method.toUpperCase()}&path=${path}`)
+    .then(() => true);
+};
+
 const clearResponses = () => {
   return axios
     .delete(`http://localhost:${getPortNumber()}/simulado/responses`)
@@ -72,6 +78,7 @@ module.exports = {
   setDefaults,
   lastRequests,
   lastRequest,
+  clearResponse,
   clearResponses,
   clearRequest,
   clearRequests

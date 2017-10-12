@@ -4,6 +4,7 @@ import {
   addMocks,
   lastRequests,
   lastRequest,
+  clearResponse,
   clearResponses,
   clearRequest,
   clearRequests
@@ -140,6 +141,21 @@ describe('src/simulado', () => {
     );
   });
 
+  describe('clearResponse()', () => {
+    it(
+      'makes a request to remove single response from the store',
+      sinon.test(function() {
+        this.mock(axios)
+          .expects('delete')
+          .withExactArgs('http://localhost:7001/simulado/response?method=GET&path=/testing')
+          .returns(Promise.resolve());
+
+        return clearResponse('GET', '/testing').then(result => {
+          expect(result).to.equal(true);
+        });
+      })
+    );
+  });
   describe('clearResponses()', () => {
     it(
       'makes a request to remove all mocked responses from the store',

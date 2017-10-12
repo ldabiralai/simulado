@@ -95,6 +95,12 @@ Fetch the last request for a path
   * `path` `<String>` - The path of the requests you want to fetch
 
 
+#### `clearResponse(method, path)`
+Clear mocked response from the store
+  * `method` `<String>` - The HTTP request method to clear saved response from
+  * `path` `<String>` - The path to match against when clearing
+
+
 #### `clearResponses()`
 Clear all mocked responses from the store.
 
