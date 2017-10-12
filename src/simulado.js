@@ -54,6 +54,12 @@ const clearResponses = () => {
     .then(() => true);
 };
 
+const clearRequest = (method, path) => {
+  return axios
+    .delete(`http://localhost:${getPortNumber()}/simulado/request?method=${method.toUpperCase()}&path=${path}`)
+    .then(() => true);
+};
+
 const clearRequests = () => {
   return axios
     .delete(`http://localhost:${getPortNumber()}/simulado/requests`)
@@ -67,5 +73,6 @@ module.exports = {
   lastRequests,
   lastRequest,
   clearResponses,
+  clearRequest,
   clearRequests
 };

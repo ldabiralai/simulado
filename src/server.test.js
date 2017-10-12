@@ -109,6 +109,7 @@ describe('src/server', () => {
     let matchResponseStub;
     let removeAllResponseStub;
     let addRequestStub;
+    let removeRequestStub;
     let removeAllRequestStub;
     let getRequestStub;
 
@@ -117,6 +118,7 @@ describe('src/server', () => {
       matchResponseStub = sinon.stub(ResponseStore.prototype, 'match');
       removeAllResponseStub = sinon.stub(ResponseStore.prototype, 'removeAll');
       addRequestStub = sinon.stub(RequestStore.prototype, 'add');
+      removeRequestStub = sinon.stub(RequestStore.prototype, 'remove');
       removeAllRequestStub = sinon.stub(RequestStore.prototype, 'removeAll');
       getRequestStub = sinon.stub(RequestStore.prototype, 'get');
       server = start();
@@ -127,6 +129,7 @@ describe('src/server', () => {
       matchResponseStub.restore();
       removeAllResponseStub.restore();
       addRequestStub.restore();
+      removeRequestStub.restore();
       removeAllRequestStub.restore();
       getRequestStub.restore();
       server.close();
@@ -200,6 +203,17 @@ describe('src/server', () => {
             expect(res.body).to.deep.equal(allRequests);
           })
           .expect(200, done);
+      });
+    });
+
+    describe('DELETE /simulado/request', () => {
+      it('clears all the requests from the request store', done => {
+        request(server)
+          .del('/simulado/request')
+          .expect(() => {
+            expect(removeRequestStub).to.have.been.called;
+          })
+          .expect(201, done);
       });
     });
 

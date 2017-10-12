@@ -29,6 +29,12 @@ class RequestStore {
     });
   }
 
+  remove(method, path) {
+    this.state = Object.assign({}, this.state, {
+        [method]: (this.state[method] || []).filter(request => request.path !== path)
+    });
+  }
+
   removeAll() {
     this.state = {};
   }
