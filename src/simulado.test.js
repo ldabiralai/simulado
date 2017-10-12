@@ -26,7 +26,7 @@ describe('src/simulado', () => {
         this.mock(axios)
           .expects('post')
           .once()
-          .withExactArgs('http://localhost:7001/simulado/response/set', responseToMock, {
+          .withExactArgs('http://localhost:7001/simulado/response', responseToMock, {
             headers: expectedHeaders
           })
           .returns(Promise.resolve());
@@ -145,7 +145,7 @@ describe('src/simulado', () => {
       sinon.test(function() {
         this.mock(axios)
           .expects('delete')
-          .withExactArgs('http://localhost:7001/simulado/responses/clear')
+          .withExactArgs('http://localhost:7001/simulado/responses')
           .returns(Promise.resolve());
 
         return clearResponses().then(result => {
@@ -161,7 +161,7 @@ describe('src/simulado', () => {
       sinon.test(function() {
         this.mock(axios)
           .expects('delete')
-          .withExactArgs('http://localhost:7001/simulado/requests/clear')
+          .withExactArgs('http://localhost:7001/simulado/requests')
           .returns(Promise.resolve());
 
         return clearRequests().then(result => {

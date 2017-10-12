@@ -30,18 +30,18 @@ app.get('/simulado/requests', (req, res) => {
   res.status(200).send(requests);
 });
 
-app.post('/simulado/response/set', (req, res) => {
+app.post('/simulado/response', (req, res) => {
   const responseToMock = req.body;
   responseStore.add(responseToMock);
   res.sendStatus(201);
 });
 
-app.delete('/simulado/responses/clear', (req, res) => {
+app.delete('/simulado/responses', (req, res) => {
   responseStore.removeAll();
   res.sendStatus(201);
 });
 
-app.delete('/simulado/requests/clear', (req, res) => {
+app.delete('/simulado/requests', (req, res) => {
   requestStore.removeAll();
   res.sendStatus(201);
 });
