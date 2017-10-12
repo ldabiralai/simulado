@@ -50,26 +50,26 @@ const lastRequest = async (method, path) => {
 
 const clearResponse = (method, path) => {
   return axios
-    .delete(`http://localhost:${getPortNumber()}/simulado/response?method=${method.toUpperCase()}&path=${path}`)
+    .delete(
+      `http://localhost:${getPortNumber()}/simulado/response?method=${method.toUpperCase()}&path=${path}`
+    )
     .then(() => true);
 };
 
 const clearResponses = () => {
-  return axios
-    .delete(`http://localhost:${getPortNumber()}/simulado/responses`)
-    .then(() => true);
+  return axios.delete(`http://localhost:${getPortNumber()}/simulado/responses`).then(() => true);
 };
 
 const clearRequest = (method, path) => {
   return axios
-    .delete(`http://localhost:${getPortNumber()}/simulado/request?method=${method.toUpperCase()}&path=${path}`)
+    .delete(
+      `http://localhost:${getPortNumber()}/simulado/request?method=${method.toUpperCase()}&path=${path}`
+    )
     .then(() => true);
 };
 
 const clearRequests = () => {
-  return axios
-    .delete(`http://localhost:${getPortNumber()}/simulado/requests`)
-    .then(() => true);
+  return axios.delete(`http://localhost:${getPortNumber()}/simulado/requests`).then(() => true);
 };
 
 module.exports = {

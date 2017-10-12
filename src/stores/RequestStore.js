@@ -31,7 +31,7 @@ class RequestStore {
 
   remove(method, path) {
     this.state = Object.assign({}, this.state, {
-        [method]: (this.state[method] || []).filter(request => request.path !== path)
+      [method]: (this.state[method] || []).filter(request => request.path !== path)
     });
   }
 

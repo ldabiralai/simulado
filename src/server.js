@@ -37,7 +37,7 @@ app.post('/simulado/response', (req, res) => {
 });
 
 app.delete('/simulado/response', (req, res) => {
-  const { method, path } = req.query
+  const { method, path } = req.query;
   responseStore.remove(method, path);
   res.sendStatus(201);
 });
@@ -48,7 +48,7 @@ app.delete('/simulado/responses', (req, res) => {
 });
 
 app.delete('/simulado/request', (req, res) => {
-  const { method, path } = req.query
+  const { method, path } = req.query;
   requestStore.remove(method, path);
   res.sendStatus(201);
 });

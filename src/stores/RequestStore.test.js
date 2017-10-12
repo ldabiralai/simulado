@@ -143,9 +143,10 @@ describe('src/stores/request', () => {
       requestStoreInstance.remove(requestToRemove.method, requestToRemove.path);
 
       expect(requestStoreInstance.state).to.deep.equal({
-        GET: [], POST: [requestToKeep]
+        GET: [],
+        POST: [requestToKeep]
       });
-    })
+    });
   });
 
   describe('removeAll()', () => {
