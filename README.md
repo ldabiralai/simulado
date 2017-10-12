@@ -1,6 +1,6 @@
 # Simulado
 
-[![CircleCI](https://img.shields.io/circleci/project/github/ldabiralai/simulado.svg)](https://circleci.com/gh/ldabiralai/simulado) [![npm](https://img.shields.io/npm/v/simulado.svg)](https://www.npmjs.com/package/simulado)
+[![CircleCI](https://img.shields.io/circleci/project/github/ldabiralai/simulado.svg)](https://circleci.com/gh/ldabiralai/simulado) [![npm](https://img.shields.io/npm/v/simulado.svg)](https://www.npmjs.com/package/simulado) [![node](https://img.shields.io/node/v/simulado.svg)]()
 
 [2.x docs](https://github.com/ldabiralai/simulado/tree/v2)
 
@@ -95,7 +95,7 @@ Fetch the last request for a path
   * `path` `<String>` - The path of the requests you want to fetch
 
 
-#### `clearResponse(method, path)`
+#### `clearResponse(method, path)`
 Clear mocked response from the store
   * `method` `<String>` - The HTTP request method to clear saved response from
   * `path` `<String>` - The path to match against when clearing
@@ -105,7 +105,7 @@ Clear mocked response from the store
 Clear all mocked responses from the store.
 
 
-#### `clearRequest(method, path)`
+#### `clearRequest(method, path)`
 Clear captured request from the store
   * `method` `<String>` - The HTTP request method to clear saved request from
   * `path` `<String>` - The path to match against when clearing
