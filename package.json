@@ -6,6 +6,9 @@
   "bin": {
     "simulado": "bin/simulado"
   },
+  "engines": {
+    "node": ">=8"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ldabiralai/simulado.git"
