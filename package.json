@@ -1,6 +1,6 @@
 {
   "name": "simulado",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "A simple nodejs mockserver",
   "main": "src/index.js",
   "bin": {
