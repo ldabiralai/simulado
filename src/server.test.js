@@ -169,7 +169,7 @@ describe('src/server', () => {
       });
     });
 
-    describe('POST /simulado/response/set', () => {
+    describe('POST /simulado/response', () => {
       it('sets the mock in the response store', done => {
         const mockResponse = {
           method: 'GET',
@@ -178,7 +178,7 @@ describe('src/server', () => {
         };
 
         request(server)
-          .post('/simulado/response/set')
+          .post('/simulado/response')
           .set('Content-Type', 'application/json')
           .send(mockResponse)
           .expect(() => {
@@ -203,10 +203,10 @@ describe('src/server', () => {
       });
     });
 
-    describe('DELETE /simulado/requests/clear', () => {
+    describe('DELETE /simulado/requests', () => {
       it('clears all the requests from the request store', done => {
         request(server)
-          .del('/simulado/requests/clear')
+          .del('/simulado/requests')
           .expect(() => {
             expect(removeAllRequestStub).to.have.been.called;
           })
@@ -214,10 +214,10 @@ describe('src/server', () => {
       });
     });
 
-    describe('DELETE /simulado/responses/clear', () => {
+    describe('DELETE /simulado/responses', () => {
       it('clears all the responses from the response store', done => {
         request(server)
-          .del('/simulado/responses/clear')
+          .del('/simulado/responses')
           .expect(() => {
             expect(removeAllResponseStub).to.have.been.called;
           })

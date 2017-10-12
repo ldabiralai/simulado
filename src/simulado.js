@@ -11,7 +11,7 @@ const addMock = responseToMock => {
 
   return axios
     .post(
-      `http://localhost:${getPortNumber()}/simulado/response/set`,
+      `http://localhost:${getPortNumber()}/simulado/response`,
       Object.assign({}, responseToMock, {
         path: path.toString(),
         isRegexPath: typeof path === 'object'
@@ -50,13 +50,13 @@ const lastRequest = async (method, path) => {
 
 const clearResponses = () => {
   return axios
-    .delete(`http://localhost:${getPortNumber()}/simulado/responses/clear`)
+    .delete(`http://localhost:${getPortNumber()}/simulado/responses`)
     .then(() => true);
 };
 
 const clearRequests = () => {
   return axios
-    .delete(`http://localhost:${getPortNumber()}/simulado/requests/clear`)
+    .delete(`http://localhost:${getPortNumber()}/simulado/requests`)
     .then(() => true);
 };
 
