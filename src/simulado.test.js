@@ -5,6 +5,7 @@ import {
   lastRequests,
   lastRequest,
   clearResponses,
+  clearRequest,
   clearRequests
 } from './simulado';
 
@@ -149,6 +150,22 @@ describe('src/simulado', () => {
           .returns(Promise.resolve());
 
         return clearResponses().then(result => {
+          expect(result).to.equal(true);
+        });
+      })
+    );
+  });
+
+  describe('clearRequest()', () => {
+    it(
+      'makes a request to remove single request from the store',
+      sinon.test(function() {
+        this.mock(axios)
+          .expects('delete')
+          .withExactArgs('http://localhost:7001/simulado/request?method=GET&path=/testing')
+          .returns(Promise.resolve());
+
+        return clearRequest('GET', '/testing').then(result => {
           expect(result).to.equal(true);
         });
       })

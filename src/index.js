@@ -6,6 +6,7 @@ const {
   lastRequests,
   lastRequest,
   clearResponses,
+  clearRequest,
   clearRequests
 } = require('./simulado.js');
 
@@ -18,5 +19,6 @@ module.exports = {
   lastRequests,
   lastRequest,
   clearResponses,
+  clearRequest,
   clearRequests
 };

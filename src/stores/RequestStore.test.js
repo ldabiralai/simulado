@@ -133,6 +133,21 @@ describe('src/stores/request', () => {
     });
   });
 
+  describe('remove()', () => {
+    it('removes matching request from the store', () => {
+      const requestToRemove = { method: 'GET', path: '/aPath' };
+      const requestToKeep = { method: 'POST', path: '/anotherPath' };
+      const initialState = { GET: [requestToRemove], POST: [requestToKeep] };
+      const { requestStoreInstance } = setup({ initialState });
+
+      requestStoreInstance.remove(requestToRemove.method, requestToRemove.path);
+
+      expect(requestStoreInstance.state).to.deep.equal({
+        GET: [], POST: [requestToKeep]
+      });
+    })
+  });
+
   describe('removeAll()', () => {
     it('removes all requests from the store', () => {
       const mockedrequest = { method: 'post', path: '/previouslyMockedPath' };
