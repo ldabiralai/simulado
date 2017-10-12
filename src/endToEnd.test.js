@@ -361,12 +361,27 @@ describe('Simulado Mock Server', () => {
       await request(server).get('/pathThatHasBeenCleared');
     });
 
+    it('clears matching mocked responses', async () => {
+      await Simulado.clearResponse('GET', '/pathThatHasBeenCleared');
+
+      return request(server)
+        .get('/pathThatHasBeenCleared')
+        .expect(404);
+    });
+
     it('clears all mocked responses', async () => {
       await Simulado.clearResponses();
 
       return request(server)
         .get('/pathThatHasBeenCleared')
         .expect(404);
+    });
+
+    it('clears all requests for matching endpoint', async () => {
+      await Simulado.clearRequest('GET', '/pathThatHasBeenCleared');
+
+      const requests = await Simulado.lastRequests('GET', '/pathThatHasBeenCleared');
+      expect(requests.length).to.equal(0);
     });
 
     it('clears all requests made to mocked endpoints', async () => {
