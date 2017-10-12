@@ -5,6 +5,7 @@ const {
   setDefaults,
   lastRequests,
   lastRequest,
+  clearResponse,
   clearResponses,
   clearRequest,
   clearRequests
@@ -18,6 +19,7 @@ module.exports = {
   setDefaults,
   lastRequests,
   lastRequest,
+  clearResponse,
   clearResponses,
   clearRequest,
   clearRequests

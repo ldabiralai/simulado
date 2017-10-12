@@ -36,6 +36,12 @@ app.post('/simulado/response', (req, res) => {
   res.sendStatus(201);
 });
 
+app.delete('/simulado/response', (req, res) => {
+  const { method, path } = req.query
+  responseStore.remove(method, path);
+  res.sendStatus(201);
+});
+
 app.delete('/simulado/responses', (req, res) => {
   responseStore.removeAll();
   res.sendStatus(201);

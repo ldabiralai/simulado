@@ -107,6 +107,7 @@ describe('src/server', () => {
     let server;
     let addResponseStub;
     let matchResponseStub;
+    let removeResponseStub;
     let removeAllResponseStub;
     let addRequestStub;
     let removeRequestStub;
@@ -116,6 +117,7 @@ describe('src/server', () => {
     beforeEach(() => {
       addResponseStub = sinon.stub(ResponseStore.prototype, 'add');
       matchResponseStub = sinon.stub(ResponseStore.prototype, 'match');
+      removeResponseStub = sinon.stub(ResponseStore.prototype, 'remove');
       removeAllResponseStub = sinon.stub(ResponseStore.prototype, 'removeAll');
       addRequestStub = sinon.stub(RequestStore.prototype, 'add');
       removeRequestStub = sinon.stub(RequestStore.prototype, 'remove');
@@ -127,6 +129,7 @@ describe('src/server', () => {
     afterEach(() => {
       addResponseStub.restore();
       matchResponseStub.restore();
+      removeResponseStub.restore();
       removeAllResponseStub.restore();
       addRequestStub.restore();
       removeRequestStub.restore();
@@ -223,6 +226,17 @@ describe('src/server', () => {
           .del('/simulado/requests')
           .expect(() => {
             expect(removeAllRequestStub).to.have.been.called;
+          })
+          .expect(201, done);
+      });
+    });
+
+    describe('DELETE /simulado/response', () => {
+      it('clears the matching response from the response store', done => {
+        request(server)
+          .del('/simulado/response?method=GET&path=/testing')
+          .expect(() => {
+            expect(removeResponseStub).to.have.been.calledWith('GET', '/testing');
           })
           .expect(201, done);
       });
