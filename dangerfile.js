@@ -1,19 +1,48 @@
 import { schedule, message, warn } from "danger";
-import prettierCheck from 'prettier-check';
+import fs from 'fs';
+import prettier from 'prettier';
+import glob from 'glob';
 
-const srcDir = `${__dirname}/src/**/*.js`;
-const args = [
-  '--single-quote',
-  '--print-width 100',
-  srcDir
-];
+const srcDirGlob = `${__dirname}/src/**/*.js`;
+const options = {
+  singleQuote: true,
+  printWidth: 100
+};
 
-schedule(
-  prettierCheck(args)
-  .then(() => {
-    message(':tada: Your code is formatted correctly');
-  })
-  .catch(() => {
-    warn('You haven\'t formated the code using prettier. Please run `npm run format` before merging the PR');
-  })
-);
+const getAllFilePaths = dirGlob => {
+  return new Promise((resolve, reject) => {
+    glob(dirGlob, (err, filePaths) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(filePaths);
+      }
+    });
+  });
+};
+
+const isFileFormatted = path => {
+  const fileContents = fs.readFileSync(path);
+  return prettier.check(fileContents.toString(), options);
+}
+
+schedule(async () => {
+  try {
+    const failedFilePaths = [];
+    const filePaths = await getAllFilePaths(srcDirGlob);
+    
+    filePaths.forEach(filePath => {
+      if (!isFileFormatted(filePath)) {
+        failedFilePaths.push(filePath);
+      }
+    });
+
+    if (failedFilePaths.length > 0) {
+      warn('You haven\'t formated the code using prettier. Please run `npm run format` before merging the PR');
+    } else {
+      message(':tada: Your code is formatted correctly');
+    }
+  } catch (e) {
+    console.error('Looks like something went wrong! :/');
+  }
+});
