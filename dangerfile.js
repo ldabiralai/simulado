@@ -1,4 +1,4 @@
-import { schedule, message, warn } from "danger";
+import { schedule, message, fail } from "danger";
 import fs from 'fs';
 import prettier from 'prettier';
 import glob from 'glob';
@@ -38,11 +38,11 @@ schedule(async () => {
     });
 
     if (failedFilePaths.length > 0) {
-      warn('You haven\'t formated the code using prettier. Please run `npm run format` before merging the PR');
+      fail('You haven\'t formated the code using prettier. Please run `npm run format` before merging the PR');
     } else {
       message(':tada: Your code is formatted correctly');
     }
   } catch (e) {
-    console.error('Looks like something went wrong! :/');
+    fail('Looks like something went wrong! :/');
   }
 });
