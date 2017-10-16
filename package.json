@@ -23,7 +23,8 @@
     "watch": "nodemon -e js,html ./node_modules/.bin/babel-node ./bin/simulado",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --require babel-polyfill --require test.setup.js --recursive './src/**/*.test.js'",
     "compile": "./node_modules/.bin/babel src --out-dir lib",
-    "format": "prettier --write --single-quote --print-width 100 './src/**/*.js' './bin/simulado'"
+    "format": "prettier --write --single-quote --print-width 100 './src/**/*.js' './bin/simulado'",
+    "danger": "danger"
   },
   "author": "",
   "license": "ISC",
@@ -34,10 +35,13 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^3.0.0",
+    "danger": "^2.0.0-alpha.20",
+    "glob": "^7.1.2",
     "mocha": "^2.2.5",
     "nodemon": "^1.12.1",
     "portscanner": "^2.1.1",
     "prettier": "^1.7.3",
+    "prettier-check": "^2.0.0",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.9.0",
     "supertest": "^3.0.0"
