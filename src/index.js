@@ -1,5 +1,9 @@
 const { start, stop } = require('./server');
-const {  addMock,  addMocks,  setDefaults,  lastRequests,
+const {
+  addMock,
+  addMocks,
+  setDefaults,
+  lastRequests,
   lastRequest,
   clearResponses,
   clearRequests
