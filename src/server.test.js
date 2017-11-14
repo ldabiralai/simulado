@@ -173,6 +173,80 @@ describe('src/server', () => {
           })
           .expect(200, done);
       });
+
+      it('sets the matched mock headers', done => {
+        const mockedResponse = {
+          path: '/testPath',
+          method: 'get',
+          status: 200,
+          headers: {
+            'x-custom-header': 'Value'
+          }
+        };
+
+        matchResponseStub.returns(mockedResponse);
+
+        request(server)
+          .get(mockedResponse.path)
+          .expect(res => {
+            console.log(res.headers);
+            expect(res.headers['x-custom-header']).to.equal('Value');
+          })
+          .expect(200, done);
+      });
+
+      it('sets the Access-Control-Allow-Origin to the request origin header if present', done => {
+        const mockedResponse = {
+          path: '/testPath',
+          method: 'get',
+          status: 200
+        };
+
+        matchResponseStub.returns(mockedResponse);
+
+        const origin = 'http://origin.com';
+        request(server)
+          .get(mockedResponse.path)
+          .set('origin', origin)
+          .expect(res => {
+            expect(res.headers['access-control-allow-origin']).to.equal(origin);
+          })
+          .expect(200, done);
+      });
+
+      it('sets the Access-Control-Allow-Origin to * if request origin header is not present', done => {
+        const mockedResponse = {
+          path: '/testPath',
+          method: 'get',
+          status: 200
+        };
+
+        matchResponseStub.returns(mockedResponse);
+
+        request(server)
+          .get(mockedResponse.path)
+          .expect(res => {
+            expect(res.headers['access-control-allow-origin']).to.equal('*');
+          })
+          .expect(200, done);
+      });
+
+      it('sets the Access-Control-Allow-Credentials to true', done => {
+        const mockedResponse = {
+          path: '/testPath',
+          method: 'get',
+          status: 200
+        };
+
+        matchResponseStub.returns(mockedResponse);
+
+        request(server)
+          .get(mockedResponse.path)
+          .expect(res => {
+            expect(res.headers['access-control-allow-credentials']).to.equal('true');
+          })
+          .expect(200, done);
+      });
     });
 
     describe('POST /simulado/response', () => {

@@ -35,9 +35,9 @@ const setDefaults = async responsesToMock => {
 const lastRequests = (method, path, limit) => {
   return axios
     .get(
-      `http://localhost:${getPortNumber()}/simulado/requests?method=${method.toUpperCase()}&path=${path}${limit
-        ? `&limit=${limit}`
-        : ''}`,
+      `http://localhost:${getPortNumber()}/simulado/requests?method=${method.toUpperCase()}&path=${
+        path
+      }${limit ? `&limit=${limit}` : ''}`,
       { headers: { 'Content-Type': 'application/json' } }
     )
     .then(response => response.data);
@@ -51,7 +51,9 @@ const lastRequest = async (method, path) => {
 const clearResponse = (method, path) => {
   return axios
     .delete(
-      `http://localhost:${getPortNumber()}/simulado/response?method=${method.toUpperCase()}&path=${path}`
+      `http://localhost:${getPortNumber()}/simulado/response?method=${method.toUpperCase()}&path=${
+        path
+      }`
     )
     .then(() => true);
 };
@@ -63,7 +65,9 @@ const clearResponses = () => {
 const clearRequest = (method, path) => {
   return axios
     .delete(
-      `http://localhost:${getPortNumber()}/simulado/request?method=${method.toUpperCase()}&path=${path}`
+      `http://localhost:${getPortNumber()}/simulado/request?method=${method.toUpperCase()}&path=${
+        path
+      }`
     )
     .then(() => true);
 };
