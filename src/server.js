@@ -13,12 +13,7 @@ const app = express();
 const responseStore = new ResponseStore();
 const requestStore = new RequestStore();
 
-app.use(
-  cors({
-    credentials: true
-  })
-);
-
+app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use('/simulado/public', express.static(`${__dirname}/../public`));
 app.set('views', path.join(__dirname, '../views'));
@@ -71,7 +66,6 @@ app.all('*', (req, res) => {
     const { path, method, headers, body } = req;
     const response = () =>
       res
-        .set('Access-Control-Allow-Origin', headers['origin'] || '*')
         .set(matchedResponse.headers)
         .status(matchedResponse.status)
         .send(matchedResponse.body);
