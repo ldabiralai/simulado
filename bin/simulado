@@ -11,7 +11,7 @@ commands
   .parse(process.argv);
 
 Simulado.start({
-  port: commands.port || 7001,
+  port: commands.port || process.env.PORT || 7001,
   https: {
     cert: commands.cert,
     key: commands.key

@@ -86,7 +86,7 @@ app.all('*', (req, res) => {
 
 let server;
 module.exports.start = (options = {}) => {
-  const portStore = new PortStore(options.port || process.env.PORT);
+  const portStore = new PortStore(options.port);
   const portNumber = portStore.getState().port;
   const { key, cert } = options.https || {};
 
