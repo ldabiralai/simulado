@@ -8,7 +8,11 @@ const getPortNumber = () => {
 
 let serverUrl = `http://localhost:${getPortNumber()}`
 const setRemoteServer = (url) => {
-  serverUrl = url
+  if (url.endsWith('/')) {
+    serverUrl = url.slice(0, -1)
+  } else {
+    serverUrl = url
+  }
 }
 
 const addMock = responseToMock => {
