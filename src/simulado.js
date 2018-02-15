@@ -6,12 +6,21 @@ const getPortNumber = () => {
   return portStoreInstance.getState().port;
 };
 
+let serverUrl = `http://localhost:${getPortNumber()}`
+const setRemoteServer = (url) => {
+  if (url.endsWith('/')) {
+    serverUrl = url.slice(0, -1)
+  } else {
+    serverUrl = url
+  }
+}
+
 const addMock = responseToMock => {
   const { path } = responseToMock;
 
   return axios
     .post(
-      `http://localhost:${getPortNumber()}/simulado/response`,
+      `${serverUrl}/simulado/response`,
       Object.assign({}, responseToMock, {
         path: path.toString(),
         isRegexPath: typeof path === 'object'
@@ -35,7 +44,7 @@ const setDefaults = async responsesToMock => {
 const lastRequests = (method, path, limit) => {
   return axios
     .get(
-      `http://localhost:${getPortNumber()}/simulado/requests?method=${method.toUpperCase()}&path=${path}${limit
+      `${serverUrl}/simulado/requests?method=${method.toUpperCase()}&path=${path}${limit
         ? `&limit=${limit}`
         : ''}`,
       { headers: { 'Content-Type': 'application/json' } }
@@ -51,28 +60,29 @@ const lastRequest = async (method, path) => {
 const clearResponse = (method, path) => {
   return axios
     .delete(
-      `http://localhost:${getPortNumber()}/simulado/response?method=${method.toUpperCase()}&path=${path}`
+      `${serverUrl}/simulado/response?method=${method.toUpperCase()}&path=${path}`
     )
     .then(() => true);
 };
 
 const clearResponses = () => {
-  return axios.delete(`http://localhost:${getPortNumber()}/simulado/responses`).then(() => true);
+  return axios.delete(`${serverUrl}/simulado/responses`).then(() => true);
 };
 
 const clearRequest = (method, path) => {
   return axios
     .delete(
-      `http://localhost:${getPortNumber()}/simulado/request?method=${method.toUpperCase()}&path=${path}`
+      `${serverUrl}/simulado/request?method=${method.toUpperCase()}&path=${path}`
     )
     .then(() => true);
 };
 
 const clearRequests = () => {
-  return axios.delete(`http://localhost:${getPortNumber()}/simulado/requests`).then(() => true);
+  return axios.delete(`${serverUrl}/simulado/requests`).then(() => true);
 };
 
 module.exports = {
+  setRemoteServer,
   addMock,
   addMocks,
   setDefaults,
