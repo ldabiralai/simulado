@@ -18,7 +18,7 @@ describe('src/simulado', () => {
     setRemoteServer('http://localhost:7001')
   })
 
-  describe.only('setRemoteServer()', () => {
+  describe('setRemoteServer()', () => {
     it('should update server correctly', sinon.test(function() {
       const testRemoteServer = 'http://test'
       setRemoteServer(testRemoteServer)

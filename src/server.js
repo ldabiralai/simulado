@@ -13,7 +13,7 @@ const app = express();
 const responseStore = new ResponseStore();
 const requestStore = new RequestStore();
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use('/simulado/public', express.static(`${__dirname}/../public`));
 app.set('views', path.join(__dirname, '../views'));
