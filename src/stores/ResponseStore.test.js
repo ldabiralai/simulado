@@ -308,6 +308,32 @@ describe('src/stores/response', () => {
         ).to.equal(nextMockedResponse);
       });
 
+      describe('requests with query strings', () => {
+        it('returns the match for the given method and path and ordered query string', () => {
+          const mockedResponse = { method: 'get', path: '/mockedPath?test=1&another=2' };
+          const initialState = {
+            GET: [mockedResponse]
+          };
+          const { responseStoreInstance } = setup({ initialState });
+
+          expect(responseStoreInstance.match(mockedResponse.method, mockedResponse.path)).to.equal(
+            mockedResponse
+          );
+        });
+
+        it('returns the match for the given method and path and out of order query string', () => {
+          const mockedResponse = { method: 'get', path: '/mockedPath?test=1&another=2' };
+          const initialState = {
+            GET: [mockedResponse]
+          };
+          const { responseStoreInstance } = setup({ initialState });
+
+          expect(responseStoreInstance.match(mockedResponse.method, '/mockedPath?another=2&test=1')).to.equal(
+            mockedResponse
+          );
+        });
+      })
+
       describe('conditional request options', () => {
         it('returns the match when conditional header is present', () => {
           const mockedResponse = {

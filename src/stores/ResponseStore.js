@@ -1,3 +1,4 @@
+const queryString = require('query-string');
 const deepEqual = require('deep-equal');
 const merge = require('lodash.merge');
 let instance;
@@ -74,7 +75,10 @@ class ResponseStore {
       return pathRegExp.test(pathToMatch);
     }
 
-    return pathToMatch === path;
+    const parsedPathToMatch = queryString.parseUrl(pathToMatch)
+    const parsedPath = queryString.parseUrl(path)
+
+    return deepEqual(parsedPathToMatch, parsedPath);
   }
 
   _isConditionalHeadersMatch(mockedResponse, requestHeaders) {
