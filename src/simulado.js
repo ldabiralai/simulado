@@ -6,14 +6,14 @@ const getPortNumber = () => {
   return portStoreInstance.getState().port;
 };
 
-let serverUrl = `http://localhost:${getPortNumber()}`
-const setRemoteServer = (url) => {
+let serverUrl = `http://localhost:${getPortNumber()}`;
+const setRemoteServer = url => {
   if (url.endsWith('/')) {
-    serverUrl = url.slice(0, -1)
+    serverUrl = url.slice(0, -1);
   } else {
-    serverUrl = url
+    serverUrl = url;
   }
-}
+};
 
 const addMock = responseToMock => {
   const { path } = responseToMock;
@@ -59,9 +59,7 @@ const lastRequest = async (method, path) => {
 
 const clearResponse = (method, path) => {
   return axios
-    .delete(
-      `${serverUrl}/simulado/response?method=${method.toUpperCase()}&path=${path}`
-    )
+    .delete(`${serverUrl}/simulado/response?method=${method.toUpperCase()}&path=${path}`)
     .then(() => true);
 };
 
@@ -71,9 +69,7 @@ const clearResponses = () => {
 
 const clearRequest = (method, path) => {
   return axios
-    .delete(
-      `${serverUrl}/simulado/request?method=${method.toUpperCase()}&path=${path}`
-    )
+    .delete(`${serverUrl}/simulado/request?method=${method.toUpperCase()}&path=${path}`)
     .then(() => true);
 };
 

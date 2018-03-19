@@ -328,11 +328,11 @@ describe('src/stores/response', () => {
           };
           const { responseStoreInstance } = setup({ initialState });
 
-          expect(responseStoreInstance.match(mockedResponse.method, '/mockedPath?another=2&test=1')).to.equal(
-            mockedResponse
-          );
+          expect(
+            responseStoreInstance.match(mockedResponse.method, '/mockedPath?another=2&test=1')
+          ).to.equal(mockedResponse);
         });
-      })
+      });
 
       describe('conditional request options', () => {
         it('returns the match when conditional header is present', () => {

@@ -75,8 +75,8 @@ class ResponseStore {
       return pathRegExp.test(pathToMatch);
     }
 
-    const parsedPathToMatch = queryString.parseUrl(pathToMatch)
-    const parsedPath = queryString.parseUrl(path)
+    const parsedPathToMatch = queryString.parseUrl(pathToMatch);
+    const parsedPath = queryString.parseUrl(path);
 
     return deepEqual(parsedPathToMatch, parsedPath);
   }

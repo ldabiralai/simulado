@@ -15,55 +15,61 @@ describe('src/simulado', () => {
   const expectedHeaders = { 'Content-Type': 'application/json' };
 
   beforeEach(() => {
-    setRemoteServer('http://localhost:7001')
-  })
+    setRemoteServer('http://localhost:7001');
+  });
 
   describe('setRemoteServer()', () => {
-    it('should update server correctly', sinon.test(function() {
-      const testRemoteServer = 'http://test'
-      setRemoteServer(testRemoteServer)
+    it(
+      'should update server correctly',
+      sinon.test(function() {
+        const testRemoteServer = 'http://test';
+        setRemoteServer(testRemoteServer);
 
-      const responseToMock = {
-        path: '/testPath',
-        isRegexPath: false,
-      };
+        const responseToMock = {
+          path: '/testPath',
+          isRegexPath: false
+        };
 
-      this.mock(axios)
-        .expects('post')
-        .once()
-        .withExactArgs(`${testRemoteServer}/simulado/response`, responseToMock, {
-          headers: expectedHeaders
-        })
-        .returns(Promise.resolve());
+        this.mock(axios)
+          .expects('post')
+          .once()
+          .withExactArgs(`${testRemoteServer}/simulado/response`, responseToMock, {
+            headers: expectedHeaders
+          })
+          .returns(Promise.resolve());
 
-      return addMock(responseToMock).then(result => {
-        expect(result).to.equal(true);
-      });
-    }))
+        return addMock(responseToMock).then(result => {
+          expect(result).to.equal(true);
+        });
+      })
+    );
 
-    it('should strip trailing slash if present', sinon.test(function() {
-      const testRemoteServer = 'http://test/'
-      const expectedRemoteServer = 'http://test'
-      setRemoteServer(testRemoteServer)
+    it(
+      'should strip trailing slash if present',
+      sinon.test(function() {
+        const testRemoteServer = 'http://test/';
+        const expectedRemoteServer = 'http://test';
+        setRemoteServer(testRemoteServer);
 
-      const responseToMock = {
-        path: '/testPath',
-        isRegexPath: false,
-      };
+        const responseToMock = {
+          path: '/testPath',
+          isRegexPath: false
+        };
 
-      this.mock(axios)
-        .expects('post')
-        .once()
-        .withExactArgs(`${expectedRemoteServer}/simulado/response`, responseToMock, {
-          headers: expectedHeaders
-        })
-        .returns(Promise.resolve());
+        this.mock(axios)
+          .expects('post')
+          .once()
+          .withExactArgs(`${expectedRemoteServer}/simulado/response`, responseToMock, {
+            headers: expectedHeaders
+          })
+          .returns(Promise.resolve());
 
-      return addMock(responseToMock).then(result => {
-        expect(result).to.equal(true);
-      });
-    }))
-  })
+        return addMock(responseToMock).then(result => {
+          expect(result).to.equal(true);
+        });
+      })
+    );
+  });
 
   describe('addMock()', () => {
     it(
