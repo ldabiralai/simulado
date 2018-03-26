@@ -22,6 +22,11 @@ This will keep the server alive until the process is killed (unlike the below).
 
 `-f`, `--file` - Path to a JSON file containing mocks to mock on startup.
 
+##### For HTTPS, use the following options
+`-c`, `--cert <filepath>` - Path to certificate
+
+`-k`, `--key <filepath>` - Path to certificate key
+
 #### Web Client
 Once Simulado has started, going to `http://localhost:<SIMULADO_PORT_NUM>` will display a list of mocked endpoints and their responses.
 
