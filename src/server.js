@@ -92,8 +92,8 @@ module.exports.start = (options = {}) => {
 
   if (key && cert) {
     const httpsOptions = {
-      key: fs.readFileSync(path.join(__dirname, key)),
-      cert: fs.readFileSync(path.join(__dirname, cert)),
+      key: fs.readFileSync(key),
+      cert: fs.readFileSync(cert),
       spdy: ['h2', 'http/1.1']
     };
 

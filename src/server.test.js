@@ -1,3 +1,4 @@
+import path from 'path';
 import request from 'supertest';
 import portscanner from 'portscanner';
 import sinon from 'sinon';
@@ -52,8 +53,8 @@ describe('src/server', () => {
       it('files passed correctly', done => {
         server = start({
           https: {
-            key: '../certs/localhost.key',
-            cert: '../certs/localhost.crt'
+            key: path.resolve(__dirname, '../certs/localhost.key'),
+            cert: path.resolve(__dirname, '../certs/localhost.crt')
           }
         });
 
