@@ -8,7 +8,7 @@ var path = require('path');
 
 var Server = function() {
   app.use(cors());
-  app.use(bodyParser.json({limit: '1mb'}));
+  app.use(bodyParser.json({limit: '50mb'}));
   app.use(bodyParser.urlencoded({
       extended: true
   }));
