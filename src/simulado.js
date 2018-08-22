@@ -6,13 +6,21 @@ const getPortNumber = () => {
   return portStoreInstance.getState().port;
 };
 
-let serverUrl = `http://localhost:${getPortNumber()}`;
+let remoteServerUrl;
 const setRemoteServer = url => {
   if (url.endsWith('/')) {
-    serverUrl = url.slice(0, -1);
+    remoteServerUrl = url.slice(0, -1);
   } else {
-    serverUrl = url;
+    remoteServerUrl = url;
   }
+};
+
+let getServerUrl = () => {
+  if (remoteServerUrl) {
+    return remoteServerUrl;
+  }
+
+  return `http://localhost:${getPortNumber()}`;
 };
 
 const addMock = responseToMock => {
@@ -20,7 +28,7 @@ const addMock = responseToMock => {
 
   return axios
     .post(
-      `${serverUrl}/simulado/response`,
+      `${getServerUrl()}/simulado/response`,
       Object.assign({}, responseToMock, {
         path: path.toString(),
         isRegexPath: typeof path === 'object'
@@ -44,9 +52,9 @@ const setDefaults = async responsesToMock => {
 const lastRequests = (method, path, limit) => {
   return axios
     .get(
-      `${serverUrl}/simulado/requests?method=${method.toUpperCase()}&path=${path}${limit
-        ? `&limit=${limit}`
-        : ''}`,
+      `${getServerUrl()}/simulado/requests?method=${method.toUpperCase()}&path=${path}${
+        limit ? `&limit=${limit}` : ''
+      }`,
       { headers: { 'Content-Type': 'application/json' } }
     )
     .then(response => response.data);
@@ -59,22 +67,22 @@ const lastRequest = async (method, path) => {
 
 const clearResponse = (method, path) => {
   return axios
-    .delete(`${serverUrl}/simulado/response?method=${method.toUpperCase()}&path=${path}`)
+    .delete(`${getServerUrl()}/simulado/response?method=${method.toUpperCase()}&path=${path}`)
     .then(() => true);
 };
 
 const clearResponses = () => {
-  return axios.delete(`${serverUrl}/simulado/responses`).then(() => true);
+  return axios.delete(`${getServerUrl()}/simulado/responses`).then(() => true);
 };
 
 const clearRequest = (method, path) => {
   return axios
-    .delete(`${serverUrl}/simulado/request?method=${method.toUpperCase()}&path=${path}`)
+    .delete(`${getServerUrl()}/simulado/request?method=${method.toUpperCase()}&path=${path}`)
     .then(() => true);
 };
 
 const clearRequests = () => {
-  return axios.delete(`${serverUrl}/simulado/requests`).then(() => true);
+  return axios.delete(`${getServerUrl()}/simulado/requests`).then(() => true);
 };
 
 module.exports = {
