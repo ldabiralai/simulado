@@ -34,7 +34,7 @@
     "chai": "^3.0.0",
     "danger": "^2.0.0-alpha.20",
     "glob": "^7.1.2",
-    "mocha": "^2.2.5",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
     "portscanner": "^2.1.1",
     "prettier": "^1.14.2",
