@@ -36,12 +36,12 @@
     "glob": "^7.1.2",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
-    "portscanner": "^2.1.1",
+    "portscanner": "^2.2.0",
     "prettier": "^1.14.2",
     "prettier-check": "^2.0.0",
     "sinon": "^1.17.6",
-    "sinon-chai": "^2.9.0",
-    "supertest": "^3.0.0"
+    "sinon-chai": "^2.14.0",
+    "supertest": "^3.1.0"
   },
   "dependencies": {
     "axios": "^0.16.1",
