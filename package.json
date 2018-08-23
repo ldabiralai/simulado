@@ -32,7 +32,7 @@
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.23.0",
     "chai": "^3.0.0",
-    "danger": "^2.0.0-alpha.20",
+    "danger": "^2.1.10",
     "glob": "^7.1.2",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
