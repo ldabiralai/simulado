@@ -16,249 +16,197 @@ describe('src/simulado', () => {
 
   beforeEach(() => {
     setRemoteServer('http://localhost:7001');
+    sinon.stub(axios, 'post').returns(Promise.resolve({ data: {} }));
+    sinon.stub(axios, 'get').returns(Promise.resolve({ data: {} }));
+    sinon.stub(axios, 'delete').returns(Promise.resolve());
+  });
+
+  afterEach(() => {
+    axios.post.restore();
+    axios.get.restore();
+    axios.delete.restore();
   });
 
   describe('setRemoteServer()', () => {
-    it(
-      'should update server correctly',
-      sinon.test(function() {
-        const testRemoteServer = 'http://test';
-        setRemoteServer(testRemoteServer);
+    it('should update server correctly', async () => {
+      const testRemoteServer = 'http://test';
+      setRemoteServer(testRemoteServer);
 
-        const responseToMock = {
-          path: '/testPath',
-          isRegexPath: false
-        };
+      const responseToMock = {
+        path: '/testPath',
+        isRegexPath: false
+      };
 
-        this.mock(axios)
-          .expects('post')
-          .once()
-          .withExactArgs(`${testRemoteServer}/simulado/response`, responseToMock, {
-            headers: expectedHeaders
-          })
-          .returns(Promise.resolve());
+      await addMock(responseToMock);
 
-        return addMock(responseToMock).then(result => {
-          expect(result).to.equal(true);
-        });
-      })
-    );
+      expect(axios.post).to.have.been.calledWithExactly(
+        `${testRemoteServer}/simulado/response`,
+        responseToMock,
+        {
+          headers: expectedHeaders
+        }
+      );
+    });
 
-    it(
-      'should strip trailing slash if present',
-      sinon.test(function() {
-        const testRemoteServer = 'http://test/';
-        const expectedRemoteServer = 'http://test';
-        setRemoteServer(testRemoteServer);
+    it('should strip trailing slash if present', async () => {
+      const testRemoteServer = 'http://test/';
+      const expectedRemoteServer = 'http://test';
+      setRemoteServer(testRemoteServer);
 
-        const responseToMock = {
-          path: '/testPath',
-          isRegexPath: false
-        };
+      const responseToMock = {
+        path: '/testPath',
+        isRegexPath: false
+      };
 
-        this.mock(axios)
-          .expects('post')
-          .once()
-          .withExactArgs(`${expectedRemoteServer}/simulado/response`, responseToMock, {
-            headers: expectedHeaders
-          })
-          .returns(Promise.resolve());
+      await addMock(responseToMock);
 
-        return addMock(responseToMock).then(result => {
-          expect(result).to.equal(true);
-        });
-      })
-    );
+      expect(axios.post).to.have.been.calledWithExactly(
+        `${expectedRemoteServer}/simulado/response`,
+        responseToMock,
+        {
+          headers: expectedHeaders
+        }
+      );
+    });
   });
 
   describe('addMock()', () => {
-    it(
-      'make a request to add a mock to the store',
-      sinon.test(function() {
-        const responseToMock = {
-          method: 'GET',
-          path: '/testPath',
-          status: 200,
-          isRegexPath: false,
-          body: { some: 'data' }
-        };
+    it('make a request to add a mock to the store', async () => {
+      const responseToMock = {
+        method: 'GET',
+        path: '/testPath',
+        status: 200,
+        isRegexPath: false,
+        body: { some: 'data' }
+      };
 
-        this.mock(axios)
-          .expects('post')
-          .once()
-          .withExactArgs('http://localhost:7001/simulado/response', responseToMock, {
-            headers: expectedHeaders
-          })
-          .returns(Promise.resolve());
+      await addMock(responseToMock);
 
-        return addMock(responseToMock).then(result => {
-          expect(result).to.equal(true);
-        });
-      })
-    );
+      expect(axios.post).to.have.been.calledWithExactly(
+        'http://localhost:7001/simulado/response',
+        responseToMock,
+        {
+          headers: expectedHeaders
+        }
+      );
+    });
   });
 
   describe('addMocks()', () => {
-    it(
-      'makes multiple requests to add each mock',
-      sinon.test(function() {
-        const responsesToMock = [
-          {
-            method: 'GET',
-            path: '/testPath'
-          },
-          {
-            method: 'GET',
-            path: '/testPath'
-          }
-        ];
+    it('makes multiple requests to add each mock', async () => {
+      const responsesToMock = [
+        {
+          method: 'GET',
+          path: '/testPath'
+        },
+        {
+          method: 'GET',
+          path: '/testPath'
+        }
+      ];
 
-        this.mock(axios)
-          .expects('post')
-          .twice()
-          .returns(Promise.resolve());
+      await addMocks(responsesToMock);
 
-        return addMocks(responsesToMock).then(result => {
-          expect(result).to.deep.equal([true, true]);
-        });
-      })
-    );
+      expect(axios.post.getCall(0).args[1]).to.deep.equal({
+        ...responsesToMock[0],
+        isRegexPath: false
+      });
+      expect(axios.post.getCall(1).args[1]).to.deep.equal({
+        ...responsesToMock[1],
+        isRegexPath: false
+      });
+    });
   });
 
   describe('lastRequests()', () => {
-    it(
-      'fetches the last requests for a METHOD and PATH',
-      sinon.test(function() {
-        const method = 'GET';
-        const path = '/test/path';
+    it('fetches the last requests for a METHOD and PATH', async () => {
+      const method = 'GET';
+      const path = '/test/path';
 
-        const expectedLastRequests = 'LAST_REQUESTS';
-        this.mock(axios)
-          .expects('get')
-          .once()
-          .withExactArgs(`http://localhost:7001/simulado/requests?method=${method}&path=${path}`, {
-            headers: expectedHeaders
-          })
-          .returns(Promise.resolve({ data: expectedLastRequests }));
+      await lastRequests(method, path);
 
-        return lastRequests(method, path).then(result => {
-          expect(result).to.equal(expectedLastRequests);
-        });
-      })
-    );
+      expect(axios.get).to.have.been.calledWithExactly(
+        `http://localhost:7001/simulado/requests?method=${method}&path=${path}`,
+        {
+          headers: expectedHeaders
+        }
+      );
+    });
 
-    it(
-      'fetches the last requests with a limit if provided',
-      sinon.test(function() {
-        const method = 'GET';
-        const path = '/test/path';
-        const limit = 3;
+    it('fetches the last requests with a limit if provided', async () => {
+      const method = 'GET';
+      const path = '/test/path';
+      const limit = 3;
 
-        const expectedLastRequests = 'LIMITED_LAST_REQUESTS';
-        this.mock(axios)
-          .expects('get')
-          .once()
-          .withExactArgs(
-            `http://localhost:7001/simulado/requests?method=${method}&path=${path}&limit=${limit}`,
-            {
-              headers: expectedHeaders
-            }
-          )
-          .returns(Promise.resolve({ data: expectedLastRequests }));
+      await lastRequests(method, path, limit);
 
-        return lastRequests(method, path, limit).then(result => {
-          expect(result).to.equal(expectedLastRequests);
-        });
-      })
-    );
+      expect(axios.get).to.have.been.calledWithExactly(
+        `http://localhost:7001/simulado/requests?method=${method}&path=${path}&limit=${limit}`,
+        {
+          headers: expectedHeaders
+        }
+      );
+    });
   });
 
   describe('lastRequest()', () => {
-    it(
-      'fetches the last request for a METHOD and PATH',
-      sinon.test(function() {
-        const method = 'GET';
-        const path = '/test/path';
+    it('fetches the last request for a METHOD and PATH', async () => {
+      const method = 'GET';
+      const path = '/test/path';
 
-        const expectedLastRequest = 'LAST_REQUEST';
-        this.mock(axios)
-          .expects('get')
-          .once()
-          .withExactArgs(
-            `http://localhost:7001/simulado/requests?method=${method}&path=${path}&limit=1`,
-            {
-              headers: expectedHeaders
-            }
-          )
-          .returns(Promise.resolve({ data: [expectedLastRequest] }));
+      await lastRequest(method, path);
 
-        return lastRequest(method, path).then(result => {
-          expect(result).to.equal(expectedLastRequest);
-        });
-      })
-    );
+      expect(axios.get).to.have.been.calledWithExactly(
+        `http://localhost:7001/simulado/requests?method=${method}&path=${path}&limit=1`,
+        {
+          headers: expectedHeaders
+        }
+      );
+    });
   });
 
   describe('clearResponse()', () => {
-    it(
-      'makes a request to remove single response from the store',
-      sinon.test(function() {
-        this.mock(axios)
-          .expects('delete')
-          .withExactArgs('http://localhost:7001/simulado/response?method=GET&path=/testing')
-          .returns(Promise.resolve());
+    it('makes a request to remove single response from the store', async () => {
+      const method = 'DELETE';
+      const path = '/testing';
 
-        return clearResponse('GET', '/testing').then(result => {
-          expect(result).to.equal(true);
-        });
-      })
-    );
+      await clearResponse(method, path);
+
+      expect(axios.delete).to.have.been.calledWithExactly(
+        `http://localhost:7001/simulado/response?method=${method}&path=${path}`
+      );
+    });
   });
   describe('clearResponses()', () => {
-    it(
-      'makes a request to remove all mocked responses from the store',
-      sinon.test(function() {
-        this.mock(axios)
-          .expects('delete')
-          .withExactArgs('http://localhost:7001/simulado/responses')
-          .returns(Promise.resolve());
+    it('makes a request to remove all mocked responses from the store', async () => {
+      await clearResponses();
 
-        return clearResponses().then(result => {
-          expect(result).to.equal(true);
-        });
-      })
-    );
+      expect(axios.delete).to.have.been.calledWithExactly(
+        `http://localhost:7001/simulado/responses`
+      );
+    });
   });
 
   describe('clearRequest()', () => {
-    it(
-      'makes a request to remove single request from the store',
-      sinon.test(function() {
-        this.mock(axios)
-          .expects('delete')
-          .withExactArgs('http://localhost:7001/simulado/request?method=GET&path=/testing')
-          .returns(Promise.resolve());
+    it('makes a request to remove single request from the store', async () => {
+      const method = 'DELETE';
+      const path = '/testing';
 
-        return clearRequest('GET', '/testing').then(result => {
-          expect(result).to.equal(true);
-        });
-      })
-    );
+      await clearRequest(method, path);
+
+      expect(axios.delete).to.have.been.calledWithExactly(
+        `http://localhost:7001/simulado/request?method=${method}&path=${path}`
+      );
+    });
   });
 
   describe('clearRequests()', () => {
-    it(
-      'makes a request to remove all requests from the store',
-      sinon.test(function() {
-        this.mock(axios)
-          .expects('delete')
-          .withExactArgs('http://localhost:7001/simulado/requests')
-          .returns(Promise.resolve());
+    it('makes a request to remove all requests from the store', async () => {
+      await clearRequests();
 
-        return clearRequests().then(result => {
-          expect(result).to.equal(true);
-        });
-      })
-    );
+      expect(axios.delete).to.have.been.calledWithExactly(
+        `http://localhost:7001/simulado/requests`
+      );
+    });
   });
 });
