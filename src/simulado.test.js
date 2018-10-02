@@ -147,6 +147,20 @@ describe('src/simulado', () => {
         }
       );
     });
+
+    it('handles regex paths', async () => {
+      const method = 'GET';
+      const path = /\/actions\/.*/;
+
+      await lastRequests(method, path);
+
+      expect(axios.get).to.have.been.calledWithExactly(
+        `http://localhost:7001/simulado/requests?method=${method}&path=${path.toString()}&isRegexPath=true`,
+        {
+          headers: expectedHeaders
+        }
+      );
+    });
   });
 
   describe('lastRequest()', () => {

@@ -31,7 +31,7 @@ const addMock = responseToMock => {
       `${getServerUrl()}/simulado/response`,
       Object.assign({}, responseToMock, {
         path: path.toString(),
-        isRegexPath: typeof path === 'object'
+        isRegexPath: path instanceof RegExp
       }),
       { headers: { 'Content-Type': 'application/json' } }
     )
@@ -54,7 +54,7 @@ const lastRequests = (method, path, limit) => {
     .get(
       `${getServerUrl()}/simulado/requests?method=${method.toUpperCase()}&path=${path}${
         limit ? `&limit=${limit}` : ''
-      }`,
+      }${path instanceof RegExp ? '&isRegexPath=true' : ''}`,
       { headers: { 'Content-Type': 'application/json' } }
     )
     .then(response => response.data);

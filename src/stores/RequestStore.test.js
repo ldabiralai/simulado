@@ -56,12 +56,23 @@ describe('src/stores/request', () => {
       expect(result).to.deep.equal([]);
     });
 
-    it('returns number of results based on provied limit', () => {
+    it('returns number of results based on provided limit', () => {
       const initialState = { GET: requests };
       const { requestStoreInstance } = setup({ initialState });
 
       const result = requestStoreInstance.get('get', '/one', 1);
       expect(result).to.deep.equal([requestOne]);
+    });
+
+    it("returns all requests matching the given regex'd paths", () => {
+      const initialState = { GET: requests };
+      const { requestStoreInstance } = setup({ initialState });
+
+      const requestOn = requestStoreInstance.get('get', /on/);
+      expect(requestOn).to.deep.equal([requestOne, requestOne]);
+
+      const requestWo = requestStoreInstance.get('get', /wo/);
+      expect(requestWo).to.deep.equal([requestTwo]);
     });
   });
 
