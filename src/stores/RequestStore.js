@@ -13,7 +13,7 @@ class RequestStore {
 
     const matchedRequests = requestsForMethod.filter(request => {
       if (path instanceof RegExp) {
-        return path.test(request.path)
+        return path.test(request.path);
       }
       return path === request.path;
     });

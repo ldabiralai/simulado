@@ -54,9 +54,7 @@ const lastRequests = (method, path, limit) => {
     .get(
       `${getServerUrl()}/simulado/requests?method=${method.toUpperCase()}&path=${path}${
         limit ? `&limit=${limit}` : ''
-      }${
-        path instanceof RegExp ? '&isRegexPath=true' : ''
-      }`,
+      }${path instanceof RegExp ? '&isRegexPath=true' : ''}`,
       { headers: { 'Content-Type': 'application/json' } }
     )
     .then(response => response.data);

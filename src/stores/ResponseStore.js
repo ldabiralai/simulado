@@ -69,7 +69,7 @@ class ResponseStore {
   _isPathMatch(mockedResponse, pathToMatch) {
     const { path, isRegexPath } = mockedResponse;
 
-    if (path instanceof RegExp  || isRegexPath) {
+    if (path instanceof RegExp || isRegexPath) {
       const pathRegex = path instanceof RegExp ? path : path.slice(1, -1);
       const pathRegExp = new RegExp(pathRegex);
       return pathRegExp.test(pathToMatch);

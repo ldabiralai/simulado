@@ -64,7 +64,7 @@ describe('src/stores/request', () => {
       expect(result).to.deep.equal([requestOne]);
     });
 
-    it('returns all requests matching the given regex\'d paths', () => {
+    it("returns all requests matching the given regex'd paths", () => {
       const initialState = { GET: requests };
       const { requestStoreInstance } = setup({ initialState });
 
