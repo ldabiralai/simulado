@@ -25,8 +25,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/simulado/requests', (req, res) => {
-  const { method, path, limit } = req.query;
-  const requests = requestStore.get(method, path, limit);
+  const { isRegexPath, limit, method, path } = req.query;
+  const pathOrRegExp = isRegexPath ? new RegExp(path.slice(1, -1)) : path;
+  const requests = requestStore.get(method, pathOrRegExp, limit);
   res.status(200).send(requests);
 });
 

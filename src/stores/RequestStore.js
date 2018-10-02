@@ -12,14 +12,13 @@ class RequestStore {
     const requestsForMethod = allRequests[method.toUpperCase()] || [];
 
     const matchedRequests = requestsForMethod.filter(request => {
-      return request.path === path;
+      if (path instanceof RegExp) {
+        return path.test(request.path)
+      }
+      return path === request.path;
     });
 
-    if (limit) {
-      return matchedRequests.slice(0, limit);
-    }
-
-    return matchedRequests;
+    return matchedRequests.slice(0, limit);
   }
 
   add(request) {
