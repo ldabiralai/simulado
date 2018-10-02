@@ -16,12 +16,17 @@ const requestStore = new RequestStore();
 app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use('/simulado/public', express.static(`${__dirname}/../public`));
+app.use('/ui/dist', express.static(`${__dirname}/ui/dist`));
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
+app.get('/simulado/health', (req, res) => {
+  res.status(200).send('OK!');
+});
+
+app.get('/simulado/ui', (req, res) => {
   const mockedResponses = responseStore.getState();
-  res.render('index', { mockedResponses: JSON.stringify(mockedResponses) });
+  res.sendFile(`${__dirname}/ui/index.html`);
 });
 
 app.get('/simulado/requests', (req, res) => {
@@ -41,6 +46,11 @@ app.delete('/simulado/response', (req, res) => {
   const { method, path } = req.query;
   responseStore.remove(method, path);
   res.sendStatus(201);
+});
+
+app.get('/simulado/responses', (req, res) => {
+  const mockedResponses = responseStore.getState();
+  res.status(200).send(mockedResponses);
 });
 
 app.delete('/simulado/responses', (req, res) => {
