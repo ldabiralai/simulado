@@ -24,7 +24,7 @@
     "test": "mocha --compilers js:@babel/register --require test.setup.js --recursive './src/**/*.test.js'",
     "compile": "babel src --out-dir lib",
     "format": "prettier --write './src/**/*.js' './bin/simulado'",
-    "danger": "danger"
+    "danger": "danger ci"
   },
   "author": "",
   "license": "ISC",
