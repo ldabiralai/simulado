@@ -59,7 +59,7 @@ describe('src/server', () => {
         });
 
         request(`https://localhost:${defaultPortNumber}`)
-          .get('/')
+          .get('/simulado/health')
           .expect(200, err => {
             done(err);
           });
@@ -139,14 +139,6 @@ describe('src/server', () => {
       server.close();
     });
 
-    describe('/', () => {
-      it('returns index.html from the root path', done => {
-        request(server)
-          .get('/')
-          .expect(200, done);
-      });
-    });
-
     describe('/*', () => {
       it('returns 404 Not Found if no matching mock is found', done => {
         matchResponseStub.returns(false);
@@ -173,6 +165,18 @@ describe('src/server', () => {
             expect(addRequestStub).to.have.been.called;
           })
           .expect(200, done);
+      });
+    });
+
+    describe('GET /simulado/ui', () => {
+      it('returns index.html successfully', done => {
+        request(server)
+          .get('/simulado/ui')
+          .expect(200)
+          .then(response => {
+            expect(response.text).to.include('<title>Simulado UI</title>');
+            done();
+          });
       });
     });
 
