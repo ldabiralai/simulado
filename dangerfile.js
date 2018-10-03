@@ -6,7 +6,8 @@ import glob from 'glob';
 const srcDirGlob = `${__dirname}/src/**/*.js`;
 const options = {
   singleQuote: true,
-  printWidth: 100
+  printWidth: 100,
+  parser: 'babylon'
 };
 
 const getAllFilePaths = dirGlob => {
