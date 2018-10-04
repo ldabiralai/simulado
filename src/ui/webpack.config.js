@@ -1,9 +1,11 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   mode: 'development',
   entry: `${__dirname}/index.js`,
   output: {
     path: `${__dirname}/dist`,
-    publicPath: '/ui',
+    publicPath: '/ui/dist',
     filename: 'bundle.js'
   },
   module: {
@@ -19,5 +21,10 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: `${__dirname}/indexTemplate.html`
+    })
+  ]
 };

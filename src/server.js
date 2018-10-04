@@ -26,7 +26,7 @@ app.get('/simulado/health', (req, res) => {
 
 app.get('/simulado/ui', (req, res) => {
   const mockedResponses = responseStore.getState();
-  res.sendFile(`${__dirname}/ui/index.html`);
+  res.sendFile(`${__dirname}/ui/dist/index.html`);
 });
 
 app.get('/simulado/requests', (req, res) => {
