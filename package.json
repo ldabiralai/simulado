@@ -46,6 +46,8 @@
     "portscanner": "^2.2.0",
     "prettier": "^1.14.3",
     "prettier-check": "^2.0.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "sinon": "^6.3.4",
     "sinon-chai": "^3.2.0",
     "style-loader": "^0.23.0",
@@ -66,8 +68,6 @@
     "express": "^4.16.3",
     "lodash.merge": "^4.6.1",
     "query-string": "^6.2.0",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
     "spdy": "^3.4.7"
   }
 }
