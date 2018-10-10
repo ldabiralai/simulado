@@ -2,7 +2,7 @@ import simulado from './src/index';
 
 simulado.start();
 
-simulado.addMock({
+simulado.setMock({
   method: 'GET',
   path: '/data',
   status: 200,

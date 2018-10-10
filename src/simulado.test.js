@@ -3,6 +3,8 @@ import {
   setRemoteServer,
   addMock,
   addMocks,
+  setMock,
+  setMocks,
   lastRequests,
   lastRequest,
   clearResponse,
@@ -19,12 +21,14 @@ describe('src/simulado', () => {
     sinon.stub(axios, 'post').returns(Promise.resolve({ data: {} }));
     sinon.stub(axios, 'get').returns(Promise.resolve({ data: {} }));
     sinon.stub(axios, 'delete').returns(Promise.resolve());
+    sinon.stub(console, 'warn');
   });
 
   afterEach(() => {
     axios.post.restore();
     axios.get.restore();
     axios.delete.restore();
+    console.warn.restore();
   });
 
   describe('setRemoteServer()', () => {
@@ -37,7 +41,7 @@ describe('src/simulado', () => {
         isRegexPath: false
       };
 
-      await addMock(responseToMock);
+      await setMock(responseToMock);
 
       expect(axios.post).to.have.been.calledWithExactly(
         `${testRemoteServer}/simulado/response`,
@@ -58,7 +62,7 @@ describe('src/simulado', () => {
         isRegexPath: false
       };
 
-      await addMock(responseToMock);
+      await setMock(responseToMock);
 
       expect(axios.post).to.have.been.calledWithExactly(
         `${expectedRemoteServer}/simulado/response`,
@@ -71,13 +75,20 @@ describe('src/simulado', () => {
   });
 
   describe('addMock()', () => {
-    it('make a request to add a mock to the store', async () => {
+    it('should output a deprecation warning to the console', async () => {
+      await addMock({
+        path: '/test'
+      });
+
+      expect(console.warn).to.have.been.calledWithExactly(
+        'Please use setMock as addMock is deprecated and will be removed in v4'
+      );
+    });
+
+    it('should call setMock', async () => {
       const responseToMock = {
-        method: 'GET',
-        path: '/testPath',
-        status: 200,
-        isRegexPath: false,
-        body: { some: 'data' }
+        path: '/test',
+        isRegexPath: false
       };
 
       await addMock(responseToMock);
@@ -92,8 +103,38 @@ describe('src/simulado', () => {
     });
   });
 
+  describe('setMock()', () => {
+    it('make a request to add a mock to the store', async () => {
+      const responseToMock = {
+        method: 'GET',
+        path: '/testPath',
+        status: 200,
+        isRegexPath: false,
+        body: { some: 'data' }
+      };
+
+      await setMock(responseToMock);
+
+      expect(axios.post).to.have.been.calledWithExactly(
+        'http://localhost:7001/simulado/response',
+        responseToMock,
+        {
+          headers: expectedHeaders
+        }
+      );
+    });
+  });
+
   describe('addMocks()', () => {
-    it('makes multiple requests to add each mock', async () => {
+    it('should output a deprecation warning to the console', async () => {
+      await addMocks([{ path: '/testPath' }]);
+
+      expect(console.warn).to.have.been.calledWithExactly(
+        'Please use setMocks as addMocks is deprecated and will be removed in v4'
+      );
+    });
+
+    it('should call setMocks', async () => {
       const responsesToMock = [
         {
           method: 'GET',
@@ -106,6 +147,32 @@ describe('src/simulado', () => {
       ];
 
       await addMocks(responsesToMock);
+
+      expect(axios.post.getCall(0).args[1]).to.deep.equal({
+        ...responsesToMock[0],
+        isRegexPath: false
+      });
+      expect(axios.post.getCall(1).args[1]).to.deep.equal({
+        ...responsesToMock[1],
+        isRegexPath: false
+      });
+    });
+  });
+
+  describe('setMocks()', () => {
+    it('makes multiple requests to add each mock', async () => {
+      const responsesToMock = [
+        {
+          method: 'GET',
+          path: '/testPath'
+        },
+        {
+          method: 'GET',
+          path: '/testPath'
+        }
+      ];
+
+      await setMocks(responsesToMock);
 
       expect(axios.post.getCall(0).args[1]).to.deep.equal({
         ...responsesToMock[0],

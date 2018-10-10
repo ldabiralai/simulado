@@ -44,7 +44,7 @@ simulado.start({
 });
 
 // Mock a response
-simulado.addMock({
+simulado.setMock({
   method: 'GET',
   path: '/data',
   status: 200,
@@ -79,12 +79,12 @@ Sets the url of a simulado instance on which the client should set mocks, for us
 
  * `url` `<String>` for example `https://my-simulado-server.herokuapp.com`
 
-#### `addMock(mockResponse)`
-Add a mock response
+#### `setMock(mockResponse)`
+Sets a mock response
   * `mockResponse` `<MockResponse>` - Add a response to the store. [Full options MockResponse](#mock-response-options).
 
 
-#### `addMocks(mockResponses)`
+#### `setMocks(mockResponses)`
 Adds multiple mock responses
   * `mockResponses` `[<MockResponse>]` - Add responses to the store. [Full options MockResponse](#mock-response-options).
 
