@@ -85,7 +85,7 @@ Sets a mock response
 
 
 #### `setMocks(mockResponses)`
-Adds multiple mock responses
+Sets multiple mock responses
   * `mockResponses` `[<MockResponse>]` - Add responses to the store. [Full options MockResponse](#mock-response-options).
 
 
