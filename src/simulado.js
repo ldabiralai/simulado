@@ -24,6 +24,11 @@ let getServerUrl = () => {
 };
 
 const addMock = responseToMock => {
+  console.warn('Please use setMock as addMock is deprecated and will be removed in v4');
+  return setMock(responseToMock);
+};
+
+const setMock = responseToMock => {
   const { path } = responseToMock;
 
   return axios
@@ -38,15 +43,20 @@ const addMock = responseToMock => {
     .then(() => true);
 };
 
-const addMocks = async responsesToMock => {
-  return await Promise.all(responsesToMock.map(addMock));
+const addMocks = responsesToMock => {
+  console.warn('Please use setMocks as addMocks is deprecated and will be removed in v4');
+  return setMocks(responsesToMock);
+};
+
+const setMocks = async responsesToMock => {
+  return await Promise.all(responsesToMock.map(setMock));
 };
 
 const setDefaults = async responsesToMock => {
   await clearRequests();
   await clearResponses();
 
-  return await addMocks(responsesToMock);
+  return await setMocks(responsesToMock);
 };
 
 const lastRequests = (method, path, limit) => {
@@ -89,6 +99,8 @@ module.exports = {
   setRemoteServer,
   addMock,
   addMocks,
+  setMock,
+  setMocks,
   setDefaults,
   lastRequests,
   lastRequest,

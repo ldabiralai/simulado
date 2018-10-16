@@ -69,7 +69,7 @@ describe('Simulado', () => {
       });
 
       it('responds to an endpoint with mocked path, method and status', async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/testing',
           method: 'GET',
           status: 204
@@ -81,7 +81,7 @@ describe('Simulado', () => {
       });
 
       it('responds to an endpoint with mocked path with a query parameter', async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/testing?test',
           method: 'GET',
           status: 200
@@ -93,7 +93,7 @@ describe('Simulado', () => {
       });
 
       it('responds to an endpoint with a mocked regex path', async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: /test.*/,
           method: 'GET',
           status: 204
@@ -105,7 +105,7 @@ describe('Simulado', () => {
       });
 
       it("returns a 404 when the request doesn't match the regex path", async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: /test.*/,
           method: 'GET',
           status: 204
@@ -119,7 +119,7 @@ describe('Simulado', () => {
       it('responds to an endpoint which is mocked with body content', async () => {
         const responseBody = { content: 'Hello' };
 
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: /test.*/,
           method: 'GET',
           status: 200,
@@ -135,7 +135,7 @@ describe('Simulado', () => {
         const headerName = 'X-Custom-Header';
         const headerValue = 'CustomHeader';
 
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/testing',
           method: 'GET',
           status: 200,
@@ -153,7 +153,7 @@ describe('Simulado', () => {
         const headerName = 'X-Mandatory-Header';
         const headerValue = 'CustomHeader';
 
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/testing',
           method: 'GET',
           status: 204,
@@ -169,7 +169,7 @@ describe('Simulado', () => {
       });
 
       it('does not respond to an endpoint that has conditional headers which the request does not include', async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/testing',
           method: 'GET',
           status: 204,
@@ -187,7 +187,7 @@ describe('Simulado', () => {
       it('responds to an endpoint that has a conditional body which the request includes', async () => {
         const mandatoryBody = { data: 'Some data I need' };
 
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/testing',
           method: 'POST',
           status: 200,
@@ -202,7 +202,7 @@ describe('Simulado', () => {
       });
 
       it('does not respond to an endpoint that has a conditional body which the request does not include', async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/testing',
           method: 'POST',
           status: 200,
@@ -216,7 +216,7 @@ describe('Simulado', () => {
       });
 
       it('responds to an endpoint with a delay when specified', async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/testing',
           method: 'GET',
           status: 200,
@@ -259,7 +259,7 @@ describe('Simulado', () => {
       });
 
       it('should clear old mocks before setting defaults', async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           method: 'GET',
           path: '/testPath',
           status: 200
@@ -290,7 +290,7 @@ describe('Simulado', () => {
     describe('get last requests', () => {
       describe('lastRequests()', () => {
         it('returns a list of last requests made for an endpoint', async () => {
-          await Simulado.addMock({
+          await Simulado.setMock({
             path: '/testing',
             method: 'GET',
             status: 200
@@ -304,7 +304,7 @@ describe('Simulado', () => {
         });
 
         it('returns details of last requests made for an endpoint', async () => {
-          await Simulado.addMock({
+          await Simulado.setMock({
             path: '/testing',
             method: 'GET',
             status: 200
@@ -322,7 +322,7 @@ describe('Simulado', () => {
         });
 
         it('returns a limited list of requests made for an endpoint', async () => {
-          await Simulado.addMock({
+          await Simulado.setMock({
             path: '/testing',
             method: 'GET',
             status: 200
@@ -336,7 +336,7 @@ describe('Simulado', () => {
         });
 
         it('returns empty list if no requests have been made for an endpoint.', async () => {
-          await Simulado.addMock({
+          await Simulado.setMock({
             path: '/noRequests',
             method: 'GET',
             status: 200
@@ -349,7 +349,7 @@ describe('Simulado', () => {
 
       describe('lastRequest()', () => {
         it('returns details of last request made for an endpoint', async () => {
-          await Simulado.addMock({
+          await Simulado.setMock({
             path: '/testing',
             method: 'GET',
             status: 200
@@ -367,7 +367,7 @@ describe('Simulado', () => {
         });
 
         it('returns undefined if no requests have been made for an endpoint.', async () => {
-          await Simulado.addMock({
+          await Simulado.setMock({
             path: '/noRequests',
             method: 'GET',
             status: 200
@@ -381,7 +381,7 @@ describe('Simulado', () => {
 
     describe('clearing mocks', () => {
       beforeEach(async () => {
-        await Simulado.addMock({
+        await Simulado.setMock({
           path: '/pathThatHasBeenCleared',
           method: 'GET',
           status: 200
