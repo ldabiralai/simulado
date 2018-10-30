@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run: npm i
       - run: npm test
-      - run: npm run danger
+      - run: npm run format:check
 
 workflows:
   version: 2
