@@ -30,35 +30,28 @@ This will keep the server alive until the process is killed (unlike the below).
 #### Web Client
 Once Simulado has started, going to `http://localhost:<SIMULADO_PORT_NUM>` will display a list of mocked endpoints and their responses.
 
-#### Basic Usage
+#### Basic Usage (ES6)
 ```javascript
 import simulado from 'simulado';
+import axios from 'axios';
 
-// Start Simulado server
-simulado.start({
-  port: 1234, // Default: 7001
-  https: {
-    key: 'path/to/key',
-    cert: 'path/to/cert'
-  }
-});
+(async function() {
+  // Start Simulado server
+  await simulado.start();
 
-// Mock a response
-simulado.setMock({
-  method: 'GET',
-  path: '/data',
-  status: 200,
-  body: {
-    data: 'Some Data'
-  }
-});
+  // Mock a response
+  await simulado.setMock({
+    path: '/data',
+    body: 'Hello World!'
+  });
 
-// Make a request
-request.get('http://localhost:1234/data')
-  .then(console.log) // => { data: 'Some Data' }
+  // Make a request
+  const response = await axios.get('http://localhost:7001/data');
+  console.log(response.data) // => 'Hello World!'
 
-// Stop Simulado server once done
-simulado.stop();
+  // Stop Simulado server once done
+  await simulado.stop();
+})();
 ```
 
 ### API
