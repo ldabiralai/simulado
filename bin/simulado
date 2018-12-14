@@ -53,7 +53,7 @@ if (commands.directory) {
       const fileContents = fs.readFileSync(`${path}/${file}`);
       const parsedMock = JSON.parse(fileContents);
 
-      Simulado.setMock(parsedMock).catch((err) => {
+      Simulado.setMock(parsedMock).catch(err => {
         console.error(`* ERR: Failed to mock endpoints in '${path}/${file}'`);
         console.error('* ERR: Check you have a valid json format');
         console.error('* ERR: The file must contain a MockResponse');
