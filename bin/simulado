@@ -6,6 +6,7 @@ const commands = require('commander');
 commands
   .option('-p, --port <port>', 'Port to listen on')
   .option('-f, --file <filepath>', 'Path to a mocks JSON file to mock on startup')
+  .option('-d, --directory <path>', 'Path to a directory with mock JSON files to mock on startup')
   .option('-c, --cert <filepath>', 'Path to certificate')
   .option('-k, --key <filepath>', 'Path to certificate key')
   .parse(process.argv);
@@ -18,6 +19,7 @@ Simulado.start({
   }
 });
 
+// Load mocks from a single file
 if (commands.file) {
   const filePath = commands.file;
   const fileExists = fs.existsSync(filePath);
@@ -36,5 +38,30 @@ if (commands.file) {
     });
   } else {
     console.warn(`* WARN: No mocks created. File not found '${filePath}'`);
+  }
+}
+
+// Load mocks from a directory
+if (commands.directory) {
+  const path = commands.directory;
+  const directoryExists = fs.existsSync(path);
+
+  if (directoryExists) {
+    fs.readdirSync(path).forEach(file => {
+      console.log(`Mocking endpoints in '${path}/${file}'`);
+
+      const fileContents = fs.readFileSync(`${path}/${file}`);
+      const parsedMock = JSON.parse(fileContents);
+
+      Simulado.setMock(parsedMock).catch(err => {
+        console.error(`* ERR: Failed to mock endpoints in '${path}/${file}'`);
+        console.error('* ERR: Check you have a valid json format');
+        console.error('* ERR: The file must contain a MockResponse');
+        console.error(err);
+        process.exit(1);
+      });
+    });
+  } else {
+    console.warn(`* WARN: No mocks created. Directory not found '${path}'`);
   }
 }
