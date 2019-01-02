@@ -7,10 +7,6 @@
     <script src="/simulado/public/react.production.min.js"></script>
     <script src="/simulado/public/react-dom.production.min.js"></script>
     <script src="/simulado/public/babel.min.js"></script>
-    <script type="text/javascript">
-      window.mockedResponses = <%- mockedResponses %>;
-      hljs.initHighlightingOnLoad();
-    </script>
     <style>
         body {
             margin: 0;
@@ -27,6 +23,11 @@
     </style>
   </head>
   <body>
+    <pre id="mockedResponses" style="display: none"><%= mockedResponses %></pre>
+    <script type="text/javascript">
+        window.mockedResponses = JSON.parse(document.querySelector('#mockedResponses').textContent);
+        hljs.initHighlightingOnLoad();
+    </script>
     <div id="root"></div>
     <script type="text/babel">
       const App = () => {
