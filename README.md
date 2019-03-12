@@ -79,6 +79,10 @@ Sets the url of a simulado instance on which the client should set mocks, for us
 
 - `url` `<String>` for example `https://my-simulado-server.herokuapp.com`
 
+#### `isRunning()`
+
+Returns `true` if simulado is running. Returns `false` if simulado is not started.
+
 #### `setMock(mockResponse)`
 
 Sets a mock response

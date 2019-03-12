@@ -15,12 +15,19 @@ const setRemoteServer = url => {
   }
 };
 
-let getServerUrl = () => {
+const getServerUrl = () => {
   if (remoteServerUrl) {
     return remoteServerUrl;
   }
 
   return `http://localhost:${getPortNumber()}`;
+};
+
+const isRunning = () => {
+  return axios
+    .get(`${getServerUrl()}/simulado/status`)
+    .then(response => true)
+    .catch(() => false);
 };
 
 const addMock = responseToMock => {
@@ -97,6 +104,7 @@ const clearRequests = () => {
 
 module.exports = {
   setRemoteServer,
+  isRunning,
   addMock,
   addMocks,
   setMock,

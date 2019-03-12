@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
   res.render('index', { mockedResponses: JSON.stringify(mockedResponses) });
 });
 
+app.get('/simulado/status', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.get('/simulado/requests', (req, res) => {
   const { isRegexPath, limit, method, path } = req.query;
   const pathOrRegExp = isRegexPath ? new RegExp(path.slice(1, -1)) : path;

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   setRemoteServer,
+  isRunning,
   addMock,
   addMocks,
   setMock,
@@ -71,6 +72,22 @@ describe('src/simulado', () => {
           headers: expectedHeaders
         }
       );
+    });
+  });
+
+  describe('isRunning()', () => {
+    it('should return true if axios resolves correctly', async () => {
+      const result = await isRunning();
+
+      expect(result).to.be.true;
+    });
+
+    it('should return false if axios throws', async () => {
+      axios.get.restore();
+      sinon.stub(axios, 'get').returns(Promise.reject());
+
+      const result = await isRunning();
+      expect(result).to.be.false;
     });
   });
 

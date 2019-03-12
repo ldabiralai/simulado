@@ -176,6 +176,14 @@ describe('src/server', () => {
       });
     });
 
+    describe('GET /simulado/status', () => {
+      it('should respond with 200 status', done => {
+        request(server)
+          .get('/simulado/status')
+          .expect(200, done);
+      });
+    });
+
     describe('POST /simulado/response', () => {
       it('sets the mock in the response store', done => {
         const mockResponse = {
