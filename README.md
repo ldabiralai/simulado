@@ -10,6 +10,12 @@
 npm i simulado --save-dev
 ```
 
+or
+
+```bash
+docker run -p <desired_port>:80 ldabiralai/simulado
+```
+
 ### Usage
 
 #### CLI

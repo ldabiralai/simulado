@@ -1,7 +1,7 @@
 FROM node:lts-alpine
 
-ARG PORT
-ENV PORT $PORT
+ARG PORT=80
+ENV PORT=$PORT
 ENV NODE_ENV production
 EXPOSE $PORT
 
@@ -10,4 +10,4 @@ WORKDIR /simulado
 ADD . /simulado
 RUN npm install
 
-CMD ["npm", "start"]  
+CMD ["npm", "start"]
