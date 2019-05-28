@@ -78,8 +78,8 @@ const lastRequests = (method, path, limit) => {
 };
 
 const lastRequest = async (method, path) => {
-  const lastRequest = await lastRequests(method, path, 1);
-  return lastRequest[0];
+  const foundLastRequests = await lastRequests(method, path);
+  return foundLastRequests[foundLastRequests.length - 1];
 };
 
 const clearResponse = (method, path) => {

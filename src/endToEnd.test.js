@@ -356,12 +356,18 @@ describe('Simulado', () => {
           });
 
           await request(server).get('/testing');
+          await request(server)
+            .get('/testing')
+            .set('x-test-header', 'abcd');
 
           const lastRequest = await Simulado.lastRequest('GET', '/testing');
           expect(lastRequest).to.deep.equal({
             path: '/testing',
             method: 'GET',
-            headers: lastRequest.headers,
+            headers: {
+              ...lastRequest.headers,
+              'x-test-header': 'abcd'
+            },
             body: {}
           });
         });

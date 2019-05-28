@@ -255,7 +255,7 @@ describe('src/simulado', () => {
       await lastRequest(method, path);
 
       expect(axios.get).to.have.been.calledWithExactly(
-        `http://localhost:7001/simulado/requests?method=${method}&path=${path}&limit=1`,
+        `http://localhost:7001/simulado/requests?method=${method}&path=${path}`,
         {
           headers: expectedHeaders
         }
