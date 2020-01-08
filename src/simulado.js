@@ -30,11 +30,6 @@ const isRunning = () => {
     .catch(() => false);
 };
 
-const addMock = responseToMock => {
-  console.warn('Please use setMock as addMock is deprecated and will be removed in v4');
-  return setMock(responseToMock);
-};
-
 const setMock = responseToMock => {
   const { path } = responseToMock;
 
@@ -48,11 +43,6 @@ const setMock = responseToMock => {
       { headers: { 'Content-Type': 'application/json' } }
     )
     .then(() => true);
-};
-
-const addMocks = responsesToMock => {
-  console.warn('Please use setMocks as addMocks is deprecated and will be removed in v4');
-  return setMocks(responsesToMock);
 };
 
 const setMocks = async responsesToMock => {
@@ -105,8 +95,6 @@ const clearRequests = () => {
 module.exports = {
   setRemoteServer,
   isRunning,
-  addMock,
-  addMocks,
   setMock,
   setMocks,
   setDefaults,

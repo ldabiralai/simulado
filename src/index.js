@@ -2,8 +2,6 @@ const { start, stop } = require('./server');
 const {
   setRemoteServer,
   isRunning,
-  addMock,
-  addMocks,
   setMock,
   setMocks,
   setDefaults,
@@ -20,8 +18,6 @@ module.exports = {
   stop,
   setRemoteServer,
   isRunning,
-  addMock,
-  addMocks,
   setMock,
   setMocks,
   setDefaults,
